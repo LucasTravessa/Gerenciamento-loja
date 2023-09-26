@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "mgilson": "json-server ./db/db.json -p=3000"
   },
   "dependencies": {
     "next": "latest",
