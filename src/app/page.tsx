@@ -1,5 +1,10 @@
-import UserPage from "./pages/Users/UserPage";
+import Home from "./pages/Home/page";
+
 
 export default function Index() {
-  return <UserPage />;
+  return (
+    <>
+      <Home />
+    </>
+  )
 }
