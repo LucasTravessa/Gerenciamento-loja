@@ -1,7 +1,5 @@
-import Login from "./pages/Login/Login";
+import UserPage from "./pages/Users/UserPage";
 
 export default function Index() {
-  return (
-    <Login />
-  )
+  return <UserPage />;
 }
