@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --primary: 200, 62%, 51%;
+    --primary-just-dark: 196, 64%, 48%;
+    --primary-dark: 190, 64%, 45%;
+    --primary-very-dark: 190, 64%, 35%;
+    --primary-just-light: 202, 40%, 65%;
+    --primary-light: 206, 33%, 70%;
+    --primary-very-light: 210, 23%, 78%;
+    --background: 195, 3%, 97%;
+    --grey-very-dark: 203, 72%, 16%;
+    --grey-dark: 203, 30%, 35%;
+    --grey: 197, 15%, 75%;
+    --grey-light: 200, 5%, 93%;
+    --grey-very-light: 190, 2%, 97%;
+    --paper-background: 60, 0%, 100%;
+  }
+}
