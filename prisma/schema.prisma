@@ -71,3 +71,12 @@ model VerificationToken {
 
     @@unique([identifier, token])
 }
+
+
+model Users {
+    id String @id @default(cuid())
+    name String
+    email String
+    password String
+    phone_number String
+}   

@@ -6,6 +6,7 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
+  Button,
 } from "@nextui-org/react";
 import GithubButton from "../Button/GithubButton";
 import GoogleButton from "../Button/GoogleButton";
@@ -19,7 +20,7 @@ export default function LoginModal() {
 
   const router = useRouter();
 
-  const onClose = () => router.push("/posts");
+  const onClose = () => router.push("/");
 
   return (
     <Modal isOpen={open} onClose={onClose}>

@@ -18,7 +18,7 @@ export default function Header({ session }: Props) {
 
   if (session) {
     return (
-      <nav className="bg-primary flex h-[100px] w-full items-center justify-between px-4">
+      <nav className="flex h-[100px] w-full items-center justify-between bg-primary px-4">
         <div className="bg-grey_veryLight flex h-[50px] w-[150px] items-center justify-center rounded-md">
           <h2 className="text-2xl font-bold">Logo</h2>
         </div>
@@ -34,7 +34,7 @@ export default function Header({ session }: Props) {
     );
   } else {
     return (
-      <nav className="bg-primary flex h-[100px] w-full items-center justify-between px-4">
+      <nav className="flex h-[100px] w-full items-center justify-between bg-primary px-4">
         <div className="bg-grey_veryLight flex h-[50px] w-[150px] items-center justify-center rounded-md">
           <h2 className="text-2xl font-bold">Logo</h2>
         </div>
@@ -44,7 +44,7 @@ export default function Header({ session }: Props) {
           </button>
           <button
             className=" bg-grey_veryLight flex items-center justify-center rounded-md px-3 py-2 text-lg hover:scale-[1.02]"
-            onClick={() => router.push("/posts?login=true")}
+            onClick={() => router.push("/?login=true")}
           >
             Login
           </button>
