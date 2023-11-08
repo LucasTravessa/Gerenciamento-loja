@@ -73,11 +73,14 @@ model VerificationToken {
 }
 
 
-model Users {
-    id           String @id @default(cuid())
+model Employees {
+    id           Int @id @default(autoincrement())
     name         String
     email        String
-    password     String
+    address      String
     phone_number String
-    role         Int
+    role         String
+    salary       Float
+    status       Boolean
+    img          String @default("https://i.pravatar.cc/150")
 }   

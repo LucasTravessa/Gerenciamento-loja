@@ -25,7 +25,7 @@ import { BiChevronDown } from "react-icons/bi";
 import { BiSearch } from "react-icons/bi";
 import { columns, users, statusOptions } from "./data";
 import { ChangeEvent, Key, useCallback, useMemo, useState } from "react";
-import type { Users } from "@prisma/client";
+import type { Employees } from "@prisma/client";
 
 function capitalize(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1);
@@ -42,10 +42,10 @@ const INITIAL_VISIBLE_COLUMNS = ["name", "role", "status", "actions"];
 type User = (typeof users)[0];
 
 type Props = {
-  info: Users[];
+  info: Employees[];
 };
 
-export default function UsersTable({ info }: Props) {
+export default function EmployeesTable({ info }: Props) {
   const [filterValue, setFilterValue] = useState("");
   const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set([]));
   const [visibleColumns, setVisibleColumns] = useState<Selection>(
