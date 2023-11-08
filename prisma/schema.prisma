@@ -81,6 +81,42 @@ model Employees {
     phone_number String
     role         String
     salary       Float
-    status       Boolean
+    status       String
     img          String @default("https://i.pravatar.cc/150")
-}   
+}
+
+model Supplier {
+    id            Int @id @default(autoincrement())
+    fantasy_name  String
+    cpnj          String
+    address       String
+    phone_number  String
+    status        String
+    // purchase_transactions      Purchase_transactions[]
+}
+
+model Products {
+    id                    Int @id @default(autoincrement())
+    name                  String
+    price                 Float
+    on_stock              Float @default(0)
+    // purchase_transactions Purchase_transactions[]
+    // sales_transactions Sales_transactions[]
+}
+
+// model Purchase_transactions {
+//     id             Int @id @default(autoincrement())
+//     products       Products[] @relation(fields: [products_id], references: [id])
+//     products_id    Int[]
+//     supplier       Supplier  @relation(fields: [supplier_id], references: [id])
+//     supplier_id    Int @unique
+//     value_spent    Float
+// }
+
+// model Sales_transactions{
+//     id          Int @id @default(autoincrement())
+//     client      String
+//     value_made  Float
+//     products    Products[] @relation(fields: [products_id], references: [id])
+//     products_id Int[]
+// }

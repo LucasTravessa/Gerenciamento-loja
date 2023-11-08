@@ -17,7 +17,8 @@ export const employeesRouter = createTRPCRouter({
         phone_number: z.string(),
         role: z.string(),
         salary: z.number(),
-        status: z.boolean(),
+        status: z.string(),
+        img: z.string(),
       }),
     )
     .mutation(({ ctx, input }) => {
@@ -30,6 +31,7 @@ export const employeesRouter = createTRPCRouter({
           role: input.role,
           salary: input.salary,
           status: input.status,
+          img: input.img,
           // createdBy: { connect: { id: ctx.session.user.id } },
         },
       });

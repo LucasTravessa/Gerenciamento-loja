@@ -1,142 +1,86 @@
 "use client";
-import {
-  Table,
-  TableHeader,
-  TableColumn,
-  TableBody,
-  TableRow,
-  TableCell,
-  Input,
-  Button,
-  DropdownTrigger,
-  Dropdown,
-  DropdownMenu,
-  DropdownItem,
-  Chip,
-  User,
-  Pagination,
-  Selection,
-  ChipProps,
-  SortDescriptor,
-} from "@nextui-org/react";
-import { BiPlus } from "react-icons/bi";
-import { BiDotsVertical } from "react-icons/bi";
-import { BiChevronDown } from "react-icons/bi";
-import { BiSearch } from "react-icons/bi";
-import { columns, users, statusOptions } from "./data";
-import { ChangeEvent, Key, useCallback, useMemo, useState } from "react";
-import type { Employees } from "@prisma/client";
 
-function capitalize(str: string) {
-  return str.charAt(0).toUpperCase() + str.slice(1);
-}
+import {
+  Button,
+  Chip,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+  Input,
+  Pagination,
+  Table,
+  TableBody,
+  TableCell,
+  TableColumn,
+  TableHeader,
+  TableRow,
+  User,
+} from "@nextui-org/react";
+import type { ChipProps, Selection, SortDescriptor } from "@nextui-org/react";
+import type { Employees } from "@prisma/client";
+import { useCallback, useMemo, useState } from "react";
+import type { ChangeEvent, Key } from "react";
+import {
+  BiChevronDown,
+  BiDotsVertical,
+  BiPlus,
+  BiSearch,
+} from "react-icons/bi";
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
   active: "success",
-  paused: "danger",
+  inative: "danger",
   vacation: "warning",
 };
 
-const INITIAL_VISIBLE_COLUMNS = ["name", "role", "status", "actions"];
+const columns = [
+  { name: "ID", uid: "id", sortable: true },
+  { name: "NOME", uid: "name", sortable: true },
+  { name: "CARGO", uid: "role", sortable: true },
+  { name: "EMAIL", uid: "email" },
+  { name: "TELEFONE", uid: "phone_number" },
+  { name: "STATUS", uid: "status", sortable: true },
+  { name: "AÇÕES", uid: "actions" },
+];
 
-type User = (typeof users)[0];
+const statusOptions = [
+  { name: "Ativo", uid: "active" },
+  { name: "Inativo", uid: "inative" },
+  { name: "Férias", uid: "vacation" },
+];
 
 type Props = {
-  info: Employees[];
+  employees: Employees[];
 };
 
-export default function EmployeesTable({ info }: Props) {
-  const [filterValue, setFilterValue] = useState("");
-  const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set([]));
-  const [visibleColumns, setVisibleColumns] = useState<Selection>(
-    new Set(INITIAL_VISIBLE_COLUMNS),
-  );
-  const [statusFilter, setStatusFilter] = useState<Selection>("all");
-  const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
-    column: "age",
-    direction: "ascending",
-  });
-
-  const [page, setPage] = useState(1);
-
-  const hasSearchFilter = Boolean(filterValue);
-
-  const headerColumns = useMemo(() => {
-    if (visibleColumns === "all") return columns;
-
-    return columns.filter((column) =>
-      Array.from(visibleColumns).includes(column.uid),
-    );
-  }, [visibleColumns]);
-
-  const filteredItems = useMemo(() => {
-    let filteredUsers = [...users];
-
-    if (hasSearchFilter) {
-      filteredUsers = filteredUsers.filter((user) =>
-        user.name.toLowerCase().includes(filterValue.toLowerCase()),
-      );
-    }
-    if (
-      statusFilter !== "all" &&
-      Array.from(statusFilter).length !== statusOptions.length
-    ) {
-      filteredUsers = filteredUsers.filter((user) =>
-        Array.from(statusFilter).includes(user.status),
-      );
-    }
-
-    return filteredUsers;
-  }, [users, filterValue, statusFilter]);
-
-  const pages = Math.ceil(filteredItems.length / rowsPerPage);
-
-  const items = useMemo(() => {
-    const start = (page - 1) * rowsPerPage;
-    const end = start + rowsPerPage;
-
-    return filteredItems.slice(start, end);
-  }, [page, filteredItems, rowsPerPage]);
-
-  const sortedItems = useMemo(() => {
-    return [...items].sort((a: User, b: User) => {
-      const first = a[sortDescriptor.column as keyof User] as number;
-      const second = b[sortDescriptor.column as keyof User] as number;
-      const cmp = first < second ? -1 : first > second ? 1 : 0;
-
-      return sortDescriptor.direction === "descending" ? -cmp : cmp;
-    });
-  }, [sortDescriptor, items]);
-
-  const renderCell = useCallback((user: User, columnKey: Key) => {
-    const cellValue = user[columnKey as keyof User];
+export default function EmployeesTable({ employees }: Props) {
+  //Criação das linhas
+  const renderCell = useCallback((employee: Employees, columnKey: Key) => {
+    const cellValue = employee[columnKey as keyof Employees];
 
     switch (columnKey) {
       case "name":
         return (
           <User
-            avatarProps={{ radius: "lg", src: user.avatar }}
-            description={user.email}
+            avatarProps={{ radius: "lg", src: employee.img }}
+            description={employee.email}
             name={cellValue}
           >
-            {user.email}
+            {employee.email}
           </User>
         );
       case "role":
         return (
           <div className="flex flex-col">
             <p className="text-bold text-small capitalize">{cellValue}</p>
-            <p className="text-bold text-tiny capitalize text-default-400">
-              {user.team}
-            </p>
           </div>
         );
       case "status":
         return (
           <Chip
             className="capitalize"
-            color={statusColorMap[user.status]}
+            color={statusColorMap[employee.status]} // eslint-disable-line
             size="sm"
             variant="flat"
           >
@@ -145,17 +89,17 @@ export default function EmployeesTable({ info }: Props) {
         );
       case "actions":
         return (
-          <div className="relative flex items-center justify-end gap-2">
+          <div className="relative flex items-center justify-center gap-2">
             <Dropdown>
               <DropdownTrigger>
                 <Button isIconOnly size="sm" variant="light">
-                  <BiDotsVertical className="text-default-300" />
+                  <BiDotsVertical size={15} />
                 </Button>
               </DropdownTrigger>
               <DropdownMenu>
-                <DropdownItem>View</DropdownItem>
-                <DropdownItem>Edit</DropdownItem>
-                <DropdownItem>Delete</DropdownItem>
+                <DropdownItem>Visualizar</DropdownItem>
+                <DropdownItem>Editar</DropdownItem>
+                <DropdownItem>Deletar</DropdownItem>
               </DropdownMenu>
             </Dropdown>
           </div>
@@ -164,6 +108,46 @@ export default function EmployeesTable({ info }: Props) {
         return cellValue;
     }
   }, []);
+
+  //Filtros
+  const [filterValue, setFilterValue] = useState("");
+  const [statusFilter, setStatusFilter] = useState<Selection>("all");
+
+  const hasSearchFilter = Boolean(filterValue);
+
+  const filteredItems = useMemo(() => {
+    let filteredEmployees = [...employees];
+
+    if (hasSearchFilter) {
+      filteredEmployees = filteredEmployees.filter((user) =>
+        user.name.toLowerCase().includes(filterValue.toLowerCase()),
+      );
+    }
+    if (
+      statusFilter !== "all" &&
+      Array.from(statusFilter).length !== statusOptions.length
+    ) {
+      filteredEmployees = filteredEmployees.filter((user) =>
+        Array.from(statusFilter).includes(user.status),
+      );
+    }
+
+    return filteredEmployees;
+  }, [employees, filterValue, statusFilter]); // eslint-disable-line
+
+  //Paginação
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [page, setPage] = useState(1);
+  const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set([]));
+
+  const items = useMemo(() => {
+    const start = (page - 1) * rowsPerPage;
+    const end = start + rowsPerPage;
+
+    return filteredItems.slice(start, end);
+  }, [page, filteredItems, rowsPerPage]);
+
+  const pages = Math.ceil(filteredItems.length / rowsPerPage);
 
   const onNextPage = useCallback(() => {
     if (page < pages) {
@@ -199,6 +183,21 @@ export default function EmployeesTable({ info }: Props) {
     setPage(1);
   }, []);
 
+  //Organização
+  const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
+    column: "name",
+    direction: "ascending",
+  });
+  const sortedItems = useMemo(() => {
+    return [...items].sort((a: Employees, b: Employees) => {
+      const first = a[sortDescriptor.column as keyof Employees] as number;
+      const second = b[sortDescriptor.column as keyof Employees] as number;
+      const cmp = first < second ? -1 : first > second ? 1 : 0;
+
+      return sortDescriptor.direction === "descending" ? -cmp : cmp;
+    });
+  }, [sortDescriptor, items]);
+
   const topContent = useMemo(() => {
     return (
       <div className="flex flex-col gap-4">
@@ -206,7 +205,7 @@ export default function EmployeesTable({ info }: Props) {
           <Input
             isClearable
             className="w-full sm:max-w-[44%]"
-            placeholder="Search by name..."
+            placeholder="Procure pelo nome..."
             startContent={<BiSearch />}
             value={filterValue}
             onClear={() => onClear()}
@@ -232,46 +231,22 @@ export default function EmployeesTable({ info }: Props) {
               >
                 {statusOptions.map((status) => (
                   <DropdownItem key={status.uid} className="capitalize">
-                    {capitalize(status.name)}
+                    {status.name}
                   </DropdownItem>
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <Dropdown>
-              <DropdownTrigger className="hidden sm:flex">
-                <Button
-                  endContent={<BiChevronDown className="text-small" />}
-                  variant="flat"
-                >
-                  Columns
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu
-                disallowEmptySelection
-                aria-label="Table Columns"
-                closeOnSelect={false}
-                selectedKeys={visibleColumns}
-                selectionMode="multiple"
-                onSelectionChange={setVisibleColumns}
-              >
-                {columns.map((column) => (
-                  <DropdownItem key={column.uid} className="capitalize">
-                    {capitalize(column.name)}
-                  </DropdownItem>
-                ))}
-              </DropdownMenu>
-            </Dropdown>
-            <Button color="primary" endContent={<BiPlus />}>
-              Add New
+            <Button color="primary" endContent={<BiPlus size={12} />}>
+              Novo
             </Button>
           </div>
         </div>
         <div className="flex items-center justify-between">
           <span className="text-small text-default-400">
-            Total {users.length} users
+            Total {employees.length} users
           </span>
           <label className="flex items-center text-small text-default-400">
-            Rows per page:
+            Linhas por página:
             <select
               className="bg-transparent text-small text-default-400 outline-none"
               onChange={onRowsPerPageChange}
@@ -284,13 +259,13 @@ export default function EmployeesTable({ info }: Props) {
         </div>
       </div>
     );
+    // eslint-disable-next-line
   }, [
     filterValue,
     statusFilter,
-    visibleColumns,
     onSearchChange,
     onRowsPerPageChange,
-    users.length,
+    employees.length,
     hasSearchFilter,
   ]);
 
@@ -299,8 +274,8 @@ export default function EmployeesTable({ info }: Props) {
       <div className="flex items-center justify-between px-2 py-2">
         <span className="w-[30%] text-small text-default-400">
           {selectedKeys === "all"
-            ? "All items selected"
-            : `${selectedKeys.size} of ${filteredItems.length} selected`}
+            ? "Todos os itens selecionados"
+            : `${selectedKeys.size} de ${filteredItems.length} selecionados`}
         </span>
         <Pagination
           isCompact
@@ -318,7 +293,7 @@ export default function EmployeesTable({ info }: Props) {
             variant="flat"
             onPress={onPreviousPage}
           >
-            Previous
+            Anterior
           </Button>
           <Button
             isDisabled={pages === 1}
@@ -326,12 +301,12 @@ export default function EmployeesTable({ info }: Props) {
             variant="flat"
             onPress={onNextPage}
           >
-            Next
+            Próximo
           </Button>
         </div>
       </div>
     );
-  }, [selectedKeys, items.length, page, pages, hasSearchFilter]);
+  }, [items.length, page, pages, selectedKeys]); // eslint-disable-line
 
   return (
     <div className="w-4/5">
@@ -340,18 +315,18 @@ export default function EmployeesTable({ info }: Props) {
         isHeaderSticky
         bottomContent={bottomContent}
         bottomContentPlacement="outside"
+        selectionMode="multiple"
+        selectedKeys={selectedKeys}
+        onSelectionChange={setSelectedKeys}
+        topContent={topContent}
+        topContentPlacement="outside"
+        sortDescriptor={sortDescriptor}
+        onSortChange={setSortDescriptor}
         classNames={{
           wrapper: "max-h-[382px]",
         }}
-        selectedKeys={selectedKeys}
-        selectionMode="multiple"
-        sortDescriptor={sortDescriptor}
-        topContent={topContent}
-        topContentPlacement="outside"
-        onSelectionChange={setSelectedKeys}
-        onSortChange={setSortDescriptor}
       >
-        <TableHeader columns={headerColumns}>
+        <TableHeader columns={columns}>
           {(column) => (
             <TableColumn
               key={column.uid}
