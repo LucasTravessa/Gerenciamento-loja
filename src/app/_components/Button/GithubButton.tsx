@@ -7,7 +7,7 @@ import { BsGithub } from 'react-icons/bs'
 export default function GithubButton() {
 
     const handleClick = () => {
-        signIn('github', { callbackUrl: 'http://localhost:3000/pages/Home' })
+        signIn('github', { callbackUrl: 'http://localhost:3000/' })
     }
 
     return (

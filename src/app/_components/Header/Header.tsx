@@ -10,11 +10,13 @@ import {
   DropdownTrigger,
   Dropdown,
   DropdownMenu,
-  User
+  User,
+  Button
 } from "@nextui-org/react";
 import type { Session } from "next-auth";
+import { signOut } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
-import { FaLinux } from "react-icons/fa";
+import { FaLinux, FaSignOutAlt } from "react-icons/fa";
 
 type linkProps = {
   id: number;
@@ -76,24 +78,29 @@ export default function Header({ session }: Props) {
               <User
                 className="text-black"
                 name={`${session.user.name}`}
+                description='administrador geral'
                 avatarProps={{
                   src: `${session.user.image}`
                 }}
               />
             </DropdownTrigger>
             <DropdownMenu aria-label="Profile Actions" variant="flat">
-              
+                <DropdownItem key='signout' onAction={() => signOut()}>
+                    <div className="flex justify-center items-center gap-3">
+                      <FaSignOutAlt className="text-red-500 text-xl"/> <p className="font-bold">Signout</p>
+                    </div>
+                </DropdownItem>
             </DropdownMenu>
           </Dropdown>
         </NavbarContent>
       ) : (
         <NavbarContent as="div" justify="end">
-          <button
-            className=" bg-grey_veryLight flex items-center text-black justify-center rounded-md px-3 py-2 text-lg hover:scale-[1.02]"
+          <Button
+            className=""
             onClick={() => router.push("/?login=true")}
           >
             Entrar
-          </button>
+          </Button>
         </NavbarContent>
       )}
     </Navbar>

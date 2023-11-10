@@ -11,16 +11,17 @@ import {
 import GithubButton from "../Button/GithubButton";
 import GoogleButton from "../Button/GoogleButton";
 import LoginForm from "../Form/LoginForm/LoginForm";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 
 export default function LoginModal() {
   const searchParams = useSearchParams();
+  const path = usePathname();
   const open = searchParams.get("login") === "true";
 
   const router = useRouter();
 
-  const onClose = () => router.push("/");
+  const onClose = () => router.push(`${path}`);
 
   return (
     <Modal isOpen={open} onClose={onClose}>

@@ -6,7 +6,7 @@ import { BsGoogle } from "react-icons/bs";
 
 export default function GoogleButton() {
   const handleClick = () => {
-    signIn("google", { callbackUrl: "http://localhost:3000/pages/Home" });
+    signIn("google", { callbackUrl: "http://localhost:3000/" });
   };
 
   return (
