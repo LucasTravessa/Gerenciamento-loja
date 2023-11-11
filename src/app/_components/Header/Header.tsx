@@ -15,8 +15,10 @@ import {
 } from "@nextui-org/react";
 import type { Session } from "next-auth";
 import { signOut } from "next-auth/react";
+import { useTheme } from "next-themes";
 import { usePathname, useRouter } from "next/navigation";
 import { FaLinux, FaSignOutAlt } from "react-icons/fa";
+import {BsSunFill, BsFillMoonFill} from 'react-icons/bs'
 
 type linkProps = {
   id: number;
@@ -53,7 +55,8 @@ type Props = {
 
 export default function Header({ session }: Props) {
   const router = useRouter();
-  const activePath = usePathname()
+  const activePath = usePathname();
+  const {theme, setTheme} = useTheme();
   
   return (
     <Navbar>
@@ -76,7 +79,6 @@ export default function Header({ session }: Props) {
           <Dropdown placement="bottom-end">
             <DropdownTrigger>
               <User
-                className="text-black"
                 name={`${session.user.name}`}
                 description='administrador geral'
                 avatarProps={{
@@ -103,6 +105,20 @@ export default function Header({ session }: Props) {
           </Button>
         </NavbarContent>
       )}
+
+      <NavbarContent>
+        {theme === 'light' ? (
+          <Button onClick={() => setTheme('dark')}>
+            <BsSunFill className="text-xl"/>
+          </Button>
+        ) :(
+          <Button onClick={() => setTheme('light')}>
+            <BsFillMoonFill className="text-xl"/>
+          </Button>
+        )}
+        
+        
+      </NavbarContent>
     </Navbar>
   );
 }
