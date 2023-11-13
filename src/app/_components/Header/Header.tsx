@@ -1,5 +1,6 @@
 "use client";
 
+//navbar
 import {
   Navbar,
   NavbarBrand,
@@ -13,10 +14,18 @@ import {
   User,
   Button
 } from "@nextui-org/react";
+
+//type
 import type { Session } from "next-auth";
+
+//auth func
 import { signOut } from "next-auth/react";
+
+//hooks
 import { useTheme } from "next-themes";
 import { usePathname, useRouter } from "next/navigation";
+
+//icons
 import { FaLinux, FaSignOutAlt } from "react-icons/fa";
 import {BsSunFill, BsFillMoonFill} from 'react-icons/bs'
 
@@ -57,6 +66,8 @@ export default function Header({ session }: Props) {
   const router = useRouter();
   const activePath = usePathname();
   const {theme, setTheme} = useTheme();
+
+  console.log(theme)
   
   return (
     <Navbar>
@@ -105,20 +116,16 @@ export default function Header({ session }: Props) {
           </Button>
         </NavbarContent>
       )}
-
-      <NavbarContent>
-        {theme === 'light' ? (
-          <Button onClick={() => setTheme('dark')}>
-            <BsSunFill className="text-xl"/>
-          </Button>
-        ) :(
+      
+        {theme === 'dark' ? (
           <Button onClick={() => setTheme('light')}>
-            <BsFillMoonFill className="text-xl"/>
+            <BsFillMoonFill className="text-lg" />
+          </Button>  
+        ) : (
+          <Button onClick={() => setTheme('dark')}>
+              <BsSunFill className="text-lg" />
           </Button>
         )}
-        
-        
-      </NavbarContent>
     </Navbar>
   );
 }
