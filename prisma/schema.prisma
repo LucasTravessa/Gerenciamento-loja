@@ -72,9 +72,8 @@ model VerificationToken {
     @@unique([identifier, token])
 }
 
-
 model Employees {
-    id           Int @id @default(autoincrement())
+    id           Int     @id @default(autoincrement())
     name         String
     email        String
     address      String
@@ -82,58 +81,62 @@ model Employees {
     role         String
     salary       Float
     status       String
-    img          String @default("https://i.pravatar.cc/150")
+    img          String  @default("https://i.pravatar.cc/150")
+    sales        Sales[]
 }
 
-model Supplier {
-    id            Int @id @default(autoincrement())
-    fantasy_name  String
-    cpnj          String
-    address       String
-    phone_number  String
-    status        String
-    purchases     Purchases[]
+model Suppliers {
+    id           Int         @id @default(autoincrement())
+    fantasy_name String
+    cpnj         String
+    email        String
+    address      String
+    phone_number String
+    status       String
+    purchases    Purchases[]
 }
 
 model Products {
-    id                    Int @id @default(autoincrement())
-    name                  String
-    price                 Float
-    on_stock              Float @default(0)
+    id       Int    @id @default(autoincrement())
+    name     String
+    price    Float
+    on_stock Float  @default(0)
 }
 
 model Purchases {
-    id              Int @id @default(autoincrement())
-    supplier        Supplier  @relation(fields: [supplier_id], references: [id])
-    supplier_id     Int @unique
-    total     Float
-    date      DateTime
-    status    String //Pendente, Atrasada, Entregue, Cancelada
+    id               Int                @id @default(autoincrement())
+    supplier         Suppliers          @relation(fields: [supplier_id], references: [id])
+    supplier_id      Int                @unique
+    total            Float
+    date             DateTime
+    status           String //Pendente, Atrasada, Entregue, Cancelada
     purchaces_detail Purchases_detail[]
 }
 
 model Purchases_detail {
-    id              Int @id @default(autoincrement())
+    id              Int       @id @default(autoincrement())
     products_id     Int
-    products_amount Int     
-    price     Float
-    purchases Purchases @relation(fields: [purchases_id], references: [id])
-    purchases_id Int @unique
+    products_amount Int
+    price           Float
+    purchases       Purchases @relation(fields: [purchases_id], references: [id])
+    purchases_id    Int       @unique
 }
 
-model Sales{
-    id          Int @id @default(autoincrement())
-    client      String
-    total  Float
-    date    DateTime
+model Sales {
+    id           Int            @id @default(autoincrement())
+    client       String
+    total        Float
+    date         DateTime
+    employee     Employees      @relation(fields: [employee_id], references: [id])
+    employee_id  Int
     sales_detail Sales_detail[]
 }
 
-model Sales_detail{
-    id          Int @id @default(autoincrement())
+model Sales_detail {
+    id              Int   @id @default(autoincrement())
     products_id     Int
-    products_amount Int     
-    price     Float
-    sales Sales @relation(fields: [sales_id], references: [id])
-    sales_id Int @unique
+    products_amount Int
+    price           Float
+    sales           Sales @relation(fields: [sales_id], references: [id])
+    sales_id        Int   @unique
 }
