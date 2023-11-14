@@ -19,7 +19,7 @@ export default function LoginModal() {
 
   const router = useRouter();
 
-  const onClose = () => router.push("/funcionarios");
+  const onClose = () => router.push("/");
 
   return (
     <Modal isOpen={open} onClose={onClose}>
