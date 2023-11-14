@@ -6,22 +6,20 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Button,
 } from "@nextui-org/react";
 import GithubButton from "../Button/GithubButton";
 import GoogleButton from "../Button/GoogleButton";
 import LoginForm from "../Form/LoginForm/LoginForm";
-import { usePathname, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 
 export default function LoginModal() {
   const searchParams = useSearchParams();
-  const path = usePathname();
   const open = searchParams.get("login") === "true";
 
   const router = useRouter();
 
-  const onClose = () => router.push(`${path}`);
+  const onClose = () => router.push("/funcionarios");
 
   return (
     <Modal isOpen={open} onClose={onClose}>

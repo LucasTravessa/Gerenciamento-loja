@@ -27,6 +27,7 @@ import {
   BiPlus,
   BiSearch,
 } from "react-icons/bi";
+import { useRouter } from "next/navigation";
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
   active: "success",
@@ -198,6 +199,8 @@ export default function EmployeesTable({ employees }: Props) {
     });
   }, [sortDescriptor, items]);
 
+  const router = useRouter();
+
   const topContent = useMemo(() => {
     return (
       <div className="flex flex-col gap-4">
@@ -236,7 +239,7 @@ export default function EmployeesTable({ employees }: Props) {
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <Button color="primary" endContent={<BiPlus size={12} />}>
+            <Button color="primary" onClick={() => router.push("/funcionarios/?modal=true")} endContent={<BiPlus size={12} />}>
               Novo
             </Button>
           </div>

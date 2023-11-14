@@ -1,6 +1,7 @@
 import { api } from "~/trpc/server";
 import EmployeesTable from "./table";
 import { faker } from "@faker-js/faker";
+import EmployeesModal from "~/app/_components/Modals/EmployeesModal";
 
 const employee = {
   status: "vacation",
@@ -20,5 +21,10 @@ export default async function Employees() {
 
   // console.log(createEmployee);
 
-  return <EmployeesTable employees={employees} />;
+  return(
+    <>
+      <EmployeesTable employees={employees} />
+      <EmployeesModal/>
+    </>
+  )
 }
