@@ -19,10 +19,13 @@ export const useEmployees = () => {
         }
     })
 
-    // handleform
+    async function handleForm() {
+        
+    }
 
     return {
         register,
+        handleSubmit,
         errors,
         isSubmitting,
     }
