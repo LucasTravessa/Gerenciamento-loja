@@ -1,37 +1,33 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
-export const employeesRouter = createTRPCRouter({
+export const suppliersRouter = createTRPCRouter({
   getAll: publicProcedure.query(({ ctx }) => {
-    return ctx.db.employees.findMany();
+    return ctx.db.suppliers.findMany();
   }),
   getOne: publicProcedure.input(Number).query(({ ctx, input }) => {
-    return ctx.db.employees.findUnique({ where: { id: input } });
+    return ctx.db.suppliers.findUnique({ where: { id: input } });
   }),
   create: publicProcedure
     .input(
       z.object({
-        name: z.string(),
+        fantasy_name: z.string(),
+        cnpj: z.string(),
         email: z.string(),
         address: z.string(),
         phone_number: z.string(),
-        role: z.string(),
-        salary: z.number(),
         status: z.string(),
-        img: z.string(),
       }),
     )
     .mutation(({ ctx, input }) => {
-      return ctx.db.employees.create({
+      return ctx.db.suppliers.create({
         data: {
-          name: input.name,
+          fantasy_name: input.fantasy_name,
+          cnpj: input.cnpj,
           email: input.email,
           address: input.address,
           phone_number: input.phone_number,
-          role: input.role,
-          salary: input.salary,
           status: input.status,
-          img: input.img,
           // createdBy: { connect: { id: ctx.session.user.id } },
         },
       });
@@ -40,28 +36,24 @@ export const employeesRouter = createTRPCRouter({
     .input(
       z.object({
         id: z.number(),
-        name: z.string() || null,
+        fantasy_name: z.string() || null,
+        cnpj: z.string() || null,
         email: z.string() || null,
         address: z.string() || null,
         phone_number: z.string() || null,
-        role: z.string() || null,
-        salary: z.number() || null,
         status: z.string() || null,
-        img: z.string() || null,
       }),
     )
     .mutation(({ ctx, input }) => {
-      return ctx.db.employees.update({
+      return ctx.db.suppliers.update({
         where: { id: input.id },
         data: {
-          name: input.name,
+          fantasy_name: input.fantasy_name,
+          cnpj: input.cnpj,
           email: input.email,
           address: input.address,
           phone_number: input.phone_number,
-          role: input.role,
-          salary: input.salary,
           status: input.status,
-          img: input.img,
           // createdBy: { connect: { id: ctx.session.user.id } },
         },
       });
