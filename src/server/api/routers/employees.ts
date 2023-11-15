@@ -18,7 +18,7 @@ export const employeesRouter = createTRPCRouter({
         role: z.string(),
         salary: z.number(),
         status: z.string(),
-        img: z.string(),
+        img: z.string() || null,
       }),
     )
     .mutation(({ ctx, input }) => {
