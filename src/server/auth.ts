@@ -7,7 +7,7 @@ import {
 import DiscordProvider from "next-auth/providers/discord";
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
-import Credentials from "next-auth/providers/credentials";
+import CredentialsProvider from "next-auth/providers/credentials";
 
 import { env } from "~/env.mjs";
 import { db } from "~/server/db";
@@ -42,14 +42,27 @@ declare module "next-auth" {
  */
 export const authOptions: NextAuthOptions = {
   callbacks: {
-    session: ({ session, user }) => ({
+    jwt: ({ token, user }) => {
+      if (user) {
+        token.id = user.id;
+        token.email = user.email;
+      }
+      // console.log(token);
+
+      return token;
+    },
+    session: ({ session, user, token }) => ({
       ...session,
       user: {
         ...session.user,
-        id: user.id,
+        id: token ? (token.id as string) : user.id,
       },
     }),
   },
+  session: {
+    strategy: "jwt",
+  },
+  secret: process.env.NEXTAUTH_SECRET,
   adapter: PrismaAdapter(db),
   providers: [
     DiscordProvider({
@@ -65,40 +78,41 @@ export const authOptions: NextAuthOptions = {
       clientId: env.GITHUB_CLIENT_ID,
       clientSecret: env.GITHUB_CLIENT_SECRET,
     }),
-    // Credentials({
-    //   name: "credentials",
-    //   credentials: {
-    //     email: {
-    //       label: "Email",
-    //       type: "email",
-    //       placeholder: "asdf@gmail.com",
-    //     },
-    //     password: { label: "Password", type: "password" },
-    //   },
-    //   authorize: async (credentials, request) => {
-    //     const creds = await loginSchema.parseAsync(credentials);
+    CredentialsProvider({
+      name: "credentials",
+      credentials: {
+        email: {
+          label: "Email",
+          type: "email",
+          placeholder: "asdf@gmail.com",
+        },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials, request) {
+        const creds = await loginSchema.parseAsync(credentials);
 
-    //     const user = await db.user.findFirst({
-    //       where: { email: creds.email },
-    //     });
+        const user = await db.user.findFirst({
+          where: { email: creds.email },
+        });
 
-    //     if (!user) {
-    //       return null;
-    //     }
+        if (!user) {
+          return null;
+        }
 
-    //     const isValidPassword = await verify(user.password, creds.password);
+        const isValidPassword = await verify(user.password, creds.password);
 
-    //     if (!isValidPassword) {
-    //       return null;
-    //     }
+        if (!isValidPassword) {
+          return null;
+        }
 
-    //     return {
-    //       id: user.id,
-    //       email: user.email,
-    //       name: user.name,
-    //     };
-    //   },
-    // }),
+        return {
+          id: user.id,
+          email: user.email,
+          name: user.name,
+          image: "https://i.pravatar.cc/150",
+        };
+      },
+    }),
 
     /**
      * ...add more providers here.
