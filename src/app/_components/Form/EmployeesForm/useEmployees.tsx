@@ -14,8 +14,10 @@ export const useEmployees = () => {
         defaultValues: {
             name: '',
             email: '',
-            job: '',
+            role: '',
             phone: '',
+            salary: '',
+            address: '',
         }
     })
 
