@@ -10,16 +10,18 @@ export const employeesRouter = createTRPCRouter({
   }),
   create: publicProcedure
     .input(
-      z.object({
-        name: z.string(),
-        email: z.string(),
-        address: z.string(),
-        phone_number: z.string(),
-        role: z.string(),
-        salary: z.number(),
-        status: z.string(),
-        img: z.string() || null,
-      }),
+      z
+        .object({
+          name: z.string(),
+          email: z.string(),
+          address: z.string(),
+          phone_number: z.string(),
+          role: z.string(),
+          salary: z.number(),
+          status: z.string(),
+          img: z.string(),
+        })
+        .partial({ img: true }),
     )
     .mutation(({ ctx, input }) => {
       return ctx.db.employees.create({
@@ -38,17 +40,20 @@ export const employeesRouter = createTRPCRouter({
     }),
   update: publicProcedure
     .input(
-      z.object({
-        id: z.number(),
-        name: z.string() || null,
-        email: z.string() || null,
-        address: z.string() || null,
-        phone_number: z.string() || null,
-        role: z.string() || null,
-        salary: z.number() || null,
-        status: z.string() || null,
-        img: z.string() || null,
-      }),
+      z
+        .object({
+          id: z.number(),
+          name: z.string(),
+          email: z.string(),
+          address: z.string(),
+          phone_number: z.string(),
+          role: z.string(),
+          salary: z.number(),
+          status: z.string(),
+          img: z.string(),
+        })
+        .partial()
+        .required({ id: true }),
     )
     .mutation(({ ctx, input }) => {
       return ctx.db.employees.update({
