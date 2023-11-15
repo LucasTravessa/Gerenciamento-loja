@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { api } from "~/trpc/server"
 import { schema, schemaProps } from "./schema"
+import { handleForm } from "./handleSubmit"
 
 export const useEmployees = () => {
     const {
@@ -21,11 +22,6 @@ export const useEmployees = () => {
             address: '',
         }
     })
-
-    async function handleForm(data: schemaProps) {
-        //#TODO corrigir erro do server component api
-        // const createEmployee = await api.employees.create.mutate({...data, salary: Number(data.salary)});
-    }
 
     return {
         register,
