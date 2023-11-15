@@ -22,6 +22,7 @@
     "@trpc/next": "^10.37.1",
     "@trpc/react-query": "^10.37.1",
     "@trpc/server": "^10.37.1",
+    "argon2": "^0.31.2",
     "framer-motion": "^10.16.4",
     "next": "^13.5.4",
     "next-auth": "^4.23.0",
