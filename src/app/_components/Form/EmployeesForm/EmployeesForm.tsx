@@ -1,16 +1,13 @@
 import { Button, Input } from "@nextui-org/react";
 import { useEmployees } from "./useEmployees";
 import { Select, SelectItem } from '@nextui-org/react'
-import { FaChevronDown } from "react-icons/fa";
-import { useState } from "react";
 
 export default function EmployeesForm() {
 
-    const {register, errors, isSubmitting} = useEmployees();
-    const [status, setStatus] = useState<string>('')
+    const {register, errors, isSubmitting, handleSubmit, handleForm} = useEmployees();
 
     return(
-        <form className="flex flex-col items-center gap-4">
+        <form className="flex flex-col items-center gap-4" onSubmit={handleSubmit(handleForm)}>
 
             <div className="flex gap-2">
                 <Input 
@@ -59,6 +56,7 @@ export default function EmployeesForm() {
                 
                 <Input
                     label='Salario'
+                    startContent='R$'
                     type="text"
                     {...register('salary')}
                     color={`${errors.salary ? 'danger' : 'default'}`}
@@ -66,16 +64,21 @@ export default function EmployeesForm() {
                 />
             </div>
 
-                <Select label='Selecione o Status'>
-                    <SelectItem key='active'>Ativo</SelectItem>
-                    <SelectItem key='inactive'>Inativo</SelectItem>
-                    <SelectItem key='vacation'>Férias</SelectItem>
+                <Select 
+                    label='Selecione o Status'
+                    {...register('status')}
+                    color={`${errors.status ? 'danger' : 'default'}`}
+                >
+                    <SelectItem key='Ativo'>Ativo</SelectItem>
+                    <SelectItem key='Inativo'>Inativo</SelectItem>
+                    <SelectItem key='Férias'>Férias</SelectItem>
                 </Select>
 
-                <Input 
+                {/*#TODO input de enviar imagem */}
+                {/* <Input 
                     type="file" 
                     accept="png, jpg"
-                />
+                /> */}
             
             
             <Button color="primary" radius="full" type="submit" >Enviar</Button>

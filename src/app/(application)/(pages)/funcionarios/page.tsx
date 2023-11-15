@@ -17,7 +17,7 @@ const employee = {
 export default async function Employees() {
   const employees = await api.employees.getAll.query();
 
-  // const createEmployee = await api.employees.create.mutate(employee);
+  const createEmployee = await api.employees.create.mutate(employee);
 
   return(
     <>

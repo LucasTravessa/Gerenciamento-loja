@@ -81,7 +81,7 @@ model Employees {
     role         String
     salary       Float
     status       String
-    img          String  @default("https://i.pravatar.cc/150")
+    img          String?  @default("https://i.pravatar.cc/150")
     sales        Sales[]
 }
 

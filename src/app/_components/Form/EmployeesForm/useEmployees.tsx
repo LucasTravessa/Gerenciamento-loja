@@ -1,5 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
+import { api } from "~/trpc/server"
 import { schema, schemaProps } from "./schema"
 
 export const useEmployees = () => {
@@ -21,13 +22,16 @@ export const useEmployees = () => {
         }
     })
 
-    async function handleForm() {
-        
+    async function handleForm(data: schemaProps) {
+        console.log(data)
+
+        // const createEmployee = await api.employees.create.mutate(data);
     }
 
     return {
         register,
         handleSubmit,
+        handleForm,
         errors,
         isSubmitting,
     }
