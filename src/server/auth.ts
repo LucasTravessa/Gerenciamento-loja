@@ -65,40 +65,40 @@ export const authOptions: NextAuthOptions = {
       clientId: env.GITHUB_CLIENT_ID,
       clientSecret: env.GITHUB_CLIENT_SECRET,
     }),
-    Credentials({
-      name: "credentials",
-      credentials: {
-        email: {
-          label: "Email",
-          type: "email",
-          placeholder: "asdf@gmail.com",
-        },
-        password: { label: "Password", type: "password" },
-      },
-      authorize: async (credentials, request) => {
-        const creds = await loginSchema.parseAsync(credentials);
+    // Credentials({
+    //   name: "credentials",
+    //   credentials: {
+    //     email: {
+    //       label: "Email",
+    //       type: "email",
+    //       placeholder: "asdf@gmail.com",
+    //     },
+    //     password: { label: "Password", type: "password" },
+    //   },
+    //   authorize: async (credentials, request) => {
+    //     const creds = await loginSchema.parseAsync(credentials);
 
-        const user = await db.user.findFirst({
-          where: { email: creds.email },
-        });
+    //     const user = await db.user.findFirst({
+    //       where: { email: creds.email },
+    //     });
 
-        if (!user) {
-          return null;
-        }
+    //     if (!user) {
+    //       return null;
+    //     }
 
-        const isValidPassword = await verify(user.password, creds.password);
+    //     const isValidPassword = await verify(user.password, creds.password);
 
-        if (!isValidPassword) {
-          return null;
-        }
+    //     if (!isValidPassword) {
+    //       return null;
+    //     }
 
-        return {
-          id: user.id,
-          email: user.email,
-          name: user.name,
-        };
-      },
-    }),
+    //     return {
+    //       id: user.id,
+    //       email: user.email,
+    //       name: user.name,
+    //     };
+    //   },
+    // }),
 
     /**
      * ...add more providers here.
