@@ -7,9 +7,12 @@ import {
 import DiscordProvider from "next-auth/providers/discord";
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
+import Credentials from "next-auth/providers/credentials";
 
 import { env } from "~/env.mjs";
 import { db } from "~/server/db";
+import { loginSchema } from "./api/routers/signUp";
+import { verify } from "argon2";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -61,6 +64,40 @@ export const authOptions: NextAuthOptions = {
     GitHubProvider({
       clientId: env.GITHUB_CLIENT_ID,
       clientSecret: env.GITHUB_CLIENT_SECRET,
+    }),
+    Credentials({
+      name: "credentials",
+      credentials: {
+        email: {
+          label: "Email",
+          type: "email",
+          placeholder: "asdf@gmail.com",
+        },
+        password: { label: "Password", type: "password" },
+      },
+      authorize: async (credentials, request) => {
+        const creds = await loginSchema.parseAsync(credentials);
+
+        const user = await db.user.findFirst({
+          where: { email: creds.email },
+        });
+
+        if (!user) {
+          return null;
+        }
+
+        const isValidPassword = await verify(user.password, creds.password);
+
+        if (!isValidPassword) {
+          return null;
+        }
+
+        return {
+          id: user.id,
+          email: user.email,
+          name: user.name,
+        };
+      },
     }),
 
     /**
