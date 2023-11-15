@@ -16,16 +16,15 @@ export const useEmployees = () => {
             name: '',
             email: '',
             role: '',
-            phone: '',
+            phone_number: '',
             salary: '',
             address: '',
         }
     })
 
     async function handleForm(data: schemaProps) {
-        console.log(data)
-
-        // const createEmployee = await api.employees.create.mutate(data);
+        //#TODO corrigir erro do server component api
+        // const createEmployee = await api.employees.create.mutate({...data, salary: Number(data.salary)});
     }
 
     return {

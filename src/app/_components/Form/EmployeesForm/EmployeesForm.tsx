@@ -39,9 +39,9 @@ export default function EmployeesForm() {
                 <Input 
                     label='Telefone' 
                     type="text" 
-                    {...register('phone')}
-                    color={`${errors.phone ? 'danger' : 'default'}`}
-                    errorMessage={errors.phone && `${errors.phone.message}`}
+                    {...register('phone_number')}
+                    color={`${errors.phone_number ? 'danger' : 'default'}`}
+                    errorMessage={errors.phone_number && `${errors.phone_number.message}`}
                 />
             </div>
 
@@ -57,7 +57,7 @@ export default function EmployeesForm() {
                 <Input
                     label='Salario'
                     startContent='R$'
-                    type="text"
+                    type="number"
                     {...register('salary')}
                     color={`${errors.salary ? 'danger' : 'default'}`}
                     errorMessage={errors.salary && `${errors.salary.message}`}
