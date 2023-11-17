@@ -3,6 +3,7 @@ import EmployeesTable from "./table";
 import { faker } from "@faker-js/faker";
 import EmployeesModal from "~/app/_components/Modals/EmployeesModal";
 import { schemaProps } from "~/app/_components/Form/EmployeesForm/schema";
+import EmployeesForm from "~/app/_components/Form/EmployeesForm/EmployeesForm";
 
 const employee = {
   status: "vacation",
@@ -20,7 +21,7 @@ const employee = {
 export default async function Employees() {
   const employees = await api.employees.getAll.query();
 
-  // const createEmployee = await api.employees.create.mutate(employee);
+  // await api.employees.create.mutate(employee);
 
   return (
     <>

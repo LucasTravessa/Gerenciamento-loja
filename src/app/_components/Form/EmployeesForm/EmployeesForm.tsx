@@ -1,14 +1,13 @@
 import { Button, Input } from "@nextui-org/react";
 import { useEmployees } from "./useEmployees";
 import { Select, SelectItem } from '@nextui-org/react'
-import { handleForm } from "./handleSubmit";
 
-export default async function EmployeesForm() {
+export default function EmployeesForm() {
 
-    const {register, errors, isSubmitting, handleSubmit} = useEmployees();
+    const {register, errors, isSubmitting, handleSubmit, handleForm} = useEmployees();
 
     return(
-        <form className="flex flex-col items-center gap-4" onSubmit={handleSubmit(handleForm)}>
+        <form className="flex flex-col items-center gap-4"  onSubmit={handleSubmit(handleForm)}>
 
             <div className="flex gap-2">
                 <Input 
