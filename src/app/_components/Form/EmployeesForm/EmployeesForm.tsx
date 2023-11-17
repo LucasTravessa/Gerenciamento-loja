@@ -1,8 +1,6 @@
 import { Button, Input } from "@nextui-org/react";
 import { useEmployees } from "./useEmployees";
 import { Select, SelectItem } from "@nextui-org/react";
-import { api } from "~/trpc/react";
-import { schema, schemaProps } from "./schema";
 
 export default function EmployeesForm() {
   const { register, errors, isSubmitting, handleSubmit, handleCreation } = useEmployees();
