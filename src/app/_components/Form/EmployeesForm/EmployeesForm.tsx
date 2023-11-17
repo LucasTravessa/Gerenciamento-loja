@@ -2,7 +2,7 @@ import { Button, Input } from "@nextui-org/react";
 import { useEmployees } from "./useEmployees";
 import { Select, SelectItem } from '@nextui-org/react'
 
-export default function EmployeesForm() {
+export default async function EmployeesForm() {
 
     const {register, errors, isSubmitting, handleSubmit, handleForm} = useEmployees();
 

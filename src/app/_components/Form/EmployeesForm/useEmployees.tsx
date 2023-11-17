@@ -23,6 +23,12 @@ export const useEmployees = () => {
         }
     })
 
+    async function handleForm(data: schemaProps) {
+        
+        //#TODO corrigir erro RangerErro
+        const createEmployee = await api.employees.create.mutate({...data, salary: Number(data.salary)});
+      }
+
     return {
         register,
         handleSubmit,
