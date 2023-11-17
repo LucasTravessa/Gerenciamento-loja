@@ -21,11 +21,16 @@ export const useEmployees = () => {
       address: "",
     },
   });
+  const addEmployee = api.employees.create.useMutation();
 
+  function handleCreation(data: schemaProps) {
+    addEmployee.mutate({ ...data, salary: parseInt(data.salary) });
+  }
 
   return {
     register,
     handleSubmit,
+    handleCreation,
     errors,
     isSubmitting,
   };

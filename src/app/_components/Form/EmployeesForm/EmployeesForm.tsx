@@ -5,15 +5,7 @@ import { api } from "~/trpc/react";
 import { schema, schemaProps } from "./schema";
 
 export default function EmployeesForm() {
-  const { register, errors, isSubmitting, handleSubmit } = useEmployees();
-
-  const addEmployee = api.employees.create.useMutation();
-
-  function handleCreation(data: schemaProps) {
-    //TODO corrigir erro RangerErro
-    console.log({ ...data, salary: parseInt(data.salary) });
-    addEmployee.mutate({ ...data, salary: parseInt(data.salary) });
-  }
+  const { register, errors, isSubmitting, handleSubmit, handleCreation } = useEmployees();
 
   return (
     <form
