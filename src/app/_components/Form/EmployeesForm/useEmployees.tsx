@@ -2,7 +2,6 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { api } from "~/trpc/server"
 import { schema, schemaProps } from "./schema"
-import { handleForm } from "./handleSubmit"
 
 export const useEmployees = () => {
     const {
@@ -32,7 +31,6 @@ export const useEmployees = () => {
     return {
         register,
         handleSubmit,
-        handleForm,
         errors,
         isSubmitting,
     }
