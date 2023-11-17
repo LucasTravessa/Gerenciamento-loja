@@ -1,41 +1,32 @@
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { api } from "~/trpc/server"
-import { schema, schemaProps } from "./schema"
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { schema, schemaProps } from "./schema";
+import { api } from "~/trpc/react";
 
 export const useEmployees = () => {
-    const {
-        register,
-        handleSubmit,
-        formState:{errors, isSubmitting}
-    } = useForm<schemaProps>({
-        mode: 'onBlur',
-        criteriaMode: 'all',
-        resolver: zodResolver(schema),
-        defaultValues: {
-            name: '',
-            email: '',
-            role: '',
-            phone_number: '',
-            salary: '',
-            address: '',
-        }
-        
-    })
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<schemaProps>({
+    mode: "onBlur",
+    criteriaMode: "all",
+    resolver: zodResolver(schema),
+    defaultValues: {
+      name: "",
+      email: "",
+      role: "",
+      phone_number: "",
+      salary: "",
+      address: "",
+    },
+  });
 
-    async function handleForm(data: schemaProps) {
-        //TODO corrigir erro RangerErro
-        console.log({...data, salary: parseInt(data.salary)})
-    
-       await api.employees.create.mutate({...data, salary: parseFloat(data.salary)});
-      }
 
-    return {
-        register,
-        handleSubmit,
-        handleForm,
-        errors,
-        isSubmitting,
-    }
-
-}
+  return {
+    register,
+    handleSubmit,
+    errors,
+    isSubmitting,
+  };
+};
