@@ -7,12 +7,12 @@ import {
 import DiscordProvider from "next-auth/providers/discord";
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
-import CredentialsProvider from "next-auth/providers/credentials";
 
 import { env } from "~/env.mjs";
 import { db } from "~/server/db";
 import { loginSchema } from "./api/routers/signUp";
 import { verify } from "argon2";
+import Credentials from "next-auth/providers/credentials";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -47,20 +47,20 @@ export const authOptions: NextAuthOptions = {
         token.id = user.id;
         token.email = user.email;
       }
-      // console.log(token);
-
+      console.log(token);
       return token;
     },
     session: ({ session, user, token }) => ({
       ...session,
       user: {
         ...session.user,
-        id: token ? (token.id as string) : user.id,
+        id: token.sub,
       },
     }),
   },
   session: {
     strategy: "jwt",
+    maxAge: 60 * 60,
   },
   secret: process.env.NEXTAUTH_SECRET,
   adapter: PrismaAdapter(db),
@@ -73,13 +73,13 @@ export const authOptions: NextAuthOptions = {
       clientId: env.GOOGLE_CLIENT_ID,
       clientSecret: env.GOOGLE_CLIENT_SECRET,
     }),
-
     GitHubProvider({
       clientId: env.GITHUB_CLIENT_ID,
       clientSecret: env.GITHUB_CLIENT_SECRET,
     }),
-    // CredentialsProvider({
-    //   name: "credentials",
+    // Credentials({
+    //   id: "domain-login",
+    //   name: "Domain Account",
     //   credentials: {
     //     email: {
     //       label: "Email",
