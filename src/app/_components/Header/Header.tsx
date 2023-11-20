@@ -28,6 +28,7 @@ import { usePathname, useRouter } from "next/navigation";
 //icons
 import { FaLinux, FaSignOutAlt } from "react-icons/fa";
 import {BsSunFill, BsFillMoonFill} from 'react-icons/bs'
+import DarkModeButton from "../Button/DarkModeButton";
 
 type linkProps = {
   id: number;
@@ -65,9 +66,6 @@ type Props = {
 export default function Header({ session }: Props) {
   const router = useRouter();
   const activePath = usePathname();
-  const {theme, setTheme} = useTheme();
-
-  console.log(theme)
   
   return (
     <Navbar>
@@ -117,15 +115,8 @@ export default function Header({ session }: Props) {
         </NavbarContent>
       )}
       
-        {theme === 'dark' ? (
-          <Button onClick={() => setTheme('light')}>
-            <BsFillMoonFill className="text-lg" />
-          </Button>  
-        ) : (
-          <Button onClick={() => setTheme('dark')}>
-              <BsSunFill className="text-lg" />
-          </Button>
-        )}
+        <DarkModeButton/>
+        
     </Navbar>
   );
 }
