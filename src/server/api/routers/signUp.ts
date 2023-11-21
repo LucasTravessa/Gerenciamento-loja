@@ -2,12 +2,9 @@ import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { hash } from "argon2";
 
-export const loginSchema = z.object({
+const signUpSchema = z.object({
   email: z.string().email(),
   password: z.string().min(4).max(12),
-});
-
-const signUpSchema = loginSchema.extend({
   name: z.string(),
 });
 

@@ -10,9 +10,14 @@ import GitHubProvider from "next-auth/providers/github";
 
 import { env } from "~/env.mjs";
 import { db } from "~/server/db";
-import { loginSchema } from "./api/routers/signUp";
 import { verify } from "argon2";
 import Credentials from "next-auth/providers/credentials";
+import { z } from "zod";
+
+const loginSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(4).max(12),
+});
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -47,7 +52,7 @@ export const authOptions: NextAuthOptions = {
         token.id = user.id;
         token.email = user.email;
       }
-      console.log(token);
+      // console.log(token);
       return token;
     },
     session: ({ session, user, token }) => ({
@@ -77,42 +82,42 @@ export const authOptions: NextAuthOptions = {
       clientId: env.GITHUB_CLIENT_ID,
       clientSecret: env.GITHUB_CLIENT_SECRET,
     }),
-    // Credentials({
-    //   id: "domain-login",
-    //   name: "Domain Account",
-    //   credentials: {
-    //     email: {
-    //       label: "Email",
-    //       type: "email",
-    //       placeholder: "asdf@gmail.com",
-    //     },
-    //     password: { label: "Password", type: "password" },
-    //   },
-    //   async authorize(credentials, request) {
-    //     const creds = await loginSchema.parseAsync(credentials);
+    Credentials({
+      id: "domain-login",
+      name: "Domain Account",
+      credentials: {
+        email: {
+          label: "Email",
+          type: "email",
+          placeholder: "asdf@gmail.com",
+        },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials, request) {
+        const creds = await loginSchema.parseAsync(credentials);
 
-    //     const user = await db.user.findFirst({
-    //       where: { email: creds.email },
-    //     });
+        const user = await db.user.findFirst({
+          where: { email: creds.email },
+        });
 
-    //     if (!user) {
-    //       return null;
-    //     }
+        if (!user) {
+          return null;
+        }
 
-    //     const isValidPassword = await verify(user.password, creds.password);
+        const isValidPassword = await verify(user.password, creds.password);
 
-    //     if (!isValidPassword) {
-    //       return null;
-    //     }
+        if (!isValidPassword) {
+          return null;
+        }
 
-    //     return {
-    //       id: user.id,
-    //       email: user.email,
-    //       name: user.name,
-    //       image: "https://i.pravatar.cc/150",
-    //     };
-    //   },
-    // }),
+        return {
+          id: user.id,
+          email: user.email,
+          name: user.name,
+          image: "https://i.pravatar.cc/150",
+        };
+      },
+    }),
 
     /**
      * ...add more providers here.
