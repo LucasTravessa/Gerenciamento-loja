@@ -52,7 +52,7 @@ export const authOptions: NextAuthOptions = {
         token.id = user.id;
         token.email = user.email;
       }
-      // console.log(token);
+      console.log(token);
       return token;
     },
     session: ({ session, user, token }) => ({
@@ -65,7 +65,7 @@ export const authOptions: NextAuthOptions = {
   },
   session: {
     strategy: "jwt",
-    maxAge: 60 * 60,
+    maxAge: 60 * 60 * 24 * 30,
   },
   secret: process.env.NEXTAUTH_SECRET,
   adapter: PrismaAdapter(db),
