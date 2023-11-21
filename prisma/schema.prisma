@@ -79,7 +79,7 @@ model Employees {
 model Suppliers {
     id           Int         @id @default(autoincrement())
     fantasy_name String
-    cpnj         String
+    cnpj         String
     email        String
     address      String
     phone_number String
