@@ -1,9 +1,9 @@
-import { signUpRouter } from "~/server/api/routers/signUp";
-import { getServerAuthSession } from "~/server/auth";
-import { api } from "~/trpc/server";
+import { BarGraph } from "../_components/Graphs/BarGraph";
 
-export default async function Home() {
+export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between text-white"></main>
+    <main className="flex min-h-screen flex-col items-center justify-between text-white">
+      <BarGraph />
+    </main>
   );
 }
