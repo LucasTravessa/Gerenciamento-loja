@@ -7,7 +7,7 @@ export default async function Supplier() {
 
     return(
         <>
-            <SupplierTable supplie={supplie}/>
+            <SupplierTable supplier={supplie}/>
         </>
     )
 }
