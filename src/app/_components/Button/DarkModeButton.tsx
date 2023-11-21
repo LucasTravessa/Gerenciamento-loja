@@ -1,32 +1,24 @@
 //dropdown
-import {DropdownItem, DropdownTrigger, Dropdown, DropdownMenu, Button} from '@nextui-org/react'
+import { Button } from "@nextui-org/react";
 
 //hook
-import { useTheme } from "next-themes"
+import { useTheme } from "next-themes";
 
 //icons
-import {BsSunFill, BsFillMoonFill} from 'react-icons/bs'
+import { BsSunFill, BsFillMoonFill } from "react-icons/bs";
 
 export default function DarkModeButton() {
-    
-    const { setTheme} = useTheme();
+  const { theme, setTheme } = useTheme();
 
-    return(
-        <Dropdown>
-            <DropdownTrigger>
-                <Button>
-                    <BsSunFill className='text-lg flex dark:hidden'/>
-                    <BsFillMoonFill className='text-lg hidden dark:flex'/>
-                </Button>
-            </DropdownTrigger>
-            <DropdownMenu>
-                <DropdownItem onAction={() => setTheme('light')}>
-                    Light
-                </DropdownItem>
-                <DropdownItem onAction={() => setTheme('dark')}>
-                    Dark
-                </DropdownItem>
-            </DropdownMenu>
-        </Dropdown>
-    )
+  function handleToggle() {
+    if (theme == "light") return setTheme("dark");
+    return setTheme("light");
+  }
+
+  return (
+    <Button onClick={handleToggle}>
+      <BsSunFill className="flex text-lg dark:hidden" />
+      <BsFillMoonFill className="hidden text-lg dark:flex" />
+    </Button>
+  );
 }

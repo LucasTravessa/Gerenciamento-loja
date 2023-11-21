@@ -71,4 +71,13 @@ export const employeesRouter = createTRPCRouter({
         },
       });
     }),
+  delete: publicProcedure
+    .input(
+      z.object({
+        id: z.number(),
+      }),
+    )
+    .mutation(({ ctx, input }) =>
+      ctx.db.employees.delete({ where: { id: input.id } }),
+    ),
 });

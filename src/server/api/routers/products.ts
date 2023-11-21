@@ -25,12 +25,15 @@ export const productsRouter = createTRPCRouter({
     }),
   update: publicProcedure
     .input(
-      z.object({
-        id: z.number(),
-        name: z.string() || null,
-        price: z.number() || null,
-        on_stock: z.number() || null,
-      }),
+      z
+        .object({
+          id: z.number(),
+          name: z.string(),
+          price: z.number(),
+          on_stock: z.number(),
+        })
+        .partial()
+        .required({ id: true }),
     )
     .mutation(({ ctx, input }) => {
       return ctx.db.products.update({

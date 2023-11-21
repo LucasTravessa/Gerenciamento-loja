@@ -28,6 +28,7 @@ import {
   BiSearch,
 } from "react-icons/bi";
 import { useRouter } from "next/navigation";
+import { api } from "~/trpc/react";
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
   active: "success",
@@ -56,6 +57,8 @@ type Props = {
 };
 
 export default function EmployeesTable({ employees }: Props) {
+  const employeeDelete = api.employees.delete.useMutation();
+
   //Criação das linhas
   const renderCell = useCallback((employee: Employees, columnKey: Key) => {
     const cellValue = employee[columnKey as keyof Employees];
@@ -201,6 +204,12 @@ export default function EmployeesTable({ employees }: Props) {
 
   const router = useRouter();
 
+  const handleDelete = useCallback(() => {
+    const ids = Array.from(selectedKeys);
+    ids.map((id) => employeeDelete.mutate({ id: parseInt(id as string) }));
+    setSelectedKeys(new Set([]));
+  }, [selectedKeys]);
+
   const topContent = useMemo(() => {
     return (
       <div className="flex flex-col gap-4">
@@ -215,6 +224,9 @@ export default function EmployeesTable({ employees }: Props) {
             onValueChange={onSearchChange}
           />
           <div className="flex gap-3">
+            <Button variant="flat" onClick={handleDelete}>
+              Delete
+            </Button>
             <Dropdown>
               <DropdownTrigger className="hidden sm:flex">
                 <Button
@@ -239,7 +251,11 @@ export default function EmployeesTable({ employees }: Props) {
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <Button color="primary" onClick={() => router.push("/funcionarios/?modal=true")} endContent={<BiPlus size={12} />}>
+            <Button
+              color="primary"
+              onClick={() => router.push("/funcionarios/?modal=true")}
+              endContent={<BiPlus size={12} />}
+            >
               Novo
             </Button>
           </div>
@@ -270,6 +286,7 @@ export default function EmployeesTable({ employees }: Props) {
     onRowsPerPageChange,
     employees.length,
     hasSearchFilter,
+    selectedKeys,
   ]);
 
   const bottomContent = useMemo(() => {

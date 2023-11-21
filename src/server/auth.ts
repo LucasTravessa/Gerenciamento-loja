@@ -52,7 +52,7 @@ export const authOptions: NextAuthOptions = {
         token.id = user.id;
         token.email = user.email;
       }
-      console.log(token);
+      // console.log(token);
       return token;
     },
     session: ({ session, user, token }) => ({

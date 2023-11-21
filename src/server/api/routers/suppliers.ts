@@ -34,15 +34,18 @@ export const suppliersRouter = createTRPCRouter({
     }),
   update: publicProcedure
     .input(
-      z.object({
-        id: z.number(),
-        fantasy_name: z.string() || null,
-        cnpj: z.string() || null,
-        email: z.string() || null,
-        address: z.string() || null,
-        phone_number: z.string() || null,
-        status: z.string() || null,
-      }),
+      z
+        .object({
+          id: z.number(),
+          fantasy_name: z.string(),
+          cnpj: z.string(),
+          email: z.string(),
+          address: z.string(),
+          phone_number: z.string(),
+          status: z.string(),
+        })
+        .partial()
+        .required({ id: true }),
     )
     .mutation(({ ctx, input }) => {
       return ctx.db.suppliers.update({
