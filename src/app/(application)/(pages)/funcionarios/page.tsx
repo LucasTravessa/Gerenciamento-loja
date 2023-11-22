@@ -1,7 +1,7 @@
 import { api } from "~/trpc/server";
 import EmployeesTable from "./table";
-import { faker } from "@faker-js/faker";
-import EmployeesModal from "~/app/_components/Modals/EmployeesModal";
+import EmployeesForm from "~/app/_components/Form/EmployeesForm/EmployeesForm";
+import ModalGlobal from "~/app/_components/Modals/Modal";
 
 export default async function Employees() {
   const employees = await api.employees.getAll.query();
@@ -9,7 +9,10 @@ export default async function Employees() {
   return (
     <>
       <EmployeesTable employees={employees} />
-      <EmployeesModal />
+      <ModalGlobal>
+          <h1 className="text-2xl font-bold">Adicione um novo funcionario:</h1>
+          <EmployeesForm />
+      </ModalGlobal>
     </>
   );
 }

@@ -15,7 +15,6 @@ import {
     TableColumn,
     TableHeader,
     TableRow,
-    User,
 } from "@nextui-org/react";
 import type { ChipProps, Selection, SortDescriptor } from "@nextui-org/react";  
 import type { Suppliers } from "@prisma/client";

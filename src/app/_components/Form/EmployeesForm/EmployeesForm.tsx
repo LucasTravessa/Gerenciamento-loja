@@ -1,3 +1,5 @@
+'use client';
+
 import { Button, Input } from "@nextui-org/react";
 import { useEmployees } from "./useEmployees";
 import { Select, SelectItem } from "@nextui-org/react";
