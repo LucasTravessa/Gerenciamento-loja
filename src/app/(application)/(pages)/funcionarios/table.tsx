@@ -31,9 +31,9 @@ import { useRouter } from "next/navigation";
 import { api } from "~/trpc/react";
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
-  active: "success",
-  inative: "danger",
-  vacation: "warning",
+  Ativo: "success",
+  Inativo: "danger",
+  Férias: "warning",
 };
 
 const columns = [
@@ -47,9 +47,9 @@ const columns = [
 ];
 
 const statusOptions = [
-  { name: "Ativo", uid: "active" },
-  { name: "Inativo", uid: "inative" },
-  { name: "Férias", uid: "vacation" },
+  { name: "Ativo", uid: "Ativo" },
+  { name: "Inativo", uid: "Inativo" },
+  { name: "Férias", uid: "Férias" },
 ];
 
 type Props = {
