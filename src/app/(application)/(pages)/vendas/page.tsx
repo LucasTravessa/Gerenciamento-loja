@@ -1,16 +1,10 @@
-import { faker } from "@faker-js/faker"
 import SellsTable from "./table"
+import { api } from "~/trpc/server"
 
-const sells = [
-    {
-        id: faker.number.int(),
-        product: faker.commerce.productName(),
-        amount: faker.number.int(),
-        suplier: faker.company.name()
-    }
-] 
+export default async function Vendas() {
 
-export default function Vendas() {
+    const sells = await api.sales.getAll.query();
+
     return(
         <SellsTable sells={sells}/>
     )

@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
-export const suppliersRouter = createTRPCRouter({
+export const salesRouter = createTRPCRouter({
   getAll: publicProcedure.query(({ ctx }) => {
     return ctx.db.sales.findMany();
   }),
@@ -14,6 +14,7 @@ export const suppliersRouter = createTRPCRouter({
         client: z.string(),
         total: z.number(), 
         date: z.date(),
+        employee_id: z.number(),
       }),
     )
     .mutation(({ ctx, input }) => {
@@ -21,7 +22,8 @@ export const suppliersRouter = createTRPCRouter({
         data: {
           client: input.client,
           total: input.total,
-          date: input.date
+          date: input.date,
+          employee_id: input.employee_id, 
           // createdBy: { connect: { id: ctx.session.user.id } },
         },
       });

@@ -9,26 +9,23 @@ import {
     TableRow,
     getKeyValue,
 } from '@nextui-org/react'
+import type { Sales } from "@prisma/client";
 import type { ChipProps, Selection, SortDescriptor } from "@nextui-org/react";
 import { useMemo, useState } from 'react';
 
 type props = {
-    id: number
-    product: string
-    amount: number
-    suplier: string
-}[]
+    sells: Sales[],
+};
 
 const column = [
-    {name: 'ID', uid: 'id', sortable: true},
-    {name: 'Produto', uid: 'product', sortable: true},
-    {name: 'Quantidade', uid: 'amount', sortable: true},
-    {name: 'Fornecedor', uid: 'suplier', sortable: true},
-]
+    {name: 'ID', uid: 'id',},
+    {name: 'CLIENTE', uid: 'client',},
+    {name: 'TOTAL', uid: 'total',},
+    {name: 'DATA', uid: 'data',},
+    {name: 'ID FUNCIONARIO', uid: 'employee_id',},
+];
 
-
-
-export default function SellsTable({sells}: {sells: props}) {
+export default function SellsTable({sells}: props) {
 
     return(
         <div className='w-4/5'>
@@ -44,7 +41,7 @@ export default function SellsTable({sells}: {sells: props}) {
                 </TableHeader>
                 <TableBody emptyContent={'no users found'} items={sells}>
                     {(itens) => (
-                        <TableRow key={itens.product}>
+                        <TableRow key={itens.id}>
                             {(columnKey) => (
                                 <TableCell>{getKeyValue(itens, columnKey)}</TableCell>
                             )}
