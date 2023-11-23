@@ -279,7 +279,6 @@ export default function SupplierTable({supplier}: props) {
         </div>
       </div>
     );
-    // eslint-disable-next-line
   }, [
     filterValue,
     statusFilter,
