@@ -2,7 +2,6 @@
 
 import {
     Button,
-    Chip,
     Dropdown,
     DropdownItem,
     DropdownMenu,
@@ -17,7 +16,7 @@ import {
     TableRow,
 } from "@nextui-org/react";
 import type { Sales } from "@prisma/client";
-import type { ChipProps, Selection, SortDescriptor } from "@nextui-org/react";
+import type { Selection, SortDescriptor } from "@nextui-org/react";
 import { ChangeEvent, Key, useCallback, useMemo, useState } from 'react';
 import { BiDotsVertical, BiPlus, BiSearch } from "react-icons/bi";
 import { useRouter } from "next/navigation";
@@ -31,7 +30,7 @@ const column = [
     {name: 'CLIENTE', uid: 'client',},
     {name: 'TOTAL', uid: 'total',},
     {name: 'DATA', uid: 'data',},
-    {name: 'ID FUNCIONARIO', uid: 'employee_id',},
+    {name: 'FUNCIONARIO', uid: 'employee_id',},
     {name:'AÇÕES', uid:'actions'},
 ];
 
