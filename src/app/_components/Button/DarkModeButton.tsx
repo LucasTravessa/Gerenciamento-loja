@@ -16,7 +16,7 @@ export default function DarkModeButton() {
   }
 
   return (
-    <Button onClick={handleToggle}>
+    <Button isIconOnly onClick={handleToggle}>
       <BsSunFill className="flex text-lg dark:hidden" />
       <BsFillMoonFill className="hidden text-lg dark:flex" />
     </Button>
