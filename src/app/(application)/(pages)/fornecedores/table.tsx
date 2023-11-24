@@ -29,7 +29,7 @@ import { BiChevronDown, BiDotsVertical, BiPlus, BiSearch } from "react-icons/bi"
 
   const column = [
     {name:'ID', uid:'id'},
-    {name:'NOME', uid:'name'},
+    {name:'NOME', uid:'fantasy_name'},
     {name:'CNPJ', uid:'cnpj'},
     {name:'EMAIL', uid:'email'},
     {name:'TELEFONE', uid:'phone_number'},
@@ -50,6 +50,8 @@ import { BiChevronDown, BiDotsVertical, BiPlus, BiSearch } from "react-icons/bi"
   };
 
 export default function SupplierTable({supplier}: props) {
+
+  console.log(supplier)
 
     //Linhas da tabela
     const renderCell = useCallback((supplier: Suppliers, columnKey: Key) => {
@@ -84,7 +86,9 @@ export default function SupplierTable({supplier}: props) {
                         </Dropdown>
                     </div>
                 )
-        }
+                default:
+                 return cellValue;
+        };
     },[]);
   
   //filtro
