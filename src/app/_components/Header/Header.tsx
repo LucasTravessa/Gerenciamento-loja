@@ -57,6 +57,11 @@ const link: linkProps = [
     path: "/estoque",
     name: "Estoque",
   },
+  {
+    id: 5,
+    path: "/compras",
+    name: "Compras",
+  },
 ];
 
 type Props = {
