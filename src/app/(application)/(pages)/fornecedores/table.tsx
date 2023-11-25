@@ -51,8 +51,6 @@ import { BiChevronDown, BiDotsVertical, BiPlus, BiSearch } from "react-icons/bi"
 
 export default function SupplierTable({supplier}: props) {
 
-  console.log(supplier)
-
     //Linhas da tabela
     const renderCell = useCallback((supplier: Suppliers, columnKey: Key) => {
         const cellValue = supplier[columnKey as keyof Suppliers];
