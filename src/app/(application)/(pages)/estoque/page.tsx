@@ -1,13 +1,12 @@
 import { api } from "~/trpc/server";
 import ProductsTable from "./table";
 
-export default function Products() {
+export default async function Products() {
+  const products = await api.products.getAll.query();
 
-    const products = api.products.getAll.query();
-
-    return(
-        <>
-            <ProductsTable products={products}/>
-        </>
-    )
+  return (
+    <>
+      <ProductsTable products={products} />
+    </>
+  );
 }
