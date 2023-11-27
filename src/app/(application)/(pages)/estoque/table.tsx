@@ -203,7 +203,7 @@ export default function ProductsTable({products}: props) {
                 onValueChange={onSearchChange}
             />
             <div className="flex gap-3">
-                <Button color="primary" onClick={() => router.push("/fornecedores/?modal=true")} endContent={<BiPlus size={12} />}>
+                <Button color="primary" onClick={() => router.push("/estoque/?modal=true")} endContent={<BiPlus size={12} />}>
                 Novo
                 </Button>
             </div>
@@ -260,7 +260,7 @@ export default function ProductsTable({products}: props) {
                         </TableColumn>
                     )}
                 </TableHeader>
-                <TableBody emptyContent='não foi cadastrado nenhum fornecedor' items={sortedItems}>
+                <TableBody emptyContent='não foi cadastrado nenhum produto' items={sortedItems}>
                     {(items) => (
                         <TableRow key={items.id}>
                             {(columnKey) => (
