@@ -1,12 +1,19 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
+const purchaceDetailSchema = z.object({
+  products_id: z.number(),
+  products_amount: z.number(),
+  price: z.number(),
+});
+
 const purchaseSchema = z.object({
   id: z.number(),
   supplier_id: z.number(),
   total: z.number(),
   date: z.date(),
   status: z.string(),
+  purchace_details: z.array(purchaceDetailSchema),
 });
 
 export const purchasesRouter = createTRPCRouter({
@@ -25,6 +32,7 @@ export const purchasesRouter = createTRPCRouter({
           total: input.total,
           date: input.date,
           status: input.status,
+          purchace_details: input.purchace_details,
         },
       });
     }),
@@ -38,6 +46,7 @@ export const purchasesRouter = createTRPCRouter({
           total: input.total,
           date: input.date,
           status: input.status,
+          purchace_details: input.purchace_details,
         },
       });
     }),

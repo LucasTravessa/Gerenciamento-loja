@@ -28,6 +28,7 @@ export const useEmployees = () => {
   function handleCreation(data: schemaProps) {
     addEmployee.mutate({ ...data, salary: parseInt(data.salary) });
     router.push("/funcionarios");
+    router.refresh();
   }
 
   return {

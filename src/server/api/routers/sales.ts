@@ -32,7 +32,7 @@ export const salesRouter = createTRPCRouter({
           total: input.total,
           date: input.date,
           employee_id: input.employee_id,
-          sales_details: input.sales_details,
+          sale_details: input.sales_details,
         },
       });
     }),
@@ -46,7 +46,7 @@ export const salesRouter = createTRPCRouter({
           total: input.total,
           date: input.date,
           employee_id: input.employee_id,
-          // createdBy: { connect: { id: ctx.session.user.id } },
+          sale_details: input.sales_details,
         },
       });
     }),
