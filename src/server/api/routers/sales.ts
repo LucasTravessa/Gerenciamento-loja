@@ -2,7 +2,6 @@ import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
 const salesDetailSchema = z.object({
-  id: z.number(),
   products_id: z.number(),
   products_amount: z.number(),
   price: z.number(),
