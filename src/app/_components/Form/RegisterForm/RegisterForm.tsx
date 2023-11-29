@@ -3,24 +3,38 @@
 import { Button, Input } from "@nextui-org/react";
 import { useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { useRegister } from "./useRegister";
 
 export default function RegisterForm() {
 
-    const [show, setShow] = useState(false)
+    const [show, setShow] = useState(true)
+    const {register, handleSubmit, handleRegister, errors} = useRegister()
 
 
     return(
-        <form className="flex flex-col gap-6">
+        <form 
+            className="flex flex-col gap-6"
+            onSubmit={handleSubmit(handleRegister)}
+        >
             <Input
                 label='Username'
                 type="text"
+                {...register("username")}
+                color={`${errors.username ? 'danger' : 'default'}`}
+                errorMessage={errors.username && errors.username.message}
             />
             <Input
                 label='Email'
                 type="email"
+                {...register("email")}
+                color={`${errors.email ? 'danger' : 'default'}`}
+                errorMessage={errors.email && errors.email.message}
             />
             <Input
                 label='Password'
+                {...register("password")}
+                color={`${errors.password ? 'danger' : 'default'}`}
+                errorMessage={errors.password && errors.password.message}
                 endContent={
                     <button
                       className="focus:outline-none"
@@ -38,6 +52,9 @@ export default function RegisterForm() {
             />
             <Input
                 label='Confirm Password'
+                {...register("confirmPassword")}
+                color={`${errors.confirmPassword ? 'danger' : 'default'}`}
+                errorMessage={errors.confirmPassword && errors.confirmPassword.message}
                 endContent={
                     <button
                       className="focus:outline-none"
@@ -53,7 +70,7 @@ export default function RegisterForm() {
                   }
                   type={show ? "password" : "text"}
             />
-            <Button radius="full" size="md" color="primary">
+            <Button radius="full" size="md" color="primary" type="submit">
                 Register
             </Button>
         </form>
