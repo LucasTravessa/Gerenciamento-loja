@@ -19,7 +19,7 @@ export const useProduct = () => {
     });
 
     function handleCreation(data: schemaProps) {
-        console.log({...data, price: parseInt(data.price), onstock: parseInt(data.on_stock)})
+        console.log({...data, price: parseInt(data.price), on_stock: parseInt(data.on_stock)})
     }
 
     return {

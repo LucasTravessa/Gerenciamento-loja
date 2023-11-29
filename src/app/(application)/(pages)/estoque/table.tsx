@@ -29,8 +29,8 @@ type props = {
 const column = [
     {name:'ID', uid:'id'},
     {name:'NOME', uid:'name'},
-    {name:'CNPJ', uid:'price'},
-    {name:'EMAIL', uid:'on_stock'},
+    {name:'PREÇO', uid:'price'},
+    {name:'QUANTIDADE', uid:'on_stock'},
     {name:'AÇÕES', uid:'actions'},
   ];
 

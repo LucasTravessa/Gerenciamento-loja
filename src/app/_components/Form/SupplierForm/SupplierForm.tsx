@@ -14,7 +14,7 @@ export default function SupplierForm() {
         >
             <div className="flex gap-2">
                 <Input
-                    label='Nome do Cliente'
+                    label='Nome Fantasia'
                     type="text"
                     {...register("fantasy_name")}
                     color={`${errors.fantasy_name ? "danger" : "default"}`}

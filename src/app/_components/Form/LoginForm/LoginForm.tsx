@@ -49,9 +49,6 @@ export default function LoginForm() {
         <Button radius="full" size="md" color="primary">
           Login
         </Button>
-        <Button radius="full" size="md" color="primary">
-          Register
-        </Button>
       </form>
     </>
   );
