@@ -29,7 +29,7 @@ import { BiChevronDown, BiDotsVertical, BiPlus, BiSearch } from "react-icons/bi"
 
   const column = [
     {name:'ID', uid:'id'},
-    {name:'NOME', uid:'name'},
+    {name:'NOME', uid:'fantasy_name'},
     {name:'CNPJ', uid:'cnpj'},
     {name:'EMAIL', uid:'email'},
     {name:'TELEFONE', uid:'phone_number'},
@@ -38,15 +38,15 @@ import { BiChevronDown, BiDotsVertical, BiPlus, BiSearch } from "react-icons/bi"
   ];
 
   const statusOptions = [
-    { name: "Ativo", uid: "active" },
-    { name: "Inativo", uid: "inative" },
-    { name: "Férias", uid: "vacation" },
+    { name: "Ativo", uid: "Ativo" },
+    { name: "Inativo", uid: "Inativo" },
+    { name: "Férias", uid: "Férias" },
   ];
 
   const statusColorMap: Record<string, ChipProps["color"]> = {
-    active: "success",
-    inative: "danger",
-    vacation: "warning",
+    Ativo: "success",
+    Inativo: "danger",
+    Férias: "warning",
   };
 
 export default function SupplierTable({supplier}: props) {
@@ -62,6 +62,7 @@ export default function SupplierTable({supplier}: props) {
                         className="capitalize"
                         size="sm"
                         color={statusColorMap[supplier.status]}
+                        variant="flat"
                     >
                         {cellValue}
                     </Chip>
@@ -83,7 +84,9 @@ export default function SupplierTable({supplier}: props) {
                         </Dropdown>
                     </div>
                 )
-        }
+                default:
+                 return cellValue;
+        };
     },[]);
   
   //filtro

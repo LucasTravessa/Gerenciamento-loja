@@ -57,6 +57,11 @@ const link: linkProps = [
     path: "/estoque",
     name: "Estoque",
   },
+  {
+    id: 5,
+    path: "/compras",
+    name: "Compras",
+  },
 ];
 
 type Props = {
@@ -106,6 +111,12 @@ export default function Header({ session }: Props) {
         </NavbarContent>
       ) : (
         <NavbarContent as="div" justify="end">
+          <Button
+            className=""
+            onClick={() => router.push("/?signup=true")}
+          >
+            Registro
+          </Button>
           <Button
             className=""
             onClick={() => router.push("/?login=true")}

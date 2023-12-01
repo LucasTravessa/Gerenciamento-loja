@@ -61,6 +61,7 @@ export default function EmployeesForm() {
           label="Salario"
           startContent="R$"
           type="number"
+          step="0.01"
           {...register("salary")}
           color={`${errors.salary ? "danger" : "default"}`}
           errorMessage={errors.salary && `${errors.salary.message}`}
