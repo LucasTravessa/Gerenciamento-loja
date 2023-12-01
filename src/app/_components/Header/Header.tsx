@@ -113,7 +113,7 @@ export default function Header({ session }: Props) {
         <NavbarContent as="div" justify="end">
           <Button
             className=""
-            onClick={() => router.push("/?modal=true")}
+            onClick={() => router.push("/?signup=true")}
           >
             Registro
           </Button>

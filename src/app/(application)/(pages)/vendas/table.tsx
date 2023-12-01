@@ -196,7 +196,7 @@ export default function SellsTable({sells}: props) {
                 onValueChange={onSearchChange}
               />
               <div className="flex gap-3">
-                <Button color="primary" onClick={() => router.push("/fornecedores/?modal=true")} endContent={<BiPlus size={12} />}>
+                <Button color="primary" onClick={() => router.push("/vendas/?modal=true")} endContent={<BiPlus size={12} />}>
                   Novo
                 </Button>
               </div>

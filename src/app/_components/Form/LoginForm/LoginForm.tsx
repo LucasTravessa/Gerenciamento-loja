@@ -9,13 +9,16 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { useLogin } from "./useLogin";
 
 export default function LoginForm() {
-  const { register, errors, isSubmitting } = useLogin();
+  const { register, handleSubmit, handleForm, errors, isSubmitting } = useLogin();
 
   const [show, setShow] = useState(true);
 
   return (
     <>
-      <form className="flex flex-col gap-6">
+      <form 
+        className="flex flex-col gap-6"
+        onSubmit={handleSubmit(handleForm)}
+      >
         <Input
           type="email"
           label="Email"
@@ -46,7 +49,7 @@ export default function LoginForm() {
           }
           type={show ? "password" : "text"}
         />
-        <Button radius="full" size="md" color="primary">
+        <Button radius="full" size="md" color="primary" type="submit">
           Login
         </Button>
       </form>

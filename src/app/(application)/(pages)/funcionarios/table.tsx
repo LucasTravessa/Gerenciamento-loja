@@ -253,7 +253,7 @@ export default function EmployeesTable({ employees }: Props) {
             </Dropdown>
             <Button
               color="primary"
-              onClick={() => router.push("/funcionarios/?modal=true")}
+              onClick={() => router.push("/funcionarios?modal=true")}
               endContent={<BiPlus size={12} />}
             >
               Novo
