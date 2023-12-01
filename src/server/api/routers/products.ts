@@ -13,6 +13,7 @@ export const productsRouter = createTRPCRouter({
       z.object({
         name: z.string(),
         price: z.number(),
+        on_stock: z.number(),
       }),
     )
     .mutation(({ ctx, input }) => {
@@ -20,6 +21,7 @@ export const productsRouter = createTRPCRouter({
         data: {
           name: input.name,
           price: input.price,
+          on_stock: input.on_stock,
         },
       });
     }),
