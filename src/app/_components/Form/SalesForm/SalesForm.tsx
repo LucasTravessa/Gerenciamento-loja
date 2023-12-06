@@ -3,11 +3,15 @@ import { Button, Input, Select, SelectItem } from "@nextui-org/react";
 import { useSales } from "./useSales";
 import { api } from "~/trpc/react";
 import { BiPlus, BiSolidPlusCircle } from "react-icons/bi";
+import { useState } from "react";
 
 export default function SalesForm() {
   const employees = api.employees.getAll.useQuery();
   const products = api.products.getAll.useQuery();
-  const { register, handleSubmit, handleCreation, errors } = useSales();
+  const { register, watch, handleSubmit, handleCreation, errors } = useSales();
+  const [productPrice, setProductPrice] = useState(0);
+
+  console.log(watch("total"));
 
   return (
     <form
@@ -56,6 +60,7 @@ export default function SalesForm() {
       <div className="flex w-full items-center gap-4">
         <Select
           label="Selecione o produto"
+          onChange={(e) => setProductPrice(Number(e.target.value))}
           // {...register("employee_id")}
           // color={`${errors.employee_id ? "danger" : "default"}`}
         >
@@ -71,13 +76,7 @@ export default function SalesForm() {
             </SelectItem>
           )}
         </Select>
-        <Input
-          label="Quantidade"
-          inputMode="decimal"
-          // {...register("total")}
-          // color={`${errors.total ? "danger" : "default"}`}
-          // errorMessage={errors.total && `${errors.total.message}`}
-        />
+        <Input label="Quantidade" inputMode="decimal" />
         <Input label="Valor" inputMode="decimal" value="R$10" />
         <BiSolidPlusCircle fill="cyan" size="80px" />
       </div>

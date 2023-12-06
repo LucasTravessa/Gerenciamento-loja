@@ -9,6 +9,7 @@ export const useSales = () => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm({
     mode: "onBlur",
@@ -47,6 +48,7 @@ export const useSales = () => {
 
   return {
     register,
+    watch,
     handleSubmit,
     handleCreation,
     errors,
