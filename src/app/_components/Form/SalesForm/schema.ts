@@ -1,17 +1,17 @@
 import { z } from "zod";
 
-export const schema = z.object({
-    name: z.string().min(4, 'O nome precisa ter pelo menos 4 caracteres'),
-    price: z.string()
-    .min(1, 'O preço precisa ter pelo menos 1 caracteres')
-    .refine((data) => !/[a-z A-Z]+/.test(data),
-    {message: 'preço inválido'}
-    ),
-    on_stock: z.string()
-    .min(1, 'O quantidade precisa ter pelo menos 1 caracteres')
-    .refine((data) => !/[a-z A-Z]+/.test(data),
-    {message: 'quantidade inválido'}
-    ),
+const salesDetailSchema = z.object({
+  products_id: z.string(),
+  products_amount: z.string(),
+  price: z.string(),
 });
 
-export type schemaProps = z.infer<typeof schema>
+export const schema = z.object({
+  client: z.string().min(4, "O nome precisa ter pelo menos 4 caracteres"),
+  total: z.string(),
+  date: z.string(),
+  employee_id: z.string(),
+  sales_details: z.array(salesDetailSchema),
+});
+
+export type schemaProps = z.infer<typeof schema>;

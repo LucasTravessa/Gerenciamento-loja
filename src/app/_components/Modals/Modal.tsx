@@ -9,25 +9,30 @@ import {
 } from "@nextui-org/react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-export default function ModalGlobal({children}: {children: React.ReactNode}) {
+export default function ModalGlobal({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const atualPath = usePathname();
 
-    const searchParams = useSearchParams();
-    const router = useRouter();
-    const atualPath = usePathname();
+  const open = searchParams.get("modal") === "true";
 
-    const open = searchParams.get("modal") === "true";
+  const close = () => router.push(`${atualPath}`);
 
-    const close = () => router.push(`${atualPath}`);
-
-    return(
-        <Modal isOpen={open} onClose={close}>
-            <ModalContent>
-                <ModalHeader></ModalHeader>
-                <ModalBody>
-                    {children}
-                </ModalBody>
-                <ModalFooter></ModalFooter>
-            </ModalContent>
-        </Modal>
-    )
+  return (
+    <Modal
+      isOpen={open}
+      onClose={close}
+      className="max-w-[70%] overflow-y-auto overflow-x-hidden outline-none focus:outline-none"
+    >
+      <ModalContent>
+        <ModalHeader></ModalHeader>
+        <ModalBody>{children}</ModalBody>
+        <ModalFooter></ModalFooter>
+      </ModalContent>
+    </Modal>
+  );
 }
