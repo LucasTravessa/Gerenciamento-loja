@@ -29,7 +29,7 @@ const column = [
   { name: "ID", uid: "id" },
   { name: "CLIENTE", uid: "client" },
   { name: "TOTAL", uid: "total" },
-  { name: "DATA", uid: "data" },
+  { name: "DATA", uid: "date" },
   { name: "FUNCIONARIO", uid: "employee_id" },
   { name: "AÇÕES", uid: "actions" },
 ];
@@ -39,6 +39,25 @@ export default function SellsTable({ sells }: props) {
     const cellValue = sells[columnKey as keyof Sales];
 
     switch (columnKey) {
+      case "id":
+        return <p className="text-bold text-small capitalize">{cellValue}</p>;
+      case "client":
+        return <p className="text-bold text-small capitalize">{cellValue}</p>;
+      case "total":
+        return <p className="text-bold text-small capitalize">{cellValue}</p>;
+      case "date":
+        return (
+          <p className="text-bold text-small capitalize">
+            {cellValue.toLocaleString("pt-BR", {
+              day: "numeric",
+              month: "long",
+              year: "numeric",
+            })}
+          </p>
+        );
+      case "employee_id":
+        return <p className="text-bold text-small capitalize">{cellValue}</p>;
+
       case "actions":
         return (
           <div className="relative flex items-center justify-center gap-2">

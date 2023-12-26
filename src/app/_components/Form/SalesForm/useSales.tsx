@@ -1,15 +1,15 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import { schema, type schemaProps } from "./schema";
 import { api } from "~/trpc/react";
 import { useRouter } from "next/navigation";
-import { date } from "zod";
 
 export const useSales = () => {
   const {
     register,
     handleSubmit,
     watch,
+    control,
     formState: { errors, isSubmitting },
   } = useForm({
     mode: "onBlur",
@@ -23,25 +23,22 @@ export const useSales = () => {
       sales_details: [],
     },
   });
+  const { fields, append, remove } = useFieldArray({
+    control, // control props comes from useForm (optional: if you are using FormContext)
+    name: "sales_details", // unique name for your Field Array
+  });
   const createSale = api.sales.create.useMutation();
   const router = useRouter();
 
   function handleCreation(data: schemaProps) {
-    const correctData = {
-      ...data,
-      date: new Date(data.date),
-      employee_id: Number(data.employee_id),
-      total: Number(data.total),
-      sales_details: data.sales_details.map((s) => ({
-        ...s,
-        products_id: Number(s.products_id),
-        quantity: Number(s.products_amount),
-        price: Number(s.price),
-      })),
-    };
-    console.log(correctData);
+    let total = 0;
+    data.sales_details.map((field) => {
+      total += field.price * field.products_amount;
+    });
+    data.total = total;
+    console.log(data);
 
-    // createSale.mutate({ ...data });
+    createSale.mutate(data);
     router.push("/vendas");
     router.refresh();
   }
@@ -52,5 +49,8 @@ export const useSales = () => {
     handleSubmit,
     handleCreation,
     errors,
+    fields,
+    append,
+    remove,
   };
 };
