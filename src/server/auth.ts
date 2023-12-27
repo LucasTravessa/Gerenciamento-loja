@@ -12,12 +12,7 @@ import { env } from "~/env.mjs";
 import { db } from "~/server/db";
 import { verify } from "argon2";
 import Credentials from "next-auth/providers/credentials";
-import { z } from "zod";
-
-const loginSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(4).max(12),
-});
+import { schema } from "~/app/_components/Form/LoginForm/schema";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -83,8 +78,7 @@ export const authOptions: NextAuthOptions = {
       clientSecret: env.GITHUB_CLIENT_SECRET,
     }),
     Credentials({
-      id: "domain-login",
-      name: "Domain Account",
+      name: "credentials",
       credentials: {
         email: {
           label: "Email",
@@ -93,8 +87,8 @@ export const authOptions: NextAuthOptions = {
         },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials, request) {
-        const creds = await loginSchema.parseAsync(credentials);
+      async authorize(credentials) {
+        const creds = await schema.parseAsync(credentials);
 
         const user = await db.user.findFirst({
           where: { email: creds.email },
@@ -118,22 +112,10 @@ export const authOptions: NextAuthOptions = {
         };
       },
     }),
-
-    /**
-     * ...add more providers here.
-     *
-     * Most other providers require a bit more work than the Discord provider. For example, the
-     * GitHub provider requires you to add the `refresh_token_expires_in` field to the Account
-     * model. Refer to the NextAuth.js docs for the provider you want to use. Example:
-     *
-     * @see https://next-auth.js.org/providers/github
-     */
   ],
+  pages: {
+    signIn: "/?login=true",
+  },
 };
 
-/**
- * Wrapper for `getServerSession` so that you don't need to import the `authOptions` in every file.
- *
- * @see https://next-auth.js.org/configuration/nextjs
- */
 export const getServerAuthSession = () => getServerSession(authOptions);
