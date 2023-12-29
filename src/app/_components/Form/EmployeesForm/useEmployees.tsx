@@ -13,14 +13,6 @@ export const useEmployees = () => {
     mode: "onBlur",
     criteriaMode: "all",
     resolver: zodResolver(schema),
-    defaultValues: {
-      name: "",
-      email: "",
-      role: "",
-      phone_number: "",
-      salary: "",
-      address: "",
-    },
   });
   const addEmployee = api.employees.create.useMutation();
   const router = useRouter();

@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { schema, schemaProps } from "./schema";
+import { schema, type schemaProps } from "./schema";
 import { signIn } from "next-auth/react";
 
 export const useLogin = () => {
@@ -13,10 +13,6 @@ export const useLogin = () => {
     mode: "onBlur",
     criteriaMode: "all",
     resolver: zodResolver(schema),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
   });
 
   async function handleForm(data: schemaProps) {

@@ -2,24 +2,17 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { api } from "~/trpc/react";
-import { schema, schemaProps } from "./schema";
+import { schema, type schemaProps } from "./schema";
 
 export const useSupplier = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<schemaProps>({
     mode: "onBlur",
     criteriaMode: "all",
     resolver: zodResolver(schema),
-    defaultValues: {
-      fantasy_name: "",
-      cnpj: "",
-      email: "",
-      address: "",
-      phone_number: "",
-    },
   });
 
   const addSupplier = api.suppliers.create.useMutation();

@@ -10,18 +10,11 @@ export const useSales = () => {
     handleSubmit,
     watch,
     control,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm({
     mode: "onBlur",
     criteriaMode: "all",
     resolver: zodResolver(schema),
-    defaultValues: {
-      client: "",
-      total: "",
-      date: "",
-      employee_id: "",
-      sales_details: [],
-    },
   });
   const { fields, append, remove } = useFieldArray({
     control, // control props comes from useForm (optional: if you are using FormContext)

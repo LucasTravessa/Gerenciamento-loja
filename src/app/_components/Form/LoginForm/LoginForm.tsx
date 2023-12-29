@@ -3,14 +3,13 @@ import { Button, Input } from "@nextui-org/react";
 
 //hooks
 import { useState } from "react";
+import { useLogin } from "./useLogin";
 
 //icons
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { useLogin } from "./useLogin";
 
 export default function LoginForm() {
   const { register, handleSubmit, handleForm, errors } = useLogin();
-
   const [show, setShow] = useState(true);
 
   return (
