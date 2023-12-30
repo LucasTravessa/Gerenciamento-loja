@@ -5,6 +5,9 @@ import { api } from "~/trpc/react";
 import { useRouter } from "next/navigation";
 
 export const useProduct = () => {
+  const router = useRouter();
+  const createProduct = api.products.create.useMutation();
+
   const {
     register,
     handleSubmit,
@@ -14,15 +17,9 @@ export const useProduct = () => {
     criteriaMode: "all",
     resolver: zodResolver(schema),
   });
-  const createProduct = api.products.create.useMutation();
-  const router = useRouter();
 
   function handleCreation(data: schemaProps) {
-    createProduct.mutate({
-      ...data,
-      price: parseInt(data.price),
-      on_stock: parseInt(data.on_stock),
-    });
+    createProduct.mutate(data);
     router.push("/estoque");
     router.refresh();
   }

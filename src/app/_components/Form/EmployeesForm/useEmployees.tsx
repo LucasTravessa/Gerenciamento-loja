@@ -5,6 +5,9 @@ import { api } from "~/trpc/react";
 import { useRouter } from "next/navigation";
 
 export const useEmployees = () => {
+  const router = useRouter();
+  const addEmployee = api.employees.create.useMutation();
+
   const {
     register,
     handleSubmit,
@@ -14,11 +17,9 @@ export const useEmployees = () => {
     criteriaMode: "all",
     resolver: zodResolver(schema),
   });
-  const addEmployee = api.employees.create.useMutation();
-  const router = useRouter();
 
   function handleCreation(data: schemaProps) {
-    addEmployee.mutate({ ...data, salary: parseInt(data.salary) });
+    addEmployee.mutate(data);
     router.push("/funcionarios");
     router.refresh();
   }

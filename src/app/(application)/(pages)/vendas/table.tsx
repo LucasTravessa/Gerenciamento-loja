@@ -17,7 +17,13 @@ import {
 } from "@nextui-org/react";
 import type { Sales } from "@prisma/client";
 import type { Selection, SortDescriptor } from "@nextui-org/react";
-import { ChangeEvent, Key, useCallback, useMemo, useState } from "react";
+import {
+  type ChangeEvent,
+  type Key,
+  useCallback,
+  useMemo,
+  useState,
+} from "react";
 import { BiDotsVertical, BiPlus, BiSearch } from "react-icons/bi";
 import { useRouter } from "next/navigation";
 
@@ -40,23 +46,39 @@ export default function SellsTable({ sells }: props) {
 
     switch (columnKey) {
       case "id":
-        return <p className="text-bold text-small capitalize">{cellValue}</p>;
+        return (
+          <p className="text-bold text-small capitalize">
+            {cellValue.toString()}
+          </p>
+        );
       case "client":
-        return <p className="text-bold text-small capitalize">{cellValue}</p>;
+        return (
+          <p className="text-bold text-small capitalize">
+            {cellValue.toString()}
+          </p>
+        );
       case "total":
-        return <p className="text-bold text-small capitalize">{cellValue}</p>;
+        return (
+          <p className="text-bold text-small capitalize">
+            {cellValue.toString()}
+          </p>
+        );
       case "date":
         return (
           <p className="text-bold text-small capitalize">
             {cellValue.toLocaleString("pt-BR", {
               day: "numeric",
-              month: "long",
+              month: "numeric",
               year: "numeric",
             })}
           </p>
         );
       case "employee_id":
-        return <p className="text-bold text-small capitalize">{cellValue}</p>;
+        return (
+          <p className="text-bold text-small capitalize">
+            {cellValue.toString()}
+          </p>
+        );
 
       case "actions":
         return (
