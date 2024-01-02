@@ -21,7 +21,7 @@ export default function SalesForm() {
   function handleTotal() {
     let total = 0;
     const products = watch("sales_details");
-    products.map((field) => {
+    products?.map((field) => {
       total += field.price * field.products_amount;
     });
     const string = String(total.toFixed(2));
