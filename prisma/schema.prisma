@@ -96,7 +96,6 @@ model Products {
 
 model Purchases {
     id               Int       @id @default(autoincrement())
-    product_name     String
     supplier         Suppliers @relation(fields: [supplier_id], references: [id])
     supplier_id      Int       @unique
     total            Float

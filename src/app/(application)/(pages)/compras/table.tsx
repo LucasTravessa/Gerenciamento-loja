@@ -40,7 +40,6 @@ type props = {
 
 const column = [
   { name: "ID", uid: "id" },
-  { name: "PRODUTO", uid: "product" },
   { name: "ID FORNECEDOR", uid: "supplier_id" },
   { name: "TOTAL", uid: "total" },
   { name: "DATA", uid: "data" },
@@ -69,12 +68,6 @@ export default function PurchasesTable({ purchases }: props) {
 
     switch (columnKey) {
       case "id":
-        return (
-          <p className="text-bold text-small capitalize">
-            {cellValue.toString()}
-          </p>
-        );
-      case "product_name":
         return (
           <p className="text-bold text-small capitalize">
             {cellValue.toString()}
@@ -141,12 +134,6 @@ export default function PurchasesTable({ purchases }: props) {
   const filteredItems = useMemo(() => {
     let filteredPurchases = [...purchases];
 
-    if (hasSearchFilter) {
-      filteredPurchases = filteredPurchases.filter(
-        (user) =>
-          user.product_name.toLowerCase().includes(filterValue.toLowerCase()), // eslint-disable-line
-      );
-    }
     if (
       statusFilter !== "all" &&
       Array.from(statusFilter).length !== statusOptions.length
@@ -305,7 +292,7 @@ export default function PurchasesTable({ purchases }: props) {
             </Dropdown>
             <Button
               color="primary"
-              onClick={() => router.push("/funcionarios?modal=true")}
+              onClick={() => router.push("/compras?modal=true")}
               endContent={<BiPlus size={12} />}
             >
               Novo
@@ -342,37 +329,41 @@ export default function PurchasesTable({ purchases }: props) {
   ]);
 
   return (
-    <Table
-      aria-label="Tabela de vendas"
-      isHeaderSticky
-      bottomContent={bottomContent}
-      bottomContentPlacement="outside"
-      selectionMode="multiple"
-      selectedKeys={selectedKeys}
-      onSelectionChange={setSelectedKeys}
-      topContent={topContent}
-      topContentPlacement="outside"
-      sortDescriptor={sortDescriptor}
-      onSortChange={setSortDescriptor}
-      classNames={{
-        wrapper: "max-h-[382px]",
-      }}
-    >
-      <TableHeader columns={column}>
-        {(column) => <TableColumn key={column.uid}>{column.name}</TableColumn>}
-      </TableHeader>
-      <TableBody
-        emptyContent="não foi cadastrado nenhum fornecedor"
-        items={sortedItems}
+    <div className="w-4/5">
+      <Table
+        aria-label="Tabela de vendas"
+        isHeaderSticky
+        bottomContent={bottomContent}
+        bottomContentPlacement="outside"
+        selectionMode="multiple"
+        selectedKeys={selectedKeys}
+        onSelectionChange={setSelectedKeys}
+        topContent={topContent}
+        topContentPlacement="outside"
+        sortDescriptor={sortDescriptor}
+        onSortChange={setSortDescriptor}
+        classNames={{
+          wrapper: "max-h-[382px]",
+        }}
       >
-        {(items) => (
-          <TableRow key={items.id}>
-            {(columnKey) => (
-              <TableCell>{renderCell(items, columnKey)}</TableCell>
-            )}
-          </TableRow>
-        )}
-      </TableBody>
-    </Table>
+        <TableHeader columns={column}>
+          {(column) => (
+            <TableColumn key={column.uid}>{column.name}</TableColumn>
+          )}
+        </TableHeader>
+        <TableBody
+          emptyContent="não foi cadastrado nenhuma compra"
+          items={sortedItems}
+        >
+          {(items) => (
+            <TableRow key={items.id}>
+              {(columnKey) => (
+                <TableCell>{renderCell(items, columnKey)}</TableCell>
+              )}
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+    </div>
   );
 }
