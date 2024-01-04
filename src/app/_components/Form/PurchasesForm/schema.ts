@@ -1,5 +1,11 @@
 import { z } from "zod";
 
+const purchasesDetailsSchema = z.object({
+  products_id: z.coerce.number(),
+  products_amount: z.coerce.number(),
+  price: z.coerce.number(),
+});
+
 enum statusProps {
   entrege = "Entrege",
   atrasada = "Atrasada",
@@ -8,8 +14,10 @@ enum statusProps {
 }
 
 export const schema = z.object({
-  product_name: z.string().min(4, "O nome precisa ter pelo menos 4 caracteres"),
+  supplier_id: z.coerce.number(),
   date: z.coerce.date(),
+  total: z.coerce.number(),
+  purchases_details: z.array(purchasesDetailsSchema),
   status: z.enum([
     statusProps.entrege,
     statusProps.atrasada,

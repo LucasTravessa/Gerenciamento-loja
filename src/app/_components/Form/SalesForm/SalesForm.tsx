@@ -131,7 +131,7 @@ export default function SalesForm() {
               <BiSolidPlusCircle
                 fill="red"
                 size="80px"
-                className="&hover: cursor-pointer"
+                className="hover: cursor-pointer"
                 onClick={() => {
                   remove(index);
                 }}
