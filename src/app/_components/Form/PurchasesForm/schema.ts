@@ -17,7 +17,7 @@ export const schema = z.object({
   supplier_id: z.coerce.number(),
   date: z.coerce.date(),
   total: z.coerce.number(),
-  purchases_details: z.array(purchasesDetailsSchema),
+  purchace_details: z.array(purchasesDetailsSchema),
   status: z.enum([
     statusProps.entrege,
     statusProps.atrasada,

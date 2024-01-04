@@ -23,8 +23,8 @@ export default function PurchasesForm() {
 
   useEffect(() => {
     let total = 0;
-    const amount = watch(`purchases_details.${0}.products_amount`);
-    const price = watch(`purchases_details.${0}.price`);
+    const amount = watch(`purchace_details.${0}.products_amount`);
+    const price = watch(`purchace_details.${0}.price`);
     total += amount * price;
 
     setValue("total", total);
@@ -100,7 +100,7 @@ export default function PurchasesForm() {
               <Input
                 label="Quantidade"
                 inputMode="decimal"
-                {...register(`purchases_details.${index}.products_amount`)}
+                {...register(`purchace_details.${index}.products_amount`)}
               />
               <Input
                 label="Valor"
@@ -110,7 +110,7 @@ export default function PurchasesForm() {
                   </div>
                 }
                 type="number"
-                {...register(`purchases_details.${index}.price`)}
+                {...register(`purchace_details.${index}.price`)}
               />
               <BiSolidPlusCircle
                 fill="red"

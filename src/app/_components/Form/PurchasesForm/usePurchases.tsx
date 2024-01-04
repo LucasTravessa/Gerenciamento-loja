@@ -1,8 +1,13 @@
 import { useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { schema, type schemaProps } from "./schema";
+import { api } from "~/trpc/react";
+import { useRouter } from "next/navigation";
 
 export const usePurchases = () => {
+  const createPurchases = api.purchases.create.useMutation();
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -17,12 +22,14 @@ export const usePurchases = () => {
   });
 
   const { fields, append, remove } = useFieldArray({
-    control, // control props comes from useForm (optional: if you are using FormContext)
-    name: "purchases_details", // unique name for your Field Array
+    control,
+    name: "purchace_details",
   });
 
   function handleCreation(data: schemaProps) {
-    console.log(data);
+    createPurchases.mutate(data);
+    router.push("/user/compras");
+    router.refresh();
   }
 
   return {
