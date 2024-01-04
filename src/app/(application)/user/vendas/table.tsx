@@ -238,7 +238,7 @@ export default function SellsTable({ sells }: props) {
           <div className="flex gap-3">
             <Button
               color="primary"
-              onClick={() => router.push("/vendas/?modal=true")}
+              onClick={() => router.push("/user/vendas/?modal=true")}
               endContent={<BiPlus size={12} />}
             >
               Novo

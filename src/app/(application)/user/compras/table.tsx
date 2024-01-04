@@ -292,7 +292,7 @@ export default function PurchasesTable({ purchases }: props) {
             </Dropdown>
             <Button
               color="primary"
-              onClick={() => router.push("/compras?modal=true")}
+              onClick={() => router.push("/user/compras?modal=true")}
               endContent={<BiPlus size={12} />}
             >
               Novo

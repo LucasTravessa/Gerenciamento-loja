@@ -1,94 +1,98 @@
-'use client';
+"use client";
 
 import {
-    Button,
-    Chip,
-    Dropdown,
-    DropdownItem,
-    DropdownMenu,
-    DropdownTrigger,
-    Input,
-    Pagination,
-    Table,
-    TableBody,
-    TableCell,
-    TableColumn,
-    TableHeader,
-    TableRow,
+  Button,
+  Chip,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+  Input,
+  Pagination,
+  Table,
+  TableBody,
+  TableCell,
+  TableColumn,
+  TableHeader,
+  TableRow,
 } from "@nextui-org/react";
-import type { ChipProps, Selection, SortDescriptor } from "@nextui-org/react";  
+import type { ChipProps, Selection, SortDescriptor } from "@nextui-org/react";
 import type { Suppliers } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import type { ChangeEvent, Key } from "react";
 import { useCallback, useMemo, useState } from "react";
-import { BiChevronDown, BiDotsVertical, BiPlus, BiSearch } from "react-icons/bi";
+import {
+  BiChevronDown,
+  BiDotsVertical,
+  BiPlus,
+  BiSearch,
+} from "react-icons/bi";
 
-  type props = {
-    supplier: Suppliers[];
-  }
+type props = {
+  supplier: Suppliers[];
+};
 
-  const column = [
-    {name:'ID', uid:'id'},
-    {name:'NOME', uid:'fantasy_name'},
-    {name:'CNPJ', uid:'cnpj'},
-    {name:'EMAIL', uid:'email'},
-    {name:'TELEFONE', uid:'phone_number'},
-    {name:'STATUS', uid:'status'},
-    {name:'AÇÕES', uid:'actions'},
-  ];
+const column = [
+  { name: "ID", uid: "id" },
+  { name: "NOME", uid: "fantasy_name" },
+  { name: "CNPJ", uid: "cnpj" },
+  { name: "EMAIL", uid: "email" },
+  { name: "TELEFONE", uid: "phone_number" },
+  { name: "STATUS", uid: "status" },
+  { name: "AÇÕES", uid: "actions" },
+];
 
-  const statusOptions = [
-    { name: "Ativo", uid: "Ativo" },
-    { name: "Inativo", uid: "Inativo" },
-    { name: "Férias", uid: "Férias" },
-  ];
+const statusOptions = [
+  { name: "Ativo", uid: "Ativo" },
+  { name: "Inativo", uid: "Inativo" },
+  { name: "Férias", uid: "Férias" },
+];
 
-  const statusColorMap: Record<string, ChipProps["color"]> = {
-    Ativo: "success",
-    Inativo: "danger",
-    Férias: "warning",
-  };
+const statusColorMap: Record<string, ChipProps["color"]> = {
+  Ativo: "success",
+  Inativo: "danger",
+  Férias: "warning",
+};
 
-export default function SupplierTable({supplier}: props) {
+export default function SupplierTable({ supplier }: props) {
+  //Linhas da tabela
+  const renderCell = useCallback((supplier: Suppliers, columnKey: Key) => {
+    const cellValue = supplier[columnKey as keyof Suppliers];
 
-    //Linhas da tabela
-    const renderCell = useCallback((supplier: Suppliers, columnKey: Key) => {
-        const cellValue = supplier[columnKey as keyof Suppliers];
-        
-        switch(columnKey) {
-            case "status":
-                return(
-                    <Chip
-                        className="capitalize"
-                        size="sm"
-                        color={statusColorMap[supplier.status]}
-                        variant="flat"
-                    >
-                        {cellValue}
-                    </Chip>
-                );
-            case "actions":
-                return(
-                    <div className="relative flex items-center justify-center gap-2">
-                        <Dropdown>
-                        <DropdownTrigger>
-                            <Button isIconOnly size="sm" variant="light">
-                                <BiDotsVertical size={15} />
-                            </Button>
-                        </DropdownTrigger>
-                        <DropdownMenu>
-                            <DropdownItem>Visualizar</DropdownItem>
-                            <DropdownItem>Editar</DropdownItem>
-                            <DropdownItem>Deletar</DropdownItem>
-                        </DropdownMenu>
-                        </Dropdown>
-                    </div>
-                )
-                default:
-                 return cellValue;
-        };
-    },[]);
-  
+    switch (columnKey) {
+      case "status":
+        return (
+          <Chip
+            className="capitalize"
+            size="sm"
+            color={statusColorMap[supplier.status]}
+            variant="flat"
+          >
+            {cellValue}
+          </Chip>
+        );
+      case "actions":
+        return (
+          <div className="relative flex items-center justify-center gap-2">
+            <Dropdown>
+              <DropdownTrigger>
+                <Button isIconOnly size="sm" variant="light">
+                  <BiDotsVertical size={15} />
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu>
+                <DropdownItem>Visualizar</DropdownItem>
+                <DropdownItem>Editar</DropdownItem>
+                <DropdownItem>Deletar</DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+          </div>
+        );
+      default:
+        return cellValue;
+    }
+  }, []);
+
   //filtro
   const [filterValue, setFilterValue] = useState("");
   const [statusFilter, setStatusFilter] = useState<Selection>("all");
@@ -121,8 +125,8 @@ export default function SupplierTable({supplier}: props) {
   const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set([]));
 
   const items = useMemo(() => {
-  const start = (page - 1) * rowsPerPage;
-  const end = start + rowsPerPage;
+    const start = (page - 1) * rowsPerPage;
+    const end = start + rowsPerPage;
 
     return filteredItems.slice(start, end);
   }, [page, filteredItems, rowsPerPage]);
@@ -259,7 +263,11 @@ export default function SupplierTable({supplier}: props) {
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <Button color="primary" onClick={() => router.push("/fornecedores/?modal=true")} endContent={<BiPlus size={12} />}>
+            <Button
+              color="primary"
+              onClick={() => router.push("/user/fornecedores/?modal=true")}
+              endContent={<BiPlus size={12} />}
+            >
               Novo
             </Button>
           </div>
@@ -291,43 +299,42 @@ export default function SupplierTable({supplier}: props) {
     hasSearchFilter,
   ]);
 
-    return(
-        <div className="w-4/5">
-            <Table
-                aria-label="Tabela de fornecedores"
-                isHeaderSticky
-                bottomContent={bottomContent}
-                bottomContentPlacement="outside"
-                selectionMode="multiple"
-                selectedKeys={selectedKeys}
-                onSelectionChange={setSelectedKeys}
-                topContent={topContent}
-                topContentPlacement="outside"
-                sortDescriptor={sortDescriptor}
-                onSortChange={setSortDescriptor}
-                classNames={{
-                  wrapper: "max-h-[382px]",
-                }}
-            >
-                <TableHeader columns={column}>
-                    {(column) => (
-                        <TableColumn
-                            key={column.uid}
-                        >
-                            {column.name}
-                        </TableColumn>
-                    )}
-                </TableHeader>
-                <TableBody emptyContent='não foi cadastrado nenhum fornecedor' items={sortedItems}>
-                    {(item) => (
-                        <TableRow key={item.id}>
-                            {(columnKey) => (
-                                <TableCell>{renderCell(item, columnKey)}</TableCell>
-                            )}
-                        </TableRow>
-                    )}
-                </TableBody>
-            </Table>
-        </div>
-    )
+  return (
+    <div className="w-4/5">
+      <Table
+        aria-label="Tabela de fornecedores"
+        isHeaderSticky
+        bottomContent={bottomContent}
+        bottomContentPlacement="outside"
+        selectionMode="multiple"
+        selectedKeys={selectedKeys}
+        onSelectionChange={setSelectedKeys}
+        topContent={topContent}
+        topContentPlacement="outside"
+        sortDescriptor={sortDescriptor}
+        onSortChange={setSortDescriptor}
+        classNames={{
+          wrapper: "max-h-[382px]",
+        }}
+      >
+        <TableHeader columns={column}>
+          {(column) => (
+            <TableColumn key={column.uid}>{column.name}</TableColumn>
+          )}
+        </TableHeader>
+        <TableBody
+          emptyContent="não foi cadastrado nenhum fornecedor"
+          items={sortedItems}
+        >
+          {(item) => (
+            <TableRow key={item.id}>
+              {(columnKey) => (
+                <TableCell>{renderCell(item, columnKey)}</TableCell>
+              )}
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+    </div>
+  );
 }
