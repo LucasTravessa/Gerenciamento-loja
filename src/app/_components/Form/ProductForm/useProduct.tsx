@@ -20,7 +20,7 @@ export const useProduct = () => {
 
   function handleCreation(data: schemaProps) {
     createProduct.mutate(data);
-    router.push("/estoque");
+    router.push("/user/estoque");
     router.refresh();
   }
 

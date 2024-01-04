@@ -20,7 +20,7 @@ export const useSupplier = () => {
 
   function handleCreation(data: schemaProps) {
     addSupplier.mutate(data);
-    router.push("/fornecedores");
+    router.push("/user/fornecedores");
     router.refresh();
   }
 

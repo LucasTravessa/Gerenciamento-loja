@@ -32,7 +32,7 @@ export const useSales = () => {
     console.log(data);
 
     createSale.mutate(data);
-    router.push("/vendas");
+    router.push("/user/vendas");
     router.refresh();
   }
 

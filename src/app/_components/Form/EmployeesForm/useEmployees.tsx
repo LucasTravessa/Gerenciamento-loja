@@ -20,7 +20,7 @@ export const useEmployees = () => {
 
   function handleCreation(data: schemaProps) {
     addEmployee.mutate(data);
-    router.push("/funcionarios");
+    router.push("/user/funcionarios");
     router.refresh();
   }
 
