@@ -1,10 +1,17 @@
 import { type NextRequest, NextResponse } from "next/server";
 
 export default function middleware(req: NextRequest) {
+  const session = req.cookies.get("session");
+
+  console.log(session?.value);
+
   const response = (url: string) =>
     NextResponse.redirect(new URL(url, req.url));
 
-  if (req.nextUrl.pathname.startsWith("/vendas")) {
+  if (
+    session?.value === "unauthenticated" &&
+    req.nextUrl.pathname.startsWith("/user")
+  ) {
     return response("/");
   }
 
@@ -12,5 +19,5 @@ export default function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/", "/vendas"],
+  matcher: ["/", "/user/:path*"],
 };
