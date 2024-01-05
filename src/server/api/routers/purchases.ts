@@ -36,6 +36,15 @@ export const purchasesRouter = createTRPCRouter({
         },
       });
     }),
+  delete: publicProcedure
+    .input(
+      z.object({
+        id: z.number(),
+      }),
+    )
+    .mutation(({ ctx, input }) =>
+      ctx.db.purchases.delete({ where: { id: input.id } }),
+    ),
   update: publicProcedure
     .input(purchaseSchema.partial().required({ id: true }))
     .mutation(({ ctx, input }) => {

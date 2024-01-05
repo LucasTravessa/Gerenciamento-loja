@@ -48,10 +48,10 @@ const column = [
 ];
 
 const statusOptions = [
-  { name: "Entrege", uid: "done" },
-  { name: "Atrasada", uid: "later" },
-  { name: "Pendente", uid: "pendent" },
-  { name: "Cancelada", uid: "canceled" },
+  { name: "Entrege", uid: "Entrege" },
+  { name: "Atrasada", uid: "Atrasada" },
+  { name: "Pendente", uid: "Pendente" },
+  { name: "Cancelada", uid: "Cancelada" },
 ];
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
