@@ -33,6 +33,7 @@ import {
   BiSearch,
 } from "react-icons/bi";
 import { useRouter } from "next/navigation";
+import { api } from "~/trpc/react";
 
 type props = {
   purchases: Purchases[];
@@ -62,6 +63,14 @@ const statusColorMap: Record<string, ChipProps["color"]> = {
 };
 
 export default function PurchasesTable({ purchases }: props) {
+  const purchasesDelete = api.purchases.delete.useMutation();
+
+  const handleDelete = useCallback(() => {
+    const ids = Array.from(sortedItems);
+    ids.map((id) => purchasesDelete.mutate(id));
+    setSelectedKeys(new Set([]));
+  }, [sortedItems]);
+
   //Linhas da tabela
   const renderCell = useCallback((purchases: Purchases, columnKey: Key) => {
     const cellValue = purchases[columnKey as keyof Purchases];
