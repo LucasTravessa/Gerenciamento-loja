@@ -2,7 +2,6 @@
 
 import {
   Button,
-  Chip,
   Dropdown,
   DropdownItem,
   DropdownMenu,
@@ -17,8 +16,14 @@ import {
   TableRow,
 } from "@nextui-org/react";
 import type { Selection, SortDescriptor } from "@nextui-org/react";
-import { Products } from "@prisma/client";
-import { ChangeEvent, Key, useCallback, useMemo, useState } from "react";
+import { type Products } from "@prisma/client";
+import {
+  type ChangeEvent,
+  type Key,
+  useCallback,
+  useMemo,
+  useState,
+} from "react";
 import { BiDotsVertical, BiPlus, BiSearch } from "react-icons/bi";
 import { useRouter } from "next/navigation";
 
@@ -64,7 +69,6 @@ export default function ProductsTable({ products }: props) {
 
   //filtro
   const [filterValue, setFilterValue] = useState("");
-  const [statusFilter, setStatusFilter] = useState<Selection>("all");
 
   const hasSearchFilter = Boolean(filterValue);
 
@@ -78,7 +82,7 @@ export default function ProductsTable({ products }: props) {
     }
 
     return filteredSuppliers;
-  }, [products, filterValue, statusFilter]);
+  }, [products, filterValue]);
 
   //paginação
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -229,7 +233,6 @@ export default function ProductsTable({ products }: props) {
     );
   }, [
     filterValue,
-    statusFilter,
     onSearchChange,
     onRowsPerPageChange,
     products.length,

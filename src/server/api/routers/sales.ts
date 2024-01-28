@@ -36,6 +36,15 @@ export const salesRouter = createTRPCRouter({
         },
       });
     }),
+  delete: publicProcedure
+    .input(
+      z.object({
+        id: z.number(),
+      }),
+    )
+    .mutation(({ ctx, input }) =>
+      ctx.db.sales.delete({ where: { id: input.id } }),
+    ),
   update: publicProcedure
     .input(salesSchema.partial().required({ id: true }))
     .mutation(({ ctx, input }) => {
