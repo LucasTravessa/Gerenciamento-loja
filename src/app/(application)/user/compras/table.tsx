@@ -65,12 +65,6 @@ const statusColorMap: Record<string, ChipProps["color"]> = {
 export default function PurchasesTable({ purchases }: props) {
   const purchasesDelete = api.purchases.delete.useMutation();
 
-  const handleDelete = useCallback(() => {
-    const ids = Array.from(sortedItems);
-    ids.map((id) => purchasesDelete.mutate(id));
-    setSelectedKeys(new Set([]));
-  }, [sortedItems]);
-
   //Linhas da tabela
   const renderCell = useCallback((purchases: Purchases, columnKey: Key) => {
     const cellValue = purchases[columnKey as keyof Purchases];
@@ -261,6 +255,13 @@ export default function PurchasesTable({ purchases }: props) {
 
   const router = useRouter();
 
+  const handleDelete = useCallback(() => {
+    const ids = Array.from(selectedKeys);
+    console.log(ids);
+    /* ids.map((id) => purchasesDelete.mutate(id)); */
+    setSelectedKeys(new Set([]));
+  }, [selectedKeys]);
+
   const topContent = useMemo(() => {
     return (
       <div className="flex flex-col gap-4">
@@ -275,6 +276,9 @@ export default function PurchasesTable({ purchases }: props) {
             onValueChange={onSearchChange}
           />
           <div className="flex gap-3">
+            <Button variant="flat" onClick={handleDelete}>
+              Delete
+            </Button>
             <Dropdown>
               <DropdownTrigger className="hidden sm:flex">
                 <Button
