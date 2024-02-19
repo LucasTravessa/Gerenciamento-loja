@@ -26,6 +26,7 @@ import {
 } from "react";
 import { BiDotsVertical, BiPlus, BiSearch } from "react-icons/bi";
 import { useRouter } from "next/navigation";
+import { api } from "~/trpc/react";
 
 type props = {
   sells: Sales[];
@@ -41,6 +42,8 @@ const column = [
 ];
 
 export default function SellsTable({ sells }: props) {
+  const sellsDelete = api.sales.delete.useMutation();
+
   const renderCell = useCallback((sells: Sales, columnKey: Key) => {
     const cellValue = sells[columnKey as keyof Sales];
 
@@ -222,6 +225,14 @@ export default function SellsTable({ sells }: props) {
 
   const router = useRouter();
 
+  const handleDelete = useCallback(() => {
+    const ids = Array.from(selectedKeys);
+    console.log(ids);
+    ids.map((id) => sellsDelete.mutate({ id: parseInt(id as string) }));
+    setSelectedKeys(new Set([]));
+    router.refresh();
+  }, [selectedKeys]);
+
   const topContent = useMemo(() => {
     return (
       <div className="flex flex-col gap-4">
@@ -236,6 +247,9 @@ export default function SellsTable({ sells }: props) {
             onValueChange={onSearchChange}
           />
           <div className="flex gap-3">
+            <Button variant="flat" onClick={handleDelete}>
+              Delete
+            </Button>
             <Button
               color="primary"
               onClick={() => router.push("/user/vendas/?modal=true")}

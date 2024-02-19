@@ -27,6 +27,7 @@ import {
   BiPlus,
   BiSearch,
 } from "react-icons/bi";
+import { api } from "~/trpc/react";
 
 type props = {
   supplier: Suppliers[];
@@ -55,6 +56,8 @@ const statusColorMap: Record<string, ChipProps["color"]> = {
 };
 
 export default function SupplierTable({ supplier }: props) {
+  const supplierDelete = api.suppliers.delete.useMutation();
+
   //Linhas da tabela
   const renderCell = useCallback((supplier: Suppliers, columnKey: Key) => {
     const cellValue = supplier[columnKey as keyof Suppliers];
@@ -124,6 +127,8 @@ export default function SupplierTable({ supplier }: props) {
   const [page, setPage] = useState(1);
   const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set([]));
 
+  console.log(selectedKeys);
+
   const items = useMemo(() => {
     const start = (page - 1) * rowsPerPage;
     const end = start + rowsPerPage;
@@ -167,45 +172,6 @@ export default function SupplierTable({ supplier }: props) {
     setPage(1);
   }, []);
 
-  const bottomContent = useMemo(() => {
-    return (
-      <div className="flex items-center justify-between px-2 py-2">
-        <span className="w-[30%] text-small text-default-400">
-          {selectedKeys === "all"
-            ? "Todos os itens selecionados"
-            : `${selectedKeys.size} de ${filteredItems.length} selecionados`}
-        </span>
-        <Pagination
-          isCompact
-          showControls
-          showShadow
-          color="primary"
-          page={page}
-          total={pages}
-          onChange={setPage}
-        />
-        <div className="hidden w-[30%] justify-end gap-2 sm:flex">
-          <Button
-            isDisabled={pages === 1}
-            size="sm"
-            variant="flat"
-            onPress={onPreviousPage}
-          >
-            Anterior
-          </Button>
-          <Button
-            isDisabled={pages === 1}
-            size="sm"
-            variant="flat"
-            onPress={onNextPage}
-          >
-            Próximo
-          </Button>
-        </div>
-      </div>
-    );
-  }, [items.length, page, pages, selectedKeys]);
-
   //sorted
   const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
     column: "name",
@@ -225,6 +191,13 @@ export default function SupplierTable({ supplier }: props) {
 
   const router = useRouter();
 
+  const handleDelete = useCallback(() => {
+    const ids = Array.from(selectedKeys);
+    console.log(ids);
+    /*  ids.map((id) => supplierDelete.mutate({ id: parseInt(id as string) })); */
+    setSelectedKeys(new Set([]));
+  }, [selectedKeys]);
+
   const topContent = useMemo(() => {
     return (
       <div className="flex flex-col gap-4">
@@ -239,6 +212,9 @@ export default function SupplierTable({ supplier }: props) {
             onValueChange={onSearchChange}
           />
           <div className="flex gap-3">
+            <Button variant="flat" onClick={handleDelete}>
+              Delete
+            </Button>
             <Dropdown>
               <DropdownTrigger className="hidden sm:flex">
                 <Button
@@ -298,6 +274,45 @@ export default function SupplierTable({ supplier }: props) {
     supplier.length,
     hasSearchFilter,
   ]);
+
+  const bottomContent = useMemo(() => {
+    return (
+      <div className="flex items-center justify-between px-2 py-2">
+        <span className="w-[30%] text-small text-default-400">
+          {selectedKeys === "all"
+            ? "Todos os itens selecionados"
+            : `${selectedKeys.size} de ${filteredItems.length} selecionados`}
+        </span>
+        <Pagination
+          isCompact
+          showControls
+          showShadow
+          color="primary"
+          page={page}
+          total={pages}
+          onChange={setPage}
+        />
+        <div className="hidden w-[30%] justify-end gap-2 sm:flex">
+          <Button
+            isDisabled={pages === 1}
+            size="sm"
+            variant="flat"
+            onPress={onPreviousPage}
+          >
+            Anterior
+          </Button>
+          <Button
+            isDisabled={pages === 1}
+            size="sm"
+            variant="flat"
+            onPress={onNextPage}
+          >
+            Próximo
+          </Button>
+        </div>
+      </div>
+    );
+  }, [items.length, page, pages, selectedKeys]);
 
   return (
     <div className="w-4/5">

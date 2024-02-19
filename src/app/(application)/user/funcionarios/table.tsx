@@ -144,6 +144,8 @@ export default function EmployeesTable({ employees }: Props) {
   const [page, setPage] = useState(1);
   const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set([]));
 
+  console.log(selectedKeys);
+
   const items = useMemo(() => {
     const start = (page - 1) * rowsPerPage;
     const end = start + rowsPerPage;
@@ -206,7 +208,8 @@ export default function EmployeesTable({ employees }: Props) {
 
   const handleDelete = useCallback(() => {
     const ids = Array.from(selectedKeys);
-    ids.map((id) => employeeDelete.mutate({ id: parseInt(id as string) }));
+    console.log(ids);
+    /* ids.map((id) => employeeDelete.mutate({ id: parseInt(id as string) })); */
     setSelectedKeys(new Set([]));
   }, [selectedKeys]);
 
