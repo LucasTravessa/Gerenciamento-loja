@@ -1,5 +1,12 @@
 import { PrismaClient } from "@prisma/client";
-import { employees, products, purchases, sales, suppliers } from "./data.mjs";
+import {
+  admin,
+  employees,
+  products,
+  purchases,
+  sales,
+  suppliers,
+} from "./data.mjs";
 
 const prisma = new PrismaClient();
 
@@ -13,7 +20,8 @@ const seeding = async () => {
       (await prisma.sales.findMany())
     ) {
       console.log("Clearing database...");
-
+      if (await prisma.user.findFirst({ where: { email: "admin@sgl.com" } }))
+        await prisma.user.delete({ where: { email: "admin@sgl.com" } });
       await prisma.sales.deleteMany();
       await prisma.purchases.deleteMany();
       await prisma.employees.deleteMany();
@@ -22,6 +30,10 @@ const seeding = async () => {
       console.log("Database cleared");
     }
     console.log("Seeding database...");
+    await prisma.user.create({
+      data: admin,
+    });
+    console.log("Admin user created");
     const employeesPromise = await prisma.employees.createMany({
       data: employees,
     });

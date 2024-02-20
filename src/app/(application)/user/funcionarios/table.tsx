@@ -28,7 +28,7 @@ import {
   BiSearch,
 } from "react-icons/bi";
 import { useRouter } from "next/navigation";
-import { api } from "~/trpc/react";
+// import { api } from "~/trpc/react";
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
   Ativo: "success",
@@ -57,7 +57,7 @@ type Props = {
 };
 
 export default function EmployeesTable({ employees }: Props) {
-  const employeeDelete = api.employees.delete.useMutation();
+  // const employeeDelete = api.employees.delete.useMutation();
 
   //Criação das linhas
   const renderCell = useCallback((employee: Employees, columnKey: Key) => {

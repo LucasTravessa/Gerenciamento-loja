@@ -20,7 +20,7 @@ export default function LoginForm() {
           label="Email"
           size="sm"
           {...register("email")}
-          errorMessage={errors.email && `${errors.email.message}`}
+          errorMessage={errors.email?.message}
           color={errors.email ? "danger" : "default"}
           isClearable
         />
@@ -28,7 +28,7 @@ export default function LoginForm() {
           label="Password"
           size="sm"
           {...register("password")}
-          errorMessage={errors.password && `${errors.password.message}`}
+          errorMessage={errors.password?.message}
           color={errors.password ? "danger" : "default"}
           endContent={
             <button

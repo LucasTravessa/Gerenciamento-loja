@@ -1,3 +1,10 @@
+export const admin = {
+  name: "Admin",
+  email: "admin@sgl.com",
+  password:
+    "$argon2id$v=19$m=65536,t=3,p=4$LShsLoOG7vp4YGBro/14xg$Id17bVJvRPWyUowWXWkny5zVyQYyL8A+0bo14QZ5/fs",
+};
+
 export const employees = [
   {
     id: 1,

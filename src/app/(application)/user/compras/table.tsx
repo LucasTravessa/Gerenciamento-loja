@@ -33,7 +33,7 @@ import {
   BiSearch,
 } from "react-icons/bi";
 import { useRouter } from "next/navigation";
-import { api } from "~/trpc/react";
+// import { api } from "~/trpc/react";
 
 type props = {
   purchases: Purchases[];
@@ -63,7 +63,7 @@ const statusColorMap: Record<string, ChipProps["color"]> = {
 };
 
 export default function PurchasesTable({ purchases }: props) {
-  const purchasesDelete = api.purchases.delete.useMutation();
+  // const purchasesDelete = api.purchases.delete.useMutation();
 
   //Linhas da tabela
   const renderCell = useCallback((purchases: Purchases, columnKey: Key) => {
@@ -91,11 +91,12 @@ export default function PurchasesTable({ purchases }: props) {
       case "date":
         return (
           <p className="text-bold text-small capitalize">
-            {cellValue.toLocaleString("pt-BR", {
-              day: "numeric",
-              month: "numeric",
-              year: "numeric",
-            })}
+            {cellValue instanceof Date &&
+              cellValue.toLocaleDateString("uk", {
+                year: "numeric",
+                month: "numeric",
+                day: "numeric",
+              })}
           </p>
         );
       case "status":
@@ -147,6 +148,7 @@ export default function PurchasesTable({ purchases }: props) {
     }
 
     return filteredPurchases;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [purchases, filterValue, statusFilter]);
 
   //paginação
@@ -234,6 +236,7 @@ export default function PurchasesTable({ purchases }: props) {
         </div>
       </div>
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [items.length, page, pages, selectedKeys]);
 
   //sorted

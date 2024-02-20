@@ -52,7 +52,7 @@ export default function PurchasesForm() {
         type="date"
         {...register("date")}
         color={`${errors.date ? "danger" : "default"}`}
-        errorMessage={errors.date && `${errors.date.message}`}
+        errorMessage={errors.date?.message}
       />
       <Input
         placeholder="Total"
@@ -60,13 +60,13 @@ export default function PurchasesForm() {
         type="number"
         {...register("total")}
         color={`${errors.total ? "danger" : "default"}`}
-        errorMessage={errors.total && `${errors.total.message}`}
+        errorMessage={errors.total?.message}
       />
       <Select
         label="Selecione o Status"
         {...register("status")}
         color={`${errors.status ? "danger" : "default"}`}
-        errorMessage={errors.status && `${errors.status.message}`}
+        errorMessage={errors.status?.message}
       >
         <SelectItem key="Entrege">Entrege</SelectItem>
         <SelectItem key="Atrasada">Atrasada</SelectItem>

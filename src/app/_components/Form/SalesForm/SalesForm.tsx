@@ -58,7 +58,7 @@ export default function SalesForm() {
           type="text"
           {...register("client")}
           color={`${errors.client ? "danger" : "default"}`}
-          errorMessage={errors.client && `${errors.client.message}`}
+          errorMessage={errors.client?.message}
         />
         <Input
           disabled
@@ -72,13 +72,13 @@ export default function SalesForm() {
             </div>
           }
           color={`${errors.total ? "danger" : "default"}`}
-          errorMessage={errors.total && `${errors.total.message}`}
+          errorMessage={errors.total?.message}
         />
         <Input
           type="date"
           {...register("date")}
           color={`${errors.date ? "danger" : "default"}`}
-          errorMessage={errors.date && `${errors.date.message}`}
+          errorMessage={errors.date?.message}
         />
       </div>
 

@@ -11,7 +11,7 @@ export const useSales = () => {
     watch,
     control,
     formState: { errors },
-  } = useForm({
+  } = useForm<schemaProps>({
     mode: "onBlur",
     criteriaMode: "all",
     resolver: zodResolver(schema),

@@ -12,7 +12,7 @@ export const useProduct = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm<schemaProps>({
     mode: "onBlur",
     criteriaMode: "all",
     resolver: zodResolver(schema),

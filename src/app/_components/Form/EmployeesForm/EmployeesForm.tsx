@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
 import { Button, Input } from "@nextui-org/react";
 import { useEmployees } from "./useEmployees";
 import { Select, SelectItem } from "@nextui-org/react";
 
 export default function EmployeesForm() {
-  const { register, errors, isSubmitting, handleSubmit, handleCreation } = useEmployees();
+  const { register, errors, handleSubmit, handleCreation } = useEmployees();
 
   return (
     <form
@@ -18,7 +18,7 @@ export default function EmployeesForm() {
           type="text"
           {...register("name")}
           color={`${errors.name ? "danger" : "default"}`}
-          errorMessage={errors.name && `${errors.name.message}`}
+          errorMessage={errors.name?.message}
         />
 
         <Input
@@ -26,7 +26,7 @@ export default function EmployeesForm() {
           type="email"
           {...register("email")}
           color={`${errors.email ? "danger" : "default"}`}
-          errorMessage={errors.email && `${errors.email.message}`}
+          errorMessage={errors.email?.message}
         />
       </div>
 
@@ -36,7 +36,7 @@ export default function EmployeesForm() {
           type="text"
           {...register("role")}
           color={`${errors.role ? "danger" : "default"}`}
-          errorMessage={errors.role && `${errors.role.message}`}
+          errorMessage={errors.role?.message}
         />
 
         <Input
@@ -44,7 +44,7 @@ export default function EmployeesForm() {
           type="text"
           {...register("phone_number")}
           color={`${errors.phone_number ? "danger" : "default"}`}
-          errorMessage={errors.phone_number && `${errors.phone_number.message}`}
+          errorMessage={errors.phone_number?.message}
         />
       </div>
 
@@ -54,7 +54,7 @@ export default function EmployeesForm() {
           type="text"
           {...register("address")}
           color={`${errors.address ? "danger" : "default"}`}
-          errorMessage={errors.address && `${errors.address.message}`}
+          errorMessage={errors.address?.message}
         />
 
         <Input
@@ -64,7 +64,7 @@ export default function EmployeesForm() {
           step="0.01"
           {...register("salary")}
           color={`${errors.salary ? "danger" : "default"}`}
-          errorMessage={errors.salary && `${errors.salary.message}`}
+          errorMessage={errors.salary?.message}
         />
       </div>
 

@@ -27,7 +27,7 @@ import {
   BiPlus,
   BiSearch,
 } from "react-icons/bi";
-import { api } from "~/trpc/react";
+// import { api } from "~/trpc/react";
 
 type props = {
   supplier: Suppliers[];
@@ -56,7 +56,7 @@ const statusColorMap: Record<string, ChipProps["color"]> = {
 };
 
 export default function SupplierTable({ supplier }: props) {
-  const supplierDelete = api.suppliers.delete.useMutation();
+  // const supplierDelete = api.suppliers.delete.useMutation();
 
   //Linhas da tabela
   const renderCell = useCallback((supplier: Suppliers, columnKey: Key) => {
@@ -120,6 +120,7 @@ export default function SupplierTable({ supplier }: props) {
     }
 
     return filteredSuppliers;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [supplier, filterValue, statusFilter]);
 
   //paginação
@@ -266,6 +267,7 @@ export default function SupplierTable({ supplier }: props) {
         </div>
       </div>
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     filterValue,
     statusFilter,
@@ -312,6 +314,7 @@ export default function SupplierTable({ supplier }: props) {
         </div>
       </div>
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [items.length, page, pages, selectedKeys]);
 
   return (

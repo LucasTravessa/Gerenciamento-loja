@@ -69,11 +69,12 @@ export default function SellsTable({ sells }: props) {
       case "date":
         return (
           <p className="text-bold text-small capitalize">
-            {cellValue.toLocaleString("pt-BR", {
-              day: "numeric",
-              month: "numeric",
-              year: "numeric",
-            })}
+            {cellValue instanceof Date &&
+              cellValue.toLocaleDateString("pt-BR", {
+                year: "numeric",
+                month: "numeric",
+                day: "numeric",
+              })}
           </p>
         );
       case "employee_id":
@@ -101,6 +102,7 @@ export default function SellsTable({ sells }: props) {
           </div>
         );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const [filterValue, setFilterValue] = useState("");
@@ -117,6 +119,7 @@ export default function SellsTable({ sells }: props) {
     }
 
     return filteredSuppliers;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sells, filterValue]);
 
   //paginação
@@ -204,6 +207,7 @@ export default function SellsTable({ sells }: props) {
         </div>
       </div>
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [items.length, page, pages, selectedKeys]);
 
   //sorted
@@ -231,6 +235,7 @@ export default function SellsTable({ sells }: props) {
     ids.map((id) => sellsDelete.mutate({ id: parseInt(id as string) }));
     setSelectedKeys(new Set([]));
     router.refresh();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedKeys]);
 
   const topContent = useMemo(() => {
@@ -277,6 +282,7 @@ export default function SellsTable({ sells }: props) {
         </div>
       </div>
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     filterValue,
     onSearchChange,

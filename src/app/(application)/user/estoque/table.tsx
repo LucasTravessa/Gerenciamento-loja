@@ -82,6 +82,7 @@ export default function ProductsTable({ products }: props) {
     }
 
     return filteredSuppliers;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [products, filterValue]);
 
   //paginação
@@ -169,6 +170,7 @@ export default function ProductsTable({ products }: props) {
         </div>
       </div>
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [items.length, page, pages, selectedKeys]);
 
   //sorted
@@ -231,6 +233,7 @@ export default function ProductsTable({ products }: props) {
         </div>
       </div>
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     filterValue,
     onSearchChange,
