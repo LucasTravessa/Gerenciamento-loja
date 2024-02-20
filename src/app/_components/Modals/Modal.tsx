@@ -18,7 +18,7 @@ export default function ModalGlobal({
   const router = useRouter();
   const atualPath = usePathname();
 
-  const open = searchParams.get("modal") === "true";
+  const open = searchParams.get("id") ? true : false;
 
   const close = () => router.push(`${atualPath}`);
 

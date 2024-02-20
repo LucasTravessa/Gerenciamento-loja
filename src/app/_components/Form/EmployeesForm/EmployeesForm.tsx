@@ -3,9 +3,17 @@
 import { Button, Input } from "@nextui-org/react";
 import { useEmployees } from "./useEmployees";
 import { Select, SelectItem } from "@nextui-org/react";
+import { useSearchParams } from "next/navigation";
+import { api } from "~/trpc/react";
 
 export default function EmployeesForm() {
-  const { register, errors, handleSubmit, handleCreation } = useEmployees();
+  const searchParams = useSearchParams();
+  const employeeId = searchParams.get("id");
+
+  const data = api.employees.getOne.useQuery(Number(employeeId)).data;
+
+  const { register, errors, handleSubmit, watch, handleCreation } =
+    useEmployees(data);
 
   return (
     <form
@@ -16,6 +24,7 @@ export default function EmployeesForm() {
         <Input
           label="Nome"
           type="text"
+          value={watch("name")}
           {...register("name")}
           color={`${errors.name ? "danger" : "default"}`}
           errorMessage={errors.name?.message}
@@ -24,6 +33,7 @@ export default function EmployeesForm() {
         <Input
           label="Email"
           type="email"
+          value={watch("email")}
           {...register("email")}
           color={`${errors.email ? "danger" : "default"}`}
           errorMessage={errors.email?.message}
@@ -34,6 +44,7 @@ export default function EmployeesForm() {
         <Input
           label="Cargo"
           type="text"
+          value={watch("role")}
           {...register("role")}
           color={`${errors.role ? "danger" : "default"}`}
           errorMessage={errors.role?.message}
@@ -42,6 +53,7 @@ export default function EmployeesForm() {
         <Input
           label="Telefone"
           type="text"
+          value={watch("phone_number")}
           {...register("phone_number")}
           color={`${errors.phone_number ? "danger" : "default"}`}
           errorMessage={errors.phone_number?.message}
@@ -52,6 +64,7 @@ export default function EmployeesForm() {
         <Input
           label="Endereço"
           type="text"
+          value={watch("address")}
           {...register("address")}
           color={`${errors.address ? "danger" : "default"}`}
           errorMessage={errors.address?.message}
@@ -62,6 +75,7 @@ export default function EmployeesForm() {
           startContent="R$"
           type="number"
           step="0.01"
+          value={String(watch("salary"))}
           {...register("salary")}
           color={`${errors.salary ? "danger" : "default"}`}
           errorMessage={errors.salary?.message}

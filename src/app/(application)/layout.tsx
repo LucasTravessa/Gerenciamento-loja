@@ -11,11 +11,16 @@ export default async function LayoutHome({
   const session = await getServerAuthSession();
 
   return (
-    <>
+    <div className="flex min-h-screen flex-col">
       <TestHeader session={session} />
       <LoginModal />
       <SignUpModal />
       {children}
-    </>
+      <footer className="mt-auto flex w-full items-center justify-center border-t">
+        <p className="flex items-center justify-center">
+          Powered by lucas e gilson
+        </p>
+      </footer>
+    </div>
   );
 }
