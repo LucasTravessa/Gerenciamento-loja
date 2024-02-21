@@ -17,7 +17,7 @@ import {
   TableHeader,
   TableRow,
 } from "@nextui-org/react";
-import type { Purchases } from "@prisma/client";
+import type { Purchases, Suppliers } from "@prisma/client";
 import type { Selection, SortDescriptor } from "@nextui-org/react";
 import {
   type ChangeEvent,
@@ -37,6 +37,7 @@ import { api } from "~/trpc/react";
 
 type props = {
   purchases: Purchases[];
+  suppliers: Suppliers[];
 };
 
 const column = [
@@ -62,7 +63,7 @@ const statusColorMap: Record<string, ChipProps["color"]> = {
   Cancelado: "danger",
 };
 
-export default function PurchasesTable({ purchases }: props) {
+export default function PurchasesTable({ purchases, suppliers }: props) {
   // const purchasesDelete = api.purchases.delete.useMutation();
 
   //Linhas da tabela
@@ -77,9 +78,12 @@ export default function PurchasesTable({ purchases }: props) {
           </p>
         );
       case "supplier_id":
+        const supplier = suppliers.find(
+          (suppliers) => suppliers.id === cellValue,
+        );
         return (
           <p className="text-bold text-small capitalize">
-            {cellValue.toString()}
+            {supplier?.fantasy_name}
           </p>
         );
       case "total":

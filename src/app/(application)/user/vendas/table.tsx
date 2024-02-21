@@ -15,7 +15,7 @@ import {
   TableHeader,
   TableRow,
 } from "@nextui-org/react";
-import type { Sales } from "@prisma/client";
+import type { Employees, Sales } from "@prisma/client";
 import type { Selection, SortDescriptor } from "@nextui-org/react";
 import {
   type ChangeEvent,
@@ -30,6 +30,7 @@ import { api } from "~/trpc/react";
 
 type props = {
   sells: Sales[];
+  employees: Employees[];
 };
 
 const column = [
@@ -41,7 +42,7 @@ const column = [
   { name: "AÇÕES", uid: "actions" },
 ];
 
-export default function SellsTable({ sells }: props) {
+export default function SellsTable({ sells, employees }: props) {
   const sellsDelete = api.sales.delete.useMutation();
 
   const renderCell = useCallback((sells: Sales, columnKey: Key) => {
@@ -78,10 +79,11 @@ export default function SellsTable({ sells }: props) {
           </p>
         );
       case "employee_id":
+        const employee = employees.find(
+          (employees) => employees.id === cellValue,
+        );
         return (
-          <p className="text-bold text-small capitalize">
-            {cellValue.toString()}
-          </p>
+          <p className="text-bold text-small capitalize">{employee?.name}</p>
         );
 
       case "actions":
