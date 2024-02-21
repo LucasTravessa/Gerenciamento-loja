@@ -33,7 +33,7 @@ import {
   BiSearch,
 } from "react-icons/bi";
 import { useRouter } from "next/navigation";
-// import { api } from "~/trpc/react";
+import { api } from "~/trpc/react";
 
 type props = {
   purchases: Purchases[];
@@ -41,25 +41,25 @@ type props = {
 
 const column = [
   { name: "ID", uid: "id" },
-  { name: "ID FORNECEDOR", uid: "supplier_id" },
+  { name: "FORNECEDOR", uid: "supplier_id" },
   { name: "TOTAL", uid: "total" },
-  { name: "DATA", uid: "data" },
+  { name: "DATA", uid: "date" },
   { name: "STATUS", uid: "status" },
   { name: "AÇÕES", uid: "actions" },
 ];
 
 const statusOptions = [
   { name: "Entrege", uid: "Entrege" },
-  { name: "Atrasada", uid: "Atrasada" },
+  { name: "Atrasado", uid: "Atrasado" },
   { name: "Pendente", uid: "Pendente" },
-  { name: "Cancelada", uid: "Cancelada" },
+  { name: "Cancelado", uid: "Cancelado" },
 ];
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
-  done: "success",
-  later: "danger",
-  pendent: "warning",
-  canceled: "danger",
+  Entrege: "success",
+  Atrasado: "danger",
+  Pendente: "warning",
+  Cancelado: "danger",
 };
 
 export default function PurchasesTable({ purchases }: props) {
@@ -85,14 +85,14 @@ export default function PurchasesTable({ purchases }: props) {
       case "total":
         return (
           <p className="text-bold text-small capitalize">
-            {cellValue.toString()}
+            R${cellValue.toString()}
           </p>
         );
       case "date":
         return (
           <p className="text-bold text-small capitalize">
             {cellValue instanceof Date &&
-              cellValue.toLocaleDateString("uk", {
+              cellValue.toLocaleDateString("pt-br", {
                 year: "numeric",
                 month: "numeric",
                 day: "numeric",
@@ -104,6 +104,7 @@ export default function PurchasesTable({ purchases }: props) {
           <Chip
             className="capitalize"
             size="sm"
+            variant="flat"
             color={statusColorMap[purchases.status]}
           >
             {cellValue.toString()}

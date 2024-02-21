@@ -63,7 +63,7 @@ export default function SellsTable({ sells }: props) {
       case "total":
         return (
           <p className="text-bold text-small capitalize">
-            {cellValue.toString()}
+            R${cellValue.toString()}
           </p>
         );
       case "date":
