@@ -2,7 +2,7 @@ import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
 const purchaceDetailSchema = z.object({
-  products_id: z.number(),
+  products_name: z.string(),
   products_amount: z.number(),
   price: z.number(),
 });

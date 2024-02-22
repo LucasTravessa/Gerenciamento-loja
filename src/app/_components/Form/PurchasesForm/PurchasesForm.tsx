@@ -76,7 +76,7 @@ export default function PurchasesForm() {
 
       <Button
         onClick={() => {
-          append({ products_id: 0, products_amount: 0, price: 0 });
+          append({ products_name: "", products_amount: 0, price: 0 });
         }}
         color="primary"
         radius="full"
@@ -88,15 +88,11 @@ export default function PurchasesForm() {
         {fields.map((field, index) => {
           return (
             <div key={field.id} className="flex w-full items-center gap-4">
-              <Select label="Selecione o produto">
-                {products.data ? (
-                  products.data.map((p) => (
-                    <SelectItem key={p.id}>{p.name}</SelectItem>
-                  ))
-                ) : (
-                  <SelectItem key={0}>Nenhum</SelectItem>
-                )}
-              </Select>
+              <Input
+                label="Nome do Produto"
+                type="text"
+                {...register(`purchace_details.${index}.products_name`)}
+              />
               <Input
                 label="Quantidade"
                 inputMode="decimal"

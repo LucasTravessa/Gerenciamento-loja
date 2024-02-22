@@ -17,7 +17,7 @@ import {
   TableHeader,
   TableRow,
 } from "@nextui-org/react";
-import type { Purchases, Suppliers } from "@prisma/client";
+import type { Products, Purchases, Suppliers } from "@prisma/client";
 import type { Selection, SortDescriptor } from "@nextui-org/react";
 import {
   type ChangeEvent,
@@ -25,6 +25,7 @@ import {
   useCallback,
   useMemo,
   useState,
+  useEffect,
 } from "react";
 import {
   BiChevronDown,
@@ -36,8 +37,20 @@ import { useRouter } from "next/navigation";
 import { api } from "~/trpc/react";
 
 type props = {
-  purchases: Purchases[];
+  purchases: {
+    id: number;
+    supplier_id: number;
+    total: number;
+    date: Date;
+    status: string;
+    purchace_details: {
+      products_name: string;
+      products_amount: number;
+      price: number;
+    }[];
+  }[];
   suppliers: Suppliers[];
+  product: Products[];
 };
 
 const column = [
@@ -63,8 +76,13 @@ const statusColorMap: Record<string, ChipProps["color"]> = {
   Cancelado: "danger",
 };
 
-export default function PurchasesTable({ purchases, suppliers }: props) {
+export default function PurchasesTable({
+  purchases,
+  suppliers,
+  product,
+}: props) {
   // const purchasesDelete = api.purchases.delete.useMutation();
+  const productCreate = api.products.create.useMutation();
 
   //Linhas da tabela
   const renderCell = useCallback((purchases: Purchases, columnKey: Key) => {
@@ -133,6 +151,30 @@ export default function PurchasesTable({ purchases, suppliers }: props) {
         );
     }
   }, []);
+
+  //save entrege status products
+  const purchasesOk = purchases.filter((p) => p.status === "Entrege");
+
+  function createProducts() {
+    purchasesOk.forEach((p) => {
+      p.purchace_details.forEach((details) => {
+        const isSaved = product.some(
+          (product) => product.name === details.products_name,
+        );
+        if (!isSaved) {
+          productCreate.mutate({
+            name: details.products_name,
+            price: details.price,
+            on_stock: details.products_amount,
+          });
+        }
+      });
+    });
+  }
+
+  useEffect(() => {
+    createProducts();
+  }, [purchases]);
 
   //Filtros
   const [filterValue, setFilterValue] = useState("");

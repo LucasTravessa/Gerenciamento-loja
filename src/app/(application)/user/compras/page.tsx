@@ -6,10 +6,15 @@ import ModalGlobal from "~/app/_components/Modals/Modal";
 export default async function Purchases() {
   const purchases = await api.purchases.getAll.query();
   const supplier = await api.suppliers.getAll.query();
+  const product = await api.products.getAll.query();
 
   return (
     <>
-      <PurchasesTable suppliers={supplier} purchases={purchases} />
+      <PurchasesTable
+        product={product}
+        suppliers={supplier}
+        purchases={purchases}
+      />
       <ModalGlobal>
         <h1 className="text-2xl font-bold">Adicione uma nova Compra:</h1>
         <PurchasesForm />
