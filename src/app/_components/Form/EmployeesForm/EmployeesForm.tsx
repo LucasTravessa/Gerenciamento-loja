@@ -4,16 +4,13 @@ import { Button, Input } from "@nextui-org/react";
 import { useEmployees } from "./useEmployees";
 import { Select, SelectItem } from "@nextui-org/react";
 import { useSearchParams } from "next/navigation";
-import { api } from "~/trpc/react";
 
 export default function EmployeesForm() {
   const searchParams = useSearchParams();
   const employeeId = searchParams.get("id");
 
-  const data = api.employees.getOne.useQuery(Number(employeeId)).data;
-
   const { register, errors, handleSubmit, watch, handleCreation } =
-    useEmployees(data);
+    useEmployees(Number(employeeId));
 
   return (
     <form

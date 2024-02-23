@@ -4,9 +4,19 @@ import { schema, type schemaProps } from "./schema";
 import { api } from "~/trpc/react";
 import { useRouter } from "next/navigation";
 
-export const useEmployees = (data: any) => {
+export const useEmployees = (employeeId: number) => {
   const router = useRouter();
   const addEmployee = api.employees.create.useMutation();
+  const data = api.employees.getOne.useQuery(employeeId).data;
+
+  const values = data && {
+    name: data.name,
+    email: data.email,
+    role: data.role,
+    phone_number: data.phone_number,
+    address: data.address,
+    salary: data.salary,
+  };
 
   const {
     register,
@@ -18,13 +28,14 @@ export const useEmployees = (data: any) => {
     criteriaMode: "all",
     resolver: zodResolver(schema),
     defaultValues: {
-      name: data.name,
-      email: data.email,
-      role: data.role,
-      phone_number: data.phone_number,
-      address: data.address,
-      salary: data.salary,
+      name: "",
+      email: "",
+      role: "",
+      phone_number: "",
+      address: "",
+      salary: 0,
     },
+    values,
   });
 
   function handleCreation(data: schemaProps) {
