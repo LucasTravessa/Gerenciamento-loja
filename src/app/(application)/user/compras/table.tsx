@@ -35,7 +35,6 @@ import {
 } from "react-icons/bi";
 import { useRouter } from "next/navigation";
 import { api } from "~/trpc/react";
-import { createProducts } from "~/server/actions";
 
 type props = {
   purchases: {
@@ -302,10 +301,7 @@ export default function PurchasesTable({
             onValueChange={onSearchChange}
           />
           <div className="flex gap-3">
-            <Button
-              variant="flat"
-              onClick={() => createProducts(purchases, product)}
-            >
+            <Button variant="flat" onClick={handleDelete}>
               Delete
             </Button>
             <Dropdown>
