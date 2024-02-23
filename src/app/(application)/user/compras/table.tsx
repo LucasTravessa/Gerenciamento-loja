@@ -35,6 +35,7 @@ import {
 } from "react-icons/bi";
 import { useRouter } from "next/navigation";
 import { api } from "~/trpc/react";
+import { createProducts } from "~/server/actions";
 
 type props = {
   purchases: {
@@ -82,7 +83,6 @@ export default function PurchasesTable({
   product,
 }: props) {
   // const purchasesDelete = api.purchases.delete.useMutation();
-  const productCreate = api.products.create.useMutation();
 
   //Linhas da tabela
   const renderCell = useCallback((purchases: Purchases, columnKey: Key) => {
@@ -151,30 +151,6 @@ export default function PurchasesTable({
         );
     }
   }, []);
-
-  //save entrege status products
-  const purchasesOk = purchases.filter((p) => p.status === "Entrege");
-
-  function createProducts() {
-    purchasesOk.forEach((p) => {
-      p.purchace_details.forEach((details) => {
-        const isSaved = product.some(
-          (product) => product.name === details.products_name,
-        );
-        if (!isSaved) {
-          productCreate.mutate({
-            name: details.products_name,
-            price: details.price,
-            on_stock: details.products_amount,
-          });
-        }
-      });
-    });
-  }
-
-  useEffect(() => {
-    createProducts();
-  }, [purchases]);
 
   //Filtros
   const [filterValue, setFilterValue] = useState("");
@@ -326,7 +302,10 @@ export default function PurchasesTable({
             onValueChange={onSearchChange}
           />
           <div className="flex gap-3">
-            <Button variant="flat" onClick={handleDelete}>
+            <Button
+              variant="flat"
+              onClick={() => createProducts(purchases, product)}
+            >
               Delete
             </Button>
             <Dropdown>

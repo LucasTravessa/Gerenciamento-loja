@@ -1,8 +1,11 @@
+"use client";
+
 import { useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { schema, type schemaProps } from "./schema";
 import { api } from "~/trpc/react";
 import { useRouter } from "next/navigation";
+import { createProducts } from "~/server/actions";
 
 export const usePurchases = () => {
   const createPurchases = api.purchases.create.useMutation();
@@ -30,6 +33,8 @@ export const usePurchases = () => {
     createPurchases.mutate(data);
     router.push("/user/compras");
     router.refresh();
+
+    createProducts();
   }
 
   return {
