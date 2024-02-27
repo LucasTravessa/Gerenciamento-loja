@@ -5,11 +5,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { schema, type schemaProps } from "./schema";
 import { api } from "~/trpc/react";
 import { useRouter } from "next/navigation";
-import { useProducts } from "~/server/actions";
+import { createProducts } from "~/server/actions";
 
 export const usePurchases = () => {
   const createPurchases = api.purchases.create.useMutation();
-  const { createProducts } = useProducts();
   const router = useRouter();
 
   const {
