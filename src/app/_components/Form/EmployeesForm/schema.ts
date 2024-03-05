@@ -1,12 +1,7 @@
 import { z } from "zod";
 
-enum statusProps {
-  ativo = "Ativo",
-  inativo = "Inativo",
-  ferias = "Férias",
-}
-
 export const schema = z.object({
+  id: z.number().optional(),
   name: z.string().min(4, "O nome precisa ter pelo menos 4 caracteres"),
   email: z.string().email("Este email não é válido"),
   role: z.string().min(4, "O cargo precisa ter pelo menos 4 caracteres"),
@@ -18,7 +13,7 @@ export const schema = z.object({
     }),
   salary: z.coerce.number().min(1, "Digite um salario válido"),
   address: z.string().min(6, "Digite um endreço válido"),
-  status: z.enum([statusProps.ativo, statusProps.inativo, statusProps.ferias]),
+  status: z.string(),
 });
 
 export type schemaProps = z.infer<typeof schema>;

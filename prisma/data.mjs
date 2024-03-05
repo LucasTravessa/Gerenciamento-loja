@@ -7,7 +7,6 @@ export const admin = {
 
 export const employees = [
   {
-    id: 1,
     name: "John",
     email: "johndoe@gmail.com",
     address: "123 Main St",
@@ -18,7 +17,6 @@ export const employees = [
     img: "https://i.pravatar.cc/150",
   },
   {
-    id: 2,
     name: "Alice",
     email: "alice@gmail.com",
     address: "456 Park Ave",
@@ -29,7 +27,6 @@ export const employees = [
     img: "https://i.pravatar.cc/150?u=2",
   },
   {
-    id: 3,
     name: "Bob",
     email: "bob@gmail.com",
     address: "789 Pine St",
@@ -40,7 +37,6 @@ export const employees = [
     img: "https://i.pravatar.cc/150?u=3",
   },
   {
-    id: 4,
     name: "Carol",
     email: "carol@gmail.com",
     address: "1012 Maple St",
@@ -51,7 +47,6 @@ export const employees = [
     img: "https://i.pravatar.cc/150?u=4",
   },
   {
-    id: 5,
     name: "David",
     email: "david@gmail.com",
     address: "1314 Elm St",
@@ -62,7 +57,6 @@ export const employees = [
     img: "https://i.pravatar.cc/150?u=5",
   },
   {
-    id: 6,
     name: "Eve",
     email: "eve@gmail.com",
     address: "1516 Oak St",
@@ -73,7 +67,6 @@ export const employees = [
     img: "https://i.pravatar.cc/150?u=6",
   },
   {
-    id: 7,
     name: "Frank",
     email: "frank@gmail.com",
     address: "1718 Willow St",
@@ -84,7 +77,6 @@ export const employees = [
     img: "https://i.pravatar.cc/150?u=7",
   },
   {
-    id: 8,
     name: "Grace",
     email: "grace@gmail.com",
     address: "1920 Cherry St",
@@ -95,7 +87,6 @@ export const employees = [
     img: "https://i.pravatar.cc/150?u=8",
   },
   {
-    id: 9,
     name: "Henry",
     email: "henry@gmail.com",
     address: "2122 Peach St",
@@ -106,7 +97,6 @@ export const employees = [
     img: "https://i.pravatar.cc/150?u=9",
   },
   {
-    id: 10,
     name: "Iris",
     email: "iris@gmail.com",
     address: "2324 Apple St",
@@ -120,7 +110,6 @@ export const employees = [
 
 export const suppliers = [
   {
-    id: 1,
     fantasy_name: "Acme Inc.",
     cnpj: "12.345.678/0001-90",
     email: "acme@acme.com",
@@ -129,7 +118,6 @@ export const suppliers = [
     status: "Ativo",
   },
   {
-    id: 2,
     fantasy_name: "Beta Ltda.",
     cnpj: "98.765.432/0001-09",
     email: "beta@beta.com",
@@ -138,7 +126,6 @@ export const suppliers = [
     status: "Ativo",
   },
   {
-    id: 3,
     fantasy_name: "Gamma S.A.",
     cnpj: "34.567.890/0001-23",
     email: "gamma@gamma.com",
@@ -147,7 +134,6 @@ export const suppliers = [
     status: "Ativo",
   },
   {
-    id: 4,
     fantasy_name: "Delta Eireli",
     cnpj: "56.789.012/0001-34",
     email: "delta@delta.com",
@@ -156,7 +142,6 @@ export const suppliers = [
     status: "Inativo",
   },
   {
-    id: 5,
     fantasy_name: "Epsilon MEI",
     cnpj: "78.901.234/0001-45",
     email: "epsilon@epsilon.com",
@@ -168,187 +153,156 @@ export const suppliers = [
 
 export const products = [
   {
-    id: 1,
     name: "Laptop",
     price: 1000.0,
     on_stock: 0,
   },
   {
-    id: 2,
     name: "Smartphone",
     price: 500.0,
     on_stock: 10,
   },
   {
-    id: 3,
     name: "Headphones",
     price: 100.0,
     on_stock: 20,
   },
   {
-    id: 4,
     name: "Keyboard",
     price: 50.0,
     on_stock: 30,
   },
   {
-    id: 5,
     name: "Mouse",
     price: 20.0,
     on_stock: 40,
   },
   {
-    id: 6,
     name: "Monitor",
     price: 300.0,
     on_stock: 15,
   },
   {
-    id: 7,
     name: "Printer",
     price: 200.0,
     on_stock: 12,
   },
   {
-    id: 8,
     name: "Camera",
     price: 400.0,
     on_stock: 8,
   },
   {
-    id: 9,
     name: "Speaker",
     price: 80.0,
     on_stock: 25,
   },
   {
-    id: 10,
     name: "Tablet",
     price: 250.0,
     on_stock: 18,
   },
   {
-    id: 11,
     name: "Backpack",
     price: 60.0,
     on_stock: 35,
   },
   {
-    id: 12,
     name: "Notebook",
     price: 10.0,
     on_stock: 100,
   },
   {
-    id: 13,
     name: "Pen",
     price: 2.0,
     on_stock: 200,
   },
   {
-    id: 14,
     name: "Coffee mug",
     price: 15.0,
     on_stock: 50,
   },
   {
-    id: 15,
     name: "Water bottle",
     price: 12.0,
     on_stock: 60,
   },
   {
-    id: 16,
     name: "Sunglasses",
     price: 40.0,
     on_stock: 45,
   },
   {
-    id: 17,
     name: "Watch",
     price: 150.0,
     on_stock: 10,
   },
   {
-    id: 18,
     name: "Wallet",
     price: 30.0,
     on_stock: 55,
   },
   {
-    id: 19,
     name: "Hat",
     price: 25.0,
     on_stock: 65,
   },
   {
-    id: 20,
     name: "Shoes",
     price: 70.0,
     on_stock: 40,
   },
   {
-    id: 21,
     name: "Shirt",
     price: 35.0,
     on_stock: 80,
   },
   {
-    id: 22,
     name: "Jeans",
     price: 50.0,
     on_stock: 75,
   },
   {
-    id: 23,
     name: "Jacket",
     price: 90.0,
     on_stock: 30,
   },
   {
-    id: 24,
     name: "Scarf",
     price: 20.0,
     on_stock: 70,
   },
   {
-    id: 25,
     name: "Gloves",
     price: 15.0,
     on_stock: 85,
   },
   {
-    id: 26,
     name: "Socks",
     price: 5.0,
     on_stock: 150,
   },
   {
-    id: 27,
     name: "Belt",
     price: 25.0,
     on_stock: 65,
   },
   {
-    id: 28,
     name: "Tie",
     price: 30.0,
     on_stock: 60,
   },
   {
-    id: 29,
     name: "Earrings",
     price: 40.0,
     on_stock: 50,
   },
   {
-    id: 30,
     name: "Necklace",
     price: 60.0,
     on_stock: 45,
   },
   {
-    id: 31,
     name: "Ring",
     price: 50.0,
     on_stock: 55,
@@ -357,7 +311,6 @@ export const products = [
 
 export const purchases = [
   {
-    id: 1,
     supplier_id: 1,
     date: new Date("2023-04-01"),
     total: 1000.0,
@@ -368,7 +321,6 @@ export const purchases = [
     ],
   },
   {
-    id: 2,
     supplier_id: 2,
     date: new Date("2023-04-02"),
     total: 1500.0,
@@ -379,7 +331,6 @@ export const purchases = [
     ],
   },
   {
-    id: 3,
     supplier_id: 3,
     date: new Date("2023-04-03"),
     total: 1200.0,
@@ -390,7 +341,6 @@ export const purchases = [
     ],
   },
   {
-    id: 4,
     supplier_id: 4,
     date: new Date("2023-04-04"),
     total: 1800.0,
@@ -401,7 +351,6 @@ export const purchases = [
     ],
   },
   {
-    id: 5,
     supplier_id: 5,
     date: new Date("2023-04-05"),
     total: 900.0,
@@ -412,7 +361,6 @@ export const purchases = [
     ],
   },
   {
-    id: 6,
     supplier_id: 2,
     date: new Date("2023-04-06"),
     total: 1300.0,
@@ -426,7 +374,6 @@ export const purchases = [
 
 export const sales = [
   {
-    id: 1,
     employee_id: 1,
     client: "John Doe",
     date: new Date("2023-04-01"),
@@ -437,7 +384,6 @@ export const sales = [
     ],
   },
   {
-    id: 2,
     employee_id: 3,
     client: "Jane Smith",
     date: new Date("2023-04-02"),
@@ -448,7 +394,6 @@ export const sales = [
     ],
   },
   {
-    id: 3,
     employee_id: 2,
     client: "Bob Lee",
     date: new Date("2023-04-03"),
@@ -459,7 +404,6 @@ export const sales = [
     ],
   },
   {
-    id: 4,
     employee_id: 4,
     client: "Alice Chen",
     date: new Date("2023-04-04"),
@@ -470,7 +414,6 @@ export const sales = [
     ],
   },
   {
-    id: 5,
     employee_id: 1,
     client: "Tom Jones",
     date: new Date("2023-04-05"),
@@ -481,7 +424,6 @@ export const sales = [
     ],
   },
   {
-    id: 6,
     employee_id: 5,
     client: "Mary Clark",
     date: new Date("2023-04-06"),

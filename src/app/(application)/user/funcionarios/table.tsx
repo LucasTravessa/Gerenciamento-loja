@@ -15,19 +15,16 @@ import {
   TableColumn,
   TableHeader,
   TableRow,
+  Tooltip,
   User,
 } from "@nextui-org/react";
 import type { ChipProps, Selection, SortDescriptor } from "@nextui-org/react";
 import type { Employees } from "@prisma/client";
 import { useCallback, useMemo, useState } from "react";
 import type { ChangeEvent, Key } from "react";
-import {
-  BiChevronDown,
-  BiDotsVertical,
-  BiPlus,
-  BiSearch,
-} from "react-icons/bi";
+import { BiChevronDown, BiPlus, BiSearch } from "react-icons/bi";
 import { useRouter } from "next/navigation";
+import { FaPen } from "react-icons/fa";
 // import { api } from "~/trpc/react";
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
@@ -93,24 +90,22 @@ export default function EmployeesTable({ employees }: Props) {
         );
       case "actions":
         return (
-          <div className="relative flex items-center justify-center gap-2">
-            <Dropdown>
-              <DropdownTrigger>
-                <Button isIconOnly size="sm" variant="light">
-                  <BiDotsVertical size={15} />
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu>
-                <DropdownItem>Visualizar</DropdownItem>
-                <DropdownItem>Editar</DropdownItem>
-                <DropdownItem>Deletar</DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
+          <div className="relative flex items-center gap-2">
+            <Tooltip content="Edit user">
+              <span className="cursor-pointer text-lg text-default-400 active:opacity-50">
+                <FaPen
+                  onClick={() =>
+                    router.push(`/user/funcionarios?id=${employee.id}`)
+                  }
+                />
+              </span>
+            </Tooltip>
           </div>
         );
       default:
         return cellValue;
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   //Filtros
@@ -256,7 +251,7 @@ export default function EmployeesTable({ employees }: Props) {
             </Dropdown>
             <Button
               color="primary"
-              onClick={() => router.push("/user/funcionarios?modal=true")}
+              onClick={() => router.push("/user/funcionarios?id=0")}
               endContent={<BiPlus size={12} />}
             >
               Novo
