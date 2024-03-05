@@ -22,11 +22,27 @@ const seeding = async () => {
       console.log("Clearing database...");
       if (await prisma.user.findFirst({ where: { email: "admin@sgl.com" } }))
         await prisma.user.delete({ where: { email: "admin@sgl.com" } });
+
       await prisma.sales.deleteMany();
+      await prisma.$queryRaw`ALTER SEQUENCE "Sales_id_seq" RESTART WITH 1`;
+      console.log("reset sales auto increment to 1");
+
       await prisma.purchases.deleteMany();
+      await prisma.$queryRaw`ALTER SEQUENCE "Purchases_id_seq" RESTART WITH 1`;
+      console.log("reset purchases auto increment to 1");
+
       await prisma.employees.deleteMany();
+      await prisma.$queryRaw`ALTER SEQUENCE "Employees_id_seq" RESTART WITH 1`;
+      console.log("reset employees auto increment to 1");
+
       await prisma.products.deleteMany();
+      await prisma.$queryRaw`ALTER SEQUENCE "Products_id_seq" RESTART WITH 1`;
+      console.log("reset products auto increment to 1");
+
       await prisma.suppliers.deleteMany();
+      await prisma.$queryRaw`ALTER SEQUENCE "Suppliers_id_seq" RESTART WITH 1`;
+      console.log("reset suppliers auto increment to 1");
+
       console.log("Database cleared");
     }
     console.log("Seeding database...");
