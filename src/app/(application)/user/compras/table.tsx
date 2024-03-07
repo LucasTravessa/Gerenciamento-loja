@@ -25,7 +25,6 @@ import {
   useCallback,
   useMemo,
   useState,
-  useEffect,
 } from "react";
 import {
   BiChevronDown,
@@ -34,7 +33,6 @@ import {
   BiSearch,
 } from "react-icons/bi";
 import { useRouter } from "next/navigation";
-import { api } from "~/trpc/react";
 
 type props = {
   purchases: {
@@ -76,11 +74,7 @@ const statusColorMap: Record<string, ChipProps["color"]> = {
   Cancelado: "danger",
 };
 
-export default function PurchasesTable({
-  purchases,
-  suppliers,
-  product,
-}: props) {
+export default function PurchasesTable({ purchases, suppliers }: props) {
   // const purchasesDelete = api.purchases.delete.useMutation();
 
   //Linhas da tabela
@@ -330,7 +324,7 @@ export default function PurchasesTable({
             </Dropdown>
             <Button
               color="primary"
-              onClick={() => router.push("/user/compras?modal=true")}
+              onClick={() => router.push("/user/compras?id=0")}
               endContent={<BiPlus size={12} />}
             >
               Novo

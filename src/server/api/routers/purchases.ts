@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
@@ -25,7 +26,33 @@ export const purchasesRouter = createTRPCRouter({
   }),
   create: publicProcedure
     .input(purchaseSchema.omit({ id: true }))
-    .mutation(({ ctx, input }) => {
+    .mutation(async ({ ctx, input }) => {
+      if (input.status === "Entrege") {
+        const purchases = await ctx.db.purchases.create({
+          data: {
+            supplier_id: input.supplier_id,
+            total: input.total,
+            date: input.date,
+            status: input.status,
+            purchace_details: input.purchace_details,
+          },
+        });
+        input.purchace_details.forEach(async (products) => {
+          const product = await ctx.db.products.create({
+            data: {
+              name: products.products_name,
+              price: products.price,
+              on_stock: products.products_amount,
+            },
+          });
+        });
+
+        return {
+          status: 201,
+          message: "Account created successfully",
+          result: purchases.status,
+        };
+      }
       return ctx.db.purchases.create({
         data: {
           supplier_id: input.supplier_id,
@@ -47,7 +74,40 @@ export const purchasesRouter = createTRPCRouter({
     ),
   update: publicProcedure
     .input(purchaseSchema.partial().required({ id: true }))
-    .mutation(({ ctx, input }) => {
+    .mutation(async ({ ctx, input }) => {
+      if (input.status === "Entrege") {
+        const purchases = await ctx.db.purchases.update({
+          where: { id: input.id },
+          data: {
+            supplier_id: input.supplier_id,
+            total: input.total,
+            date: input.date,
+            status: input.status,
+            purchace_details: input.purchace_details,
+          },
+        });
+        if (input.purchace_details) {
+          input.purchace_details.forEach(async (products) => {
+            const product = await ctx.db.products.create({
+              data: {
+                name: products.products_name,
+                price: products.price,
+                on_stock: products.products_amount,
+              },
+            });
+          });
+          return {
+            status: 201,
+            message: "Account created successfully",
+            result: purchases.status,
+          };
+        }
+        return {
+          status: 201,
+          message: "Account created successfully",
+          result: purchases.status,
+        };
+      }
       return ctx.db.purchases.update({
         where: { id: input.id },
         data: {

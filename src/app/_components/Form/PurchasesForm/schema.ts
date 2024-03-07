@@ -8,9 +8,9 @@ const purchasesDetailsSchema = z.object({
 
 enum statusProps {
   entrege = "Entrege",
-  atrasada = "Atrasada",
+  atrasado = "Atrasado",
   pendente = "Pendente",
-  cancelada = "Cancelada",
+  cancelado = "Cancelado",
 }
 
 export const schema = z.object({
@@ -20,9 +20,9 @@ export const schema = z.object({
   purchace_details: z.array(purchasesDetailsSchema),
   status: z.enum([
     statusProps.entrege,
-    statusProps.atrasada,
+    statusProps.atrasado,
     statusProps.pendente,
-    statusProps.cancelada,
+    statusProps.cancelado,
   ]),
 });
 

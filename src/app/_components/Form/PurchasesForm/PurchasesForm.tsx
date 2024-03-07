@@ -69,9 +69,9 @@ export default function PurchasesForm() {
         errorMessage={errors.status?.message}
       >
         <SelectItem key="Entrege">Entrege</SelectItem>
-        <SelectItem key="Atrasada">Atrasada</SelectItem>
+        <SelectItem key="Atrasado">Atrasada</SelectItem>
         <SelectItem key="Pendente">Pendente</SelectItem>
-        <SelectItem key="Cancelada">Cancelada</SelectItem>
+        <SelectItem key="Cancelado">Cancelada</SelectItem>
       </Select>
 
       <Button
