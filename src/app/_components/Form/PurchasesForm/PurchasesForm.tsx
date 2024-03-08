@@ -1,6 +1,13 @@
 "use client";
 
-import { Button, Input, Select, SelectItem } from "@nextui-org/react";
+import {
+  Button,
+  Input,
+  Select,
+  SelectItem,
+  Autocomplete,
+  AutocompleteItem,
+} from "@nextui-org/react";
 import { usePurchases } from "./usePurchases";
 import { api } from "~/trpc/react";
 import { BiSolidPlusCircle } from "react-icons/bi";
@@ -76,7 +83,7 @@ export default function PurchasesForm() {
 
       <Button
         onClick={() => {
-          append({ products_name: "", products_amount: 0, price: 0 });
+          append({ products_id: 0, products_amount: 0, price: 0 });
         }}
         color="primary"
         radius="full"
@@ -88,11 +95,15 @@ export default function PurchasesForm() {
         {fields.map((field, index) => {
           return (
             <div key={field.id} className="flex w-full items-center gap-4">
-              <Input
-                label="Nome do Produto"
-                type="text"
-                {...register(`purchace_details.${index}.products_name`)}
-              />
+              <Autocomplete
+                defaultItems={products.data}
+                label="Selecione um produto"
+                {...register(`purchace_details.${index}.products_id`)}
+              >
+                {(p) => (
+                  <AutocompleteItem key={p.id}>{p.name}</AutocompleteItem>
+                )}
+              </Autocomplete>
               <Input
                 label="Quantidade"
                 inputMode="decimal"

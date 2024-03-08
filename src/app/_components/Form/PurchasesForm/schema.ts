@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 const purchasesDetailsSchema = z.object({
-  products_name: z.coerce.string(),
+  products_id: z.coerce.number(),
   products_amount: z.coerce.number(),
   price: z.coerce.number(),
 });
