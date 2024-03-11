@@ -38,13 +38,19 @@ export const purchasesRouter = createTRPCRouter({
           },
         });
         input.purchace_details.forEach(async (products) => {
-          const product = await ctx.db.products.update({
+          const product = await ctx.db.products.findUnique({
             where: { id: products.products_id },
-            data: {
-              price: products.price,
-              on_stock: products.products_amount,
-            },
           });
+
+          if (product) {
+            const result = await ctx.db.products.update({
+              where: { id: products.products_id },
+              data: {
+                price: products.price,
+                on_stock: product.on_stock + products.products_amount,
+              },
+            });
+          }
         });
 
         return {
@@ -86,11 +92,11 @@ export const purchasesRouter = createTRPCRouter({
             purchace_details: input.purchace_details,
           },
         });
-        /* if (input.purchace_details) {
+        if (input.purchace_details) {
           input.purchace_details.forEach(async (products) => {
-            const product = await ctx.db.products.create({
+            const product = await ctx.db.products.update({
+              where: { id: products.products_id },
               data: {
-                name: products.products_name,
                 price: products.price,
                 on_stock: products.products_amount,
               },
@@ -101,7 +107,7 @@ export const purchasesRouter = createTRPCRouter({
             message: "Account created successfully",
             result: purchases.status,
           };
-        } */
+        }
         return {
           status: 201,
           message: "Account created successfully",

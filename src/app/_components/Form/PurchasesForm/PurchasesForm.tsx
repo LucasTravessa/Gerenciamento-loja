@@ -93,12 +93,20 @@ export default function PurchasesForm() {
 
       <div className="flex w-full flex-col items-center gap-1">
         {fields.map((field, index) => {
+          const { name, ref } = register(
+            `purchace_details.${index}.products_id`,
+          );
           return (
             <div key={field.id} className="flex w-full items-center gap-4">
               <Autocomplete
                 defaultItems={products.data}
                 label="Selecione um produto"
-                {...register(`purchace_details.${index}.products_id`)}
+                name={name}
+                ref={ref}
+                allowsCustomValue={false}
+                onSelectionChange={(key) =>
+                  setValue(`purchace_details.${index}.products_id`, Number(key))
+                }
               >
                 {(p) => (
                   <AutocompleteItem key={p.id}>{p.name}</AutocompleteItem>
