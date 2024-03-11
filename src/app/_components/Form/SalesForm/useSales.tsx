@@ -10,6 +10,7 @@ export const useSales = () => {
     handleSubmit,
     watch,
     control,
+    setValue,
     formState: { errors },
   } = useForm<schemaProps>({
     mode: "onBlur",
@@ -41,6 +42,7 @@ export const useSales = () => {
     watch,
     handleSubmit,
     handleCreation,
+    setValue,
     errors,
     fields,
     append,

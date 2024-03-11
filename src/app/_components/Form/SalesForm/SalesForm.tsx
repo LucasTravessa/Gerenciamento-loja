@@ -1,8 +1,16 @@
 "use client";
-import { Button, Input, Select, SelectItem } from "@nextui-org/react";
+import {
+  Button,
+  Input,
+  Select,
+  SelectItem,
+  Autocomplete,
+  AutocompleteItem,
+} from "@nextui-org/react";
 import { BiSolidPlusCircle } from "react-icons/bi";
 import { api } from "~/trpc/react";
 import { useSales } from "./useSales";
+import { useEffect } from "react";
 
 export default function SalesForm() {
   const employees = api.employees.getAll.useQuery();
@@ -16,19 +24,17 @@ export default function SalesForm() {
     fields,
     append,
     remove,
+    setValue,
   } = useSales();
 
-  function handleTotal() {
+  useEffect(() => {
     let total = 0;
-    const products = watch("sales_details");
-    if (products != undefined) {
-      products.map((field) => {
-        total += field.price * field.products_amount;
-      });
-    }
-    const string = String(total.toFixed(2));
-    return string;
-  }
+    const amount = watch(`sales_details.${0}.products_amount`);
+    const price = watch(`sales_details.${0}.price`);
+    total += amount * price;
+
+    setValue("total", total);
+  });
 
   return (
     <form
@@ -65,7 +71,7 @@ export default function SalesForm() {
           label="Total"
           inputMode="decimal"
           type="number"
-          value={handleTotal()}
+          {...register("total")}
           startContent={
             <div className="pointer-events-none flex items-center">
               <span className="text-small text-default-400">R$</span>
@@ -94,24 +100,24 @@ export default function SalesForm() {
 
       <div className="flex w-full flex-col items-center gap-1">
         {fields.map((field, index) => {
+          const { name, ref } = register(`sales_details.${index}.products_id`);
+
           return (
             <div key={field.id} className="flex w-full items-center gap-4">
-              <Select
-                label="Selecione o produto"
-                {...register(`sales_details.${index}.products_id`)}
+              <Autocomplete
+                defaultItems={products.data}
+                label="Selecione um produto"
+                name={name}
+                ref={ref}
+                allowsCustomValue={false}
+                onSelectionChange={(key) =>
+                  setValue(`sales_details.${index}.products_id`, Number(key))
+                }
               >
-                {products.data ? (
-                  products.data.map((p) => (
-                    <SelectItem key={p.id} value={p.id}>
-                      {p.name}
-                    </SelectItem>
-                  ))
-                ) : (
-                  <SelectItem key={0} value={0}>
-                    Nenhum
-                  </SelectItem>
+                {(p) => (
+                  <AutocompleteItem key={p.id}>{p.name}</AutocompleteItem>
                 )}
-              </Select>
+              </Autocomplete>
               <Input
                 label="Quantidade"
                 inputMode="decimal"

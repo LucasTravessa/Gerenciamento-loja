@@ -259,7 +259,7 @@ export default function SellsTable({ sells, employees }: props) {
             </Button>
             <Button
               color="primary"
-              onClick={() => router.push("/user/vendas/?modal=true")}
+              onClick={() => router.push("/user/vendas/?id=0")}
               endContent={<BiPlus size={12} />}
             >
               Novo
