@@ -242,7 +242,7 @@ export default function SupplierTable({ supplier }: props) {
             </Dropdown>
             <Button
               color="primary"
-              onClick={() => router.push("/user/fornecedores/?modal=true")}
+              onClick={() => router.push("/user/fornecedores?id=0")}
               endContent={<BiPlus size={12} />}
             >
               Novo

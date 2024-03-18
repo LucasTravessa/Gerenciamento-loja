@@ -11,6 +11,7 @@ export default function ProductForm() {
       onSubmit={handleSubmit(handleCreation)}
     >
       <Input
+        className="w-4/5"
         label="Nome"
         type="text"
         {...register("name")}
@@ -18,6 +19,7 @@ export default function ProductForm() {
         errorMessage={errors.name?.message}
       />
       <Input
+        className="w-4/5"
         label="Preço"
         type="number"
         {...register("price")}
@@ -25,6 +27,7 @@ export default function ProductForm() {
         errorMessage={errors.price?.message}
       />
       <Input
+        className="w-4/5"
         label="Quantidade"
         type="number"
         {...register("on_stock")}

@@ -17,7 +17,7 @@ export default function EmployeesForm() {
       className="flex flex-col items-center gap-4"
       onSubmit={handleSubmit(handleCreation)}
     >
-      <div className="flex gap-2">
+      <div className="flex w-4/5 gap-2">
         <Input
           label="Nome"
           type="text"
@@ -37,7 +37,7 @@ export default function EmployeesForm() {
         />
       </div>
 
-      <div className="flex gap-2">
+      <div className="flex w-4/5 gap-2">
         <Input
           label="Cargo"
           type="text"
@@ -57,7 +57,7 @@ export default function EmployeesForm() {
         />
       </div>
 
-      <div className="flex gap-2">
+      <div className="flex w-4/5 gap-2">
         <Input
           label="Endereço"
           type="text"
@@ -80,6 +80,7 @@ export default function EmployeesForm() {
       </div>
 
       <Select
+        className="w-4/5"
         label="Selecione o Status"
         {...register("status")}
         selectedKeys={[watch("status")]}

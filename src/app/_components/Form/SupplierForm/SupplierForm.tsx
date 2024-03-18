@@ -11,7 +11,7 @@ export default function SupplierForm() {
       className="flex flex-col items-center gap-4"
       onSubmit={handleSubmit(handleCreation)}
     >
-      <div className="flex gap-2">
+      <div className="flex w-4/5 gap-2">
         <Input
           label="Nome Fantasia"
           type="text"
@@ -28,7 +28,7 @@ export default function SupplierForm() {
         />
       </div>
 
-      <div className="flex gap-2">
+      <div className="flex w-4/5 gap-2">
         <Input
           label="Email"
           type="text"
@@ -45,7 +45,7 @@ export default function SupplierForm() {
         />
       </div>
 
-      <div className="flex gap-2">
+      <div className="flex w-4/5 gap-2">
         <Input
           label="Telefone"
           type="text"

@@ -208,7 +208,7 @@ export default function ProductsTable({ products }: props) {
           <div className="flex gap-3">
             <Button
               color="primary"
-              onClick={() => router.push("/user/estoque/?modal=true")}
+              onClick={() => router.push("/user/estoque?id=0")}
               endContent={<BiPlus size={12} />}
             >
               Novo
