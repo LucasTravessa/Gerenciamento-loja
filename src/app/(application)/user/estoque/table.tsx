@@ -26,6 +26,7 @@ import {
 } from "react";
 import { BiDotsVertical, BiPlus, BiSearch } from "react-icons/bi";
 import { useRouter } from "next/navigation";
+import { api } from "~/trpc/react";
 
 type props = {
   products: Products[];
@@ -40,6 +41,8 @@ const column = [
 ];
 
 export default function ProductsTable({ products }: props) {
+  const productDelete = api.products.delete.useMutation();
+
   //Linhas da tabela
   const renderCell = useCallback((products: Products, columnKey: Key) => {
     const cellValue = products[columnKey as keyof Products];
@@ -73,15 +76,15 @@ export default function ProductsTable({ products }: props) {
   const hasSearchFilter = Boolean(filterValue);
 
   const filteredItems = useMemo(() => {
-    let filteredSuppliers = [...products];
+    let filteredProducts = [...products];
 
     if (hasSearchFilter) {
-      filteredSuppliers = filteredSuppliers.filter((user) =>
+      filteredProducts = filteredProducts.filter((user) =>
         user.name.toLowerCase().includes(filterValue.toLowerCase()),
       );
     }
 
-    return filteredSuppliers;
+    return filteredProducts;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [products, filterValue]);
 
@@ -192,6 +195,18 @@ export default function ProductsTable({ products }: props) {
 
   const router = useRouter();
 
+  async function handleDelete() {
+    const ids = Array.from(selectedKeys);
+    await Promise.all(
+      ids.map(
+        async (id) =>
+          await productDelete.mutateAsync({ id: parseInt(id as string) }),
+      ),
+    );
+    setSelectedKeys(new Set([]));
+    router.refresh();
+  }
+
   const topContent = useMemo(() => {
     return (
       <div className="flex flex-col gap-4">
@@ -206,6 +221,9 @@ export default function ProductsTable({ products }: props) {
             onValueChange={onSearchChange}
           />
           <div className="flex gap-3">
+            <Button variant="flat" onClick={handleDelete}>
+              Apagar
+            </Button>
             <Button
               color="primary"
               onClick={() => router.push("/user/estoque?id=0")}
@@ -235,6 +253,7 @@ export default function ProductsTable({ products }: props) {
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
+    selectedKeys,
     filterValue,
     onSearchChange,
     onRowsPerPageChange,

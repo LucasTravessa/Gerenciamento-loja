@@ -33,6 +33,7 @@ import {
   BiSearch,
 } from "react-icons/bi";
 import { useRouter } from "next/navigation";
+import { api } from "~/trpc/react";
 
 type props = {
   purchases: {
@@ -75,75 +76,78 @@ const statusColorMap: Record<string, ChipProps["color"]> = {
 };
 
 export default function PurchasesTable({ purchases, suppliers }: props) {
-  // const purchasesDelete = api.purchases.delete.useMutation();
+  const purchasesDelete = api.purchases.delete.useMutation();
 
   //Linhas da tabela
-  const renderCell = useCallback((purchases: Purchases, columnKey: Key) => {
-    const cellValue = purchases[columnKey as keyof Purchases];
+  const renderCell = useCallback(
+    (purchases: Purchases, columnKey: Key) => {
+      const cellValue = purchases[columnKey as keyof Purchases];
 
-    switch (columnKey) {
-      case "id":
-        return (
-          <p className="text-bold text-small capitalize">
-            {cellValue.toString()}
-          </p>
-        );
-      case "supplier_id":
-        const supplier = suppliers.find(
-          (suppliers) => suppliers.id === cellValue,
-        );
-        return (
-          <p className="text-bold text-small capitalize">
-            {supplier?.fantasy_name}
-          </p>
-        );
-      case "total":
-        return (
-          <p className="text-bold text-small capitalize">
-            R${cellValue.toString()}
-          </p>
-        );
-      case "date":
-        return (
-          <p className="text-bold text-small capitalize">
-            {cellValue instanceof Date &&
-              cellValue.toLocaleDateString("pt-br", {
-                year: "numeric",
-                month: "numeric",
-                day: "numeric",
-              })}
-          </p>
-        );
-      case "status":
-        return (
-          <Chip
-            className="capitalize"
-            size="sm"
-            variant="flat"
-            color={statusColorMap[purchases.status]}
-          >
-            {cellValue.toString()}
-          </Chip>
-        );
-      case "actions":
-        return (
-          <div className="relative flex items-center justify-center gap-2">
-            <Dropdown>
-              <DropdownTrigger>
-                <Button isIconOnly size="sm" variant="light">
-                  <BiDotsVertical size={15} />
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu>
-                <DropdownItem>Visualizar</DropdownItem>
-                <DropdownItem>Editar</DropdownItem>
-                <DropdownItem>Deletar</DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
-          </div>
-        );
-    }
-  }, []);
+      switch (columnKey) {
+        case "id":
+          return (
+            <p className="text-bold text-small capitalize">
+              {cellValue.toString()}
+            </p>
+          );
+        case "supplier_id":
+          const supplier = suppliers.find(
+            (suppliers) => suppliers.id === cellValue,
+          );
+          return (
+            <p className="text-bold text-small capitalize">
+              {supplier?.fantasy_name}
+            </p>
+          );
+        case "total":
+          return (
+            <p className="text-bold text-small capitalize">
+              R${cellValue.toString()}
+            </p>
+          );
+        case "date":
+          return (
+            <p className="text-bold text-small capitalize">
+              {cellValue instanceof Date &&
+                cellValue.toLocaleDateString("pt-br", {
+                  year: "numeric",
+                  month: "numeric",
+                  day: "numeric",
+                })}
+            </p>
+          );
+        case "status":
+          return (
+            <Chip
+              className="capitalize"
+              size="sm"
+              variant="flat"
+              color={statusColorMap[purchases.status]}
+            >
+              {cellValue.toString()}
+            </Chip>
+          );
+        case "actions":
+          return (
+            <div className="relative flex items-center justify-center gap-2">
+              <Dropdown>
+                <DropdownTrigger>
+                  <Button isIconOnly size="sm" variant="light">
+                    <BiDotsVertical size={15} />
+                  </Button>
+                </DropdownTrigger>
+                <DropdownMenu>
+                  <DropdownItem>Visualizar</DropdownItem>
+                  <DropdownItem>Editar</DropdownItem>
+                  <DropdownItem>Deletar</DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
+            </div>
+          );
+      }
+    },
+    [suppliers],
+  );
 
   //Filtros
   const [filterValue, setFilterValue] = useState("");
@@ -274,12 +278,17 @@ export default function PurchasesTable({ purchases, suppliers }: props) {
 
   const router = useRouter();
 
-  const handleDelete = useCallback(() => {
+  async function handleDelete() {
     const ids = Array.from(selectedKeys);
-    console.log(ids);
-    /* ids.map((id) => purchasesDelete.mutate(id)); */
+    await Promise.all(
+      ids.map(
+        async (id) =>
+          await purchasesDelete.mutateAsync({ id: parseInt(id as string) }),
+      ),
+    );
     setSelectedKeys(new Set([]));
-  }, [selectedKeys]);
+    router.refresh();
+  }
 
   const topContent = useMemo(() => {
     return (
@@ -296,7 +305,7 @@ export default function PurchasesTable({ purchases, suppliers }: props) {
           />
           <div className="flex gap-3">
             <Button variant="flat" onClick={handleDelete}>
-              Delete
+              Apagar
             </Button>
             <Dropdown>
               <DropdownTrigger className="hidden sm:flex">

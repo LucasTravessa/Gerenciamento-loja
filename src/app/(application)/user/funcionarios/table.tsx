@@ -25,7 +25,7 @@ import type { ChangeEvent, Key } from "react";
 import { BiChevronDown, BiPlus, BiSearch } from "react-icons/bi";
 import { useRouter } from "next/navigation";
 import { FaPen } from "react-icons/fa";
-// import { api } from "~/trpc/react";
+import { api } from "~/trpc/react";
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
   Ativo: "success",
@@ -54,7 +54,7 @@ type Props = {
 };
 
 export default function EmployeesTable({ employees }: Props) {
-  // const employeeDelete = api.employees.delete.useMutation();
+  const employeeDelete = api.employees.delete.useMutation();
 
   //Criação das linhas
   const renderCell = useCallback((employee: Employees, columnKey: Key) => {
@@ -91,7 +91,7 @@ export default function EmployeesTable({ employees }: Props) {
       case "actions":
         return (
           <div className="relative flex items-center gap-2">
-            <Tooltip content="Edit user">
+            <Tooltip content="Editar item">
               <span className="cursor-pointer text-lg text-default-400 active:opacity-50">
                 <FaPen
                   onClick={() =>
@@ -138,8 +138,6 @@ export default function EmployeesTable({ employees }: Props) {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [page, setPage] = useState(1);
   const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set([]));
-
-  console.log(selectedKeys);
 
   const items = useMemo(() => {
     const start = (page - 1) * rowsPerPage;
@@ -201,12 +199,17 @@ export default function EmployeesTable({ employees }: Props) {
 
   const router = useRouter();
 
-  const handleDelete = useCallback(() => {
+  async function handleDelete() {
     const ids = Array.from(selectedKeys);
-    console.log(ids);
-    /* ids.map((id) => employeeDelete.mutate({ id: parseInt(id as string) })); */
+    await Promise.all(
+      ids.map(
+        async (id) =>
+          await employeeDelete.mutateAsync({ id: parseInt(id as string) }),
+      ),
+    );
     setSelectedKeys(new Set([]));
-  }, [selectedKeys]);
+    router.refresh();
+  }
 
   const topContent = useMemo(() => {
     return (
@@ -223,7 +226,7 @@ export default function EmployeesTable({ employees }: Props) {
           />
           <div className="flex gap-3">
             <Button variant="flat" onClick={handleDelete}>
-              Delete
+              Apagar
             </Button>
             <Dropdown>
               <DropdownTrigger className="hidden sm:flex">

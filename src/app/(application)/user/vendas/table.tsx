@@ -43,7 +43,7 @@ const column = [
 ];
 
 export default function SellsTable({ sells, employees }: props) {
-  const sellsDelete = api.sales.delete.useMutation();
+  const salesDelete = api.sales.delete.useMutation();
 
   const renderCell = useCallback((sells: Sales, columnKey: Key) => {
     const cellValue = sells[columnKey as keyof Sales];
@@ -231,14 +231,17 @@ export default function SellsTable({ sells, employees }: props) {
 
   const router = useRouter();
 
-  const handleDelete = useCallback(() => {
+  async function handleDelete() {
     const ids = Array.from(selectedKeys);
-    console.log(ids);
-    ids.map((id) => sellsDelete.mutate({ id: parseInt(id as string) }));
+    await Promise.all(
+      ids.map(
+        async (id) =>
+          await salesDelete.mutateAsync({ id: parseInt(id as string) }),
+      ),
+    );
     setSelectedKeys(new Set([]));
     router.refresh();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedKeys]);
+  }
 
   const topContent = useMemo(() => {
     return (
@@ -255,7 +258,7 @@ export default function SellsTable({ sells, employees }: props) {
           />
           <div className="flex gap-3">
             <Button variant="flat" onClick={handleDelete}>
-              Delete
+              Apagar
             </Button>
             <Button
               color="primary"
@@ -286,6 +289,7 @@ export default function SellsTable({ sells, employees }: props) {
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
+    selectedKeys,
     filterValue,
     onSearchChange,
     onRowsPerPageChange,

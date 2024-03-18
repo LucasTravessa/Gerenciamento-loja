@@ -27,7 +27,7 @@ import {
   BiPlus,
   BiSearch,
 } from "react-icons/bi";
-// import { api } from "~/trpc/react";
+import { api } from "~/trpc/react";
 
 type props = {
   supplier: Suppliers[];
@@ -56,7 +56,7 @@ const statusColorMap: Record<string, ChipProps["color"]> = {
 };
 
 export default function SupplierTable({ supplier }: props) {
-  // const supplierDelete = api.suppliers.delete.useMutation();
+  const supplierDelete = api.suppliers.delete.useMutation();
 
   //Linhas da tabela
   const renderCell = useCallback((supplier: Suppliers, columnKey: Key) => {
@@ -128,8 +128,6 @@ export default function SupplierTable({ supplier }: props) {
   const [page, setPage] = useState(1);
   const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set([]));
 
-  console.log(selectedKeys);
-
   const items = useMemo(() => {
     const start = (page - 1) * rowsPerPage;
     const end = start + rowsPerPage;
@@ -192,12 +190,17 @@ export default function SupplierTable({ supplier }: props) {
 
   const router = useRouter();
 
-  const handleDelete = useCallback(() => {
+  async function handleDelete() {
     const ids = Array.from(selectedKeys);
-    console.log(ids);
-    /*  ids.map((id) => supplierDelete.mutate({ id: parseInt(id as string) })); */
+    await Promise.all(
+      ids.map(
+        async (id) =>
+          await supplierDelete.mutateAsync({ id: parseInt(id as string) }),
+      ),
+    );
     setSelectedKeys(new Set([]));
-  }, [selectedKeys]);
+    router.refresh();
+  }
 
   const topContent = useMemo(() => {
     return (
@@ -214,7 +217,7 @@ export default function SupplierTable({ supplier }: props) {
           />
           <div className="flex gap-3">
             <Button variant="flat" onClick={handleDelete}>
-              Delete
+              Apagar
             </Button>
             <Dropdown>
               <DropdownTrigger className="hidden sm:flex">
@@ -269,6 +272,7 @@ export default function SupplierTable({ supplier }: props) {
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
+    selectedKeys,
     filterValue,
     statusFilter,
     onSearchChange,
