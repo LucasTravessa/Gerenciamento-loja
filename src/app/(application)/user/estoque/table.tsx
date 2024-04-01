@@ -27,6 +27,7 @@ import {
 import { BiDotsVertical, BiPlus, BiSearch } from "react-icons/bi";
 import { useRouter } from "next/navigation";
 import { api } from "~/trpc/react";
+import toast from "react-hot-toast";
 
 type props = {
   products: Products[];
@@ -196,15 +197,21 @@ export default function ProductsTable({ products }: props) {
   const router = useRouter();
 
   async function handleDelete() {
-    const ids = Array.from(selectedKeys);
-    await Promise.all(
-      ids.map(
-        async (id) =>
-          await productDelete.mutateAsync({ id: parseInt(id as string) }),
-      ),
-    );
-    setSelectedKeys(new Set([]));
-    router.refresh();
+    try {
+      const ids = Array.from(selectedKeys);
+      await Promise.all(
+        ids.map(
+          async (id) =>
+            await productDelete.mutateAsync({ id: parseInt(id as string) }),
+        ),
+      );
+      toast.success("Deletado com sucesso!!");
+      setSelectedKeys(new Set([]));
+      router.refresh();
+    } catch (err) {
+      // console.log(err);
+      toast.error("Erro ao deletar!");
+    }
   }
 
   const topContent = useMemo(() => {

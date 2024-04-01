@@ -34,6 +34,7 @@ import {
 } from "react-icons/bi";
 import { useRouter } from "next/navigation";
 import { api } from "~/trpc/react";
+import toast from "react-hot-toast";
 
 type props = {
   purchases: {
@@ -49,7 +50,7 @@ type props = {
     }[];
   }[];
   suppliers: Suppliers[];
-  product: Products[];
+  product?: Products[];
 };
 
 const column = [
@@ -279,15 +280,21 @@ export default function PurchasesTable({ purchases, suppliers }: props) {
   const router = useRouter();
 
   async function handleDelete() {
-    const ids = Array.from(selectedKeys);
-    await Promise.all(
-      ids.map(
-        async (id) =>
-          await purchasesDelete.mutateAsync({ id: parseInt(id as string) }),
-      ),
-    );
-    setSelectedKeys(new Set([]));
-    router.refresh();
+    try {
+      const ids = Array.from(selectedKeys);
+      await Promise.all(
+        ids.map(
+          async (id) =>
+            await purchasesDelete.mutateAsync({ id: parseInt(id as string) }),
+        ),
+      );
+      setSelectedKeys(new Set([]));
+      toast.success("Deletado com sucesso!!");
+      router.refresh();
+    } catch (err) {
+      // console.log(err);
+      toast.error("Erro ao deletar!");
+    }
   }
 
   const topContent = useMemo(() => {

@@ -1,11 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { api } from "~/trpc/react";
 import { schema, type schemaProps } from "./schema";
+import { signIn } from "next-auth/react";
 
 export function useRegister() {
-  const router = useRouter();
   const addUser = api.signup.signup.useMutation();
 
   const {
@@ -18,15 +17,20 @@ export function useRegister() {
     resolver: zodResolver(schema),
   });
 
-  function handleRegister(data: schemaProps) {
+  async function handleRegister(data: schemaProps) {
     const user = {
       name: data.username,
       email: data.email,
       password: data.password,
     };
 
-    addUser.mutate(user);
-    router.push("/");
+    await addUser.mutateAsync(user);
+
+    await signIn("credentials", {
+      email: data.email,
+      password: data.password,
+      callbackUrl: "/",
+    });
   }
 
   return {

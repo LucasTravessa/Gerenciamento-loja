@@ -21,6 +21,7 @@ import type { Suppliers } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import type { ChangeEvent, Key } from "react";
 import { useCallback, useMemo, useState } from "react";
+import toast from "react-hot-toast";
 import {
   BiChevronDown,
   BiDotsVertical,
@@ -191,15 +192,21 @@ export default function SupplierTable({ supplier }: props) {
   const router = useRouter();
 
   async function handleDelete() {
-    const ids = Array.from(selectedKeys);
-    await Promise.all(
-      ids.map(
-        async (id) =>
-          await supplierDelete.mutateAsync({ id: parseInt(id as string) }),
-      ),
-    );
-    setSelectedKeys(new Set([]));
-    router.refresh();
+    try {
+      const ids = Array.from(selectedKeys);
+      await Promise.all(
+        ids.map(
+          async (id) =>
+            await supplierDelete.mutateAsync({ id: parseInt(id as string) }),
+        ),
+      );
+      toast.success("Deletado com sucesso!!");
+      setSelectedKeys(new Set([]));
+      router.refresh();
+    } catch (err) {
+      // console.log(err);
+      toast.error("Erro ao deletar!");
+    }
   }
 
   const topContent = useMemo(() => {

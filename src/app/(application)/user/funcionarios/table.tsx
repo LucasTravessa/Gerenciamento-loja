@@ -26,6 +26,7 @@ import { BiChevronDown, BiPlus, BiSearch } from "react-icons/bi";
 import { useRouter } from "next/navigation";
 import { FaPen } from "react-icons/fa";
 import { api } from "~/trpc/react";
+import toast from "react-hot-toast";
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
   Ativo: "success",
@@ -200,15 +201,21 @@ export default function EmployeesTable({ employees }: Props) {
   const router = useRouter();
 
   async function handleDelete() {
-    const ids = Array.from(selectedKeys);
-    await Promise.all(
-      ids.map(
-        async (id) =>
-          await employeeDelete.mutateAsync({ id: parseInt(id as string) }),
-      ),
-    );
-    setSelectedKeys(new Set([]));
-    router.refresh();
+    try {
+      const ids = Array.from(selectedKeys);
+      await Promise.all(
+        ids.map(
+          async (id) =>
+            await employeeDelete.mutateAsync({ id: parseInt(id as string) }),
+        ),
+      );
+      toast.success("Deletado com sucesso!!");
+      setSelectedKeys(new Set([]));
+      router.refresh();
+    } catch (err) {
+      // console.log(err);
+      toast.error("Erro ao deletar!");
+    }
   }
 
   const topContent = useMemo(() => {
