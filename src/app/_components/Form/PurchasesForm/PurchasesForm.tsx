@@ -1,4 +1,5 @@
 "use client";
+
 import {
   Button,
   Input,
@@ -7,30 +8,30 @@ import {
   Autocomplete,
   AutocompleteItem,
 } from "@nextui-org/react";
-import { BiSolidPlusCircle } from "react-icons/bi";
+import { usePurchases } from "./usePurchases";
 import { api } from "~/trpc/react";
-import { useSales } from "./useSales";
+import { BiSolidPlusCircle } from "react-icons/bi";
 import { useEffect } from "react";
 
-export default function SalesForm() {
-  const employees = api.employees.getAll.useQuery();
+export default function PurchasesForm() {
+  const suppliers = api.suppliers.getAll.useQuery();
   const products = api.products.getAll.useQuery();
   const {
     register,
-    watch,
     handleSubmit,
     handleCreation,
     errors,
-    fields,
     append,
+    fields,
     remove,
+    watch,
     setValue,
-  } = useSales();
+  } = usePurchases();
 
   useEffect(() => {
     let total = 0;
-    const amount = watch(`sales_details.${0}.products_amount`);
-    const price = watch(`sales_details.${0}.price`);
+    const amount = watch(`purchace_details.${0}.products_amount`);
+    const price = watch(`purchace_details.${0}.price`);
     total += amount * price;
 
     setValue("total", total);
@@ -42,51 +43,43 @@ export default function SalesForm() {
       onSubmit={handleSubmit(handleCreation)}
     >
       <Select
-        label="Selecione o empregado"
-        {...register("employee_id")}
-        color={`${errors.employee_id ? "danger" : "default"}`}
+        label="Selecione o fornecedor"
+        {...register("supplier_id")}
+        color={`${errors.supplier_id ? "danger" : "default"}`}
       >
-        {employees.data ? (
-          employees.data.map((e) => (
-            <SelectItem key={e.id} value={e.id}>
-              {e.name}
-            </SelectItem>
+        {suppliers.data ? (
+          suppliers.data.map((s) => (
+            <SelectItem key={s.id}>{s.fantasy_name}</SelectItem>
           ))
         ) : (
-          <SelectItem key={0} value={0}>
-            Nenhum
-          </SelectItem>
+          <SelectItem key={0}>Nenhum fornecedor</SelectItem>
         )}
       </Select>
-      <div className="flex w-full gap-4">
-        <Input
-          label="Cliente"
-          type="text"
-          {...register("client")}
-          color={`${errors.client ? "danger" : "default"}`}
-          errorMessage={errors.client?.message}
-        />
-        <Input
-          disabled
-          label="Total"
-          inputMode="decimal"
-          type="number"
-          {...register("total")}
-          startContent={
-            <div className="pointer-events-none flex items-center">
-              <span className="text-small text-default-400">R$</span>
-            </div>
-          }
-          color={`${errors.total ? "danger" : "default"}`}
-          errorMessage={errors.total?.message}
-        />
-        <Input
-          type="date"
-          {...register("date")}
-          color={`${errors.date ? "danger" : "default"}`}
-          errorMessage={errors.date?.message}
-        />
-      </div>
+      <Input
+        type="date"
+        {...register("date")}
+        color={`${errors.date ? "danger" : "default"}`}
+        errorMessage={errors.date?.message}
+      />
+      <Input
+        placeholder="Total"
+        disabled
+        type="number"
+        {...register("total")}
+        color={`${errors.total ? "danger" : "default"}`}
+        errorMessage={errors.total?.message}
+      />
+      <Select
+        label="Selecione o Status"
+        {...register("status")}
+        color={`${errors.status ? "danger" : "default"}`}
+        errorMessage={errors.status?.message}
+      >
+        <SelectItem key="Entrege">Entrege</SelectItem>
+        <SelectItem key="Atrasado">Atrasada</SelectItem>
+        <SelectItem key="Pendente">Pendente</SelectItem>
+        <SelectItem key="Cancelado">Cancelada</SelectItem>
+      </Select>
 
       <Button
         onClick={() => {
@@ -100,8 +93,9 @@ export default function SalesForm() {
 
       <div className="flex w-full flex-col items-center gap-1">
         {fields.map((field, index) => {
-          const { name, ref } = register(`sales_details.${index}.products_id`);
-
+          const { name, ref } = register(
+            `purchace_details.${index}.products_id`,
+          );
           return (
             <div key={field.id} className="flex w-full items-center gap-4">
               <Autocomplete
@@ -111,7 +105,7 @@ export default function SalesForm() {
                 ref={ref}
                 allowsCustomValue={false}
                 onSelectionChange={(key) =>
-                  setValue(`sales_details.${index}.products_id`, Number(key))
+                  setValue(`purchace_details.${index}.products_id`, Number(key))
                 }
               >
                 {(p) => (
@@ -121,18 +115,17 @@ export default function SalesForm() {
               <Input
                 label="Quantidade"
                 inputMode="decimal"
-                {...register(`sales_details.${index}.products_amount`)}
+                {...register(`purchace_details.${index}.products_amount`)}
               />
               <Input
                 label="Valor"
-                placeholder="0.00"
                 startContent={
                   <div className="pointer-events-none flex items-center">
                     <span className="text-small text-default-400">R$</span>
                   </div>
                 }
                 type="number"
-                {...register(`sales_details.${index}.price`)}
+                {...register(`purchace_details.${index}.price`)}
               />
               <BiSolidPlusCircle
                 fill="red"
@@ -146,6 +139,7 @@ export default function SalesForm() {
           );
         })}
       </div>
+
       <Button color="primary" radius="full" type="submit">
         Enviar
       </Button>

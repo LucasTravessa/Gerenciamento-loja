@@ -32,6 +32,15 @@ export const suppliersRouter = createTRPCRouter({
         },
       });
     }),
+  delete: publicProcedure
+    .input(
+      z.object({
+        id: z.number(),
+      }),
+    )
+    .mutation(({ ctx, input }) =>
+      ctx.db.suppliers.delete({ where: { id: input.id } }),
+    ),
   update: publicProcedure
     .input(
       z

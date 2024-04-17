@@ -11,25 +11,28 @@ export default function ProductForm() {
       onSubmit={handleSubmit(handleCreation)}
     >
       <Input
+        className="w-4/5"
         label="Nome"
         type="text"
         {...register("name")}
         color={`${errors.name ? "danger" : "default"}`}
-        errorMessage={errors.name && `${errors.name.message}`}
+        errorMessage={errors.name?.message}
       />
       <Input
+        className="w-4/5"
         label="Preço"
         type="number"
         {...register("price")}
         color={`${errors.price ? "danger" : "default"}`}
-        errorMessage={errors.price && `${errors.price.message}`}
+        errorMessage={errors.price?.message}
       />
       <Input
+        className="w-4/5"
         label="Quantidade"
         type="number"
         {...register("on_stock")}
         color={`${errors.on_stock ? "danger" : "default"}`}
-        errorMessage={errors.on_stock && `${errors.on_stock.message}`}
+        errorMessage={errors.on_stock?.message}
       />
       <Button color="primary" radius="full" type="submit">
         Enviar

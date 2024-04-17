@@ -8,7 +8,8 @@ import { useState } from "react";
 import { type AppRouter } from "~/server/api/root";
 import { getUrl, transformer } from "./shared";
 import { NextUIProvider } from "@nextui-org/react";
-import {ThemeProvider as NextThemesProvider} from "next-themes";
+import { ThemeProvider as NextThemesProvider } from "next-themes";
+import { SessionProvider } from "next-auth/react";
 
 export const api = createTRPCReact<AppRouter>();
 
@@ -42,11 +43,13 @@ export function TRPCReactProvider(props: {
   return (
     <QueryClientProvider client={queryClient}>
       <api.Provider client={trpcClient} queryClient={queryClient}>
-        <NextUIProvider>
-          <NextThemesProvider attribute="class" defaultTheme="light">
-            {props.children}
-          </NextThemesProvider>
-        </NextUIProvider>
+        <SessionProvider>
+          <NextUIProvider>
+            <NextThemesProvider attribute="class" defaultTheme="light">
+              {props.children}
+            </NextThemesProvider>
+          </NextUIProvider>
+        </SessionProvider>
       </api.Provider>
     </QueryClientProvider>
   );

@@ -1,8 +1,6 @@
 import { getServerAuthSession } from "~/server/auth";
-import RegisterForm from "../_components/Form/RegisterForm/RegisterForm";
 import TestHeader from "../_components/Header/Header";
 import LoginModal from "../_components/Modals/LoginModal";
-import ModalGlobal from "../_components/Modals/Modal";
 import SignUpModal from "../_components/Modals/SignUpModal";
 
 export default async function LayoutHome({
@@ -13,11 +11,16 @@ export default async function LayoutHome({
   const session = await getServerAuthSession();
 
   return (
-    <>
+    <div className="flex min-h-screen flex-col">
       <TestHeader session={session} />
       <LoginModal />
-      <SignUpModal/>
+      <SignUpModal />
       {children}
-    </>
+      <footer className="mt-auto flex w-full items-center justify-center border-t">
+        <p className="flex items-center justify-center">
+          Powered by lucas e gilson
+        </p>
+      </footer>
+    </div>
   );
 }

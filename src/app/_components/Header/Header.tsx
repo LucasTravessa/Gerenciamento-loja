@@ -12,7 +12,7 @@ import {
   Dropdown,
   DropdownMenu,
   User,
-  Button
+  Button,
 } from "@nextui-org/react";
 
 //type
@@ -22,12 +22,10 @@ import type { Session } from "next-auth";
 import { signOut } from "next-auth/react";
 
 //hooks
-import { useTheme } from "next-themes";
 import { usePathname, useRouter } from "next/navigation";
 
 //icons
 import { FaLinux, FaSignOutAlt } from "react-icons/fa";
-import {BsSunFill, BsFillMoonFill} from 'react-icons/bs'
 import DarkModeButton from "../Button/DarkModeButton";
 
 type linkProps = {
@@ -39,27 +37,27 @@ type linkProps = {
 const link: linkProps = [
   {
     id: 1,
-    path: "/fornecedores",
+    path: "/user/fornecedores",
     name: "Fornecedores",
   },
   {
     id: 2,
-    path: "/vendas",
+    path: "/user/vendas",
     name: "Vendas",
   },
   {
     id: 3,
-    path: "/funcionarios",
+    path: "/user/funcionarios",
     name: "Funcionarios",
   },
   {
     id: 4,
-    path: "/estoque",
+    path: "/user/estoque",
     name: "Estoque",
   },
   {
     id: 5,
-    path: "/compras",
+    path: "/user/compras",
     name: "Compras",
   },
 ];
@@ -71,7 +69,7 @@ type Props = {
 export default function Header({ session }: Props) {
   const router = useRouter();
   const activePath = usePathname();
-  
+
   return (
     <Navbar>
       <NavbarBrand>
@@ -83,8 +81,8 @@ export default function Header({ session }: Props) {
 
       {session ? (
         <NavbarContent justify="center" className="hidden gap-4 sm:flex">
-            {link.map((item) => (
-            <NavbarItem key={item.id} isActive={activePath === item.path} >
+          {link.map((item) => (
+            <NavbarItem key={item.id} isActive={activePath === item.path}>
               <Link color="foreground" href={item.path}>
                 {item.name}
               </Link>
@@ -94,40 +92,34 @@ export default function Header({ session }: Props) {
             <DropdownTrigger>
               <User
                 name={`${session.user.name}`}
-                description='administrador geral'
+                description="administrador geral"
                 avatarProps={{
-                  src: `${session.user.image}`
+                  src: `${session.user.image}`,
                 }}
               />
             </DropdownTrigger>
             <DropdownMenu aria-label="Profile Actions" variant="flat">
-                <DropdownItem key='signout' onAction={() => signOut()}>
-                    <div className="flex justify-center items-center gap-3">
-                      <FaSignOutAlt className="text-red-500 text-xl"/> <p className="font-bold">Signout</p>
-                    </div>
-                </DropdownItem>
+              <DropdownItem key="signout" onAction={() => signOut()}>
+                <div className="flex items-center justify-center gap-3">
+                  <FaSignOutAlt className="text-xl text-red-500" />{" "}
+                  <p className="font-bold">Signout</p>
+                </div>
+              </DropdownItem>
             </DropdownMenu>
           </Dropdown>
         </NavbarContent>
       ) : (
         <NavbarContent as="div" justify="end">
-          <Button
-            className=""
-            onClick={() => router.push("/?signup=true")}
-          >
+          <Button className="" onClick={() => router.push("/?signup=true")}>
             Registro
           </Button>
-          <Button
-            className=""
-            onClick={() => router.push("/?login=true")}
-          >
+          <Button className="" onClick={() => router.push("/?login=true")}>
             Entrar
           </Button>
         </NavbarContent>
       )}
-      
-        <DarkModeButton/>
-        
+
+      <DarkModeButton />
     </Navbar>
   );
 }

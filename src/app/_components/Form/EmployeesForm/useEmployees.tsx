@@ -4,10 +4,28 @@ import { schema, type schemaProps } from "./schema";
 import { api } from "~/trpc/react";
 import { useRouter } from "next/navigation";
 
-export const useEmployees = () => {
+export const useEmployees = (employeeId: number) => {
+  const router = useRouter();
+  const addEmployee = api.employees.create.useMutation();
+  const putEmployee = api.employees.update.useMutation();
+  const apiData = api.employees.getOne.useQuery(employeeId).data;
+
+  console.log(apiData);
+
+  const values = {
+    name: String(apiData?.name),
+    email: String(apiData?.email),
+    role: String(apiData?.role),
+    phone_number: String(apiData?.phone_number),
+    address: String(apiData?.address),
+    salary: Number(apiData?.salary),
+    status: String(apiData?.status),
+  };
+
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm<schemaProps>({
     mode: "onBlur",
@@ -18,22 +36,28 @@ export const useEmployees = () => {
       email: "",
       role: "",
       phone_number: "",
-      salary: "",
       address: "",
+      salary: 0,
     },
+    values: apiData != null ? values : undefined,
   });
-  const addEmployee = api.employees.create.useMutation();
-  const router = useRouter();
 
   function handleCreation(data: schemaProps) {
-    addEmployee.mutate({ ...data, salary: parseInt(data.salary) });
-    router.push("/funcionarios");
+    if (apiData == null) {
+      addEmployee.mutate(data);
+      router.push("/user/funcionarios");
+      router.refresh();
+      return;
+    }
+    putEmployee.mutate({ ...data, id: employeeId });
+    router.push("/user/funcionarios");
     router.refresh();
   }
 
   return {
     register,
     handleSubmit,
+    watch,
     handleCreation,
     errors,
     isSubmitting,

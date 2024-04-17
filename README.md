@@ -1,32 +1,79 @@
-# Create T3 App
+# Gerenciamento Loja
+
+This is a comprehensive guide for the "Gerenciamento Loja" project in Nextjs, an example application that implements the basic styling and api integration.
+
+## Information
+
+- **Title**: Gerenciamento Loja
+- **Version**: 1.0
+- **Preview**:
+
+  ![Preview Image](./.github/preview.png)
+
+## Prerequisites
+
+Before getting started, make sure you have the following prerequisites installed on your system:
+
+- [Node](https://nodejs.org/): Javascript runtime.
+- [PNPM](https://pnpm.io/): Package manager.
+- [Docker](https://www.docker.com/get-started): Plataform to run container applications
+
+## Installation
+
+Follow the steps below to install the project in your development environment:
+
+1. **Clone the repository:**
+
+   ```
+   git clone https://github.com/LucasTravessa/Gerenciamento-loja.git
+   ```
+
+2. **Navigate to the project directory:**
+
+   ```
+   cd Gerenciamento-loja
+   ```
+
+3. **Installing the packages(with PNPM installed on your machine):**
+
+   ```
+   pnpm install
+   ```
+
+4. **Running the container with the database:**
+
+   ```
+   docker run --name sgl-db -e POSTGRES_PASSWORD=postgres -e POSTGRES_USER=postgres -e POSTGRES_DB=loja -p 5432:5432 -d postgres:alpine
+   ```
+
+5. **Running the prisma migrations(don't forget to setup the .env file):**
+
+   ```
+   pnpm db:push
+   ```
+
+6. **Running the database seed:**
+
+   ```
+   pnpm db:seed
+   ```
+
+## Running the Application
+
+After installation, you can run the Gerenciamento Loja application with the following command:
+
+```
+pnpm start
+```
+
+The application will be accessible at: [localhost:3000](http://localhost:3000/)
+
+## Used technologies:
 
 This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
-
-## What's next? How do I make an app with this?
-
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
-
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
 
 - [Next.js](https://nextjs.org)
 - [NextAuth.js](https://next-auth.js.org)
 - [Prisma](https://prisma.io)
 - [Tailwind CSS](https://tailwindcss.com)
 - [tRPC](https://trpc.io)
-
-## Learn More
-
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
-
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
-
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
-
-## How do I deploy this?
-
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
-
-## Docker:
-
-docker run --name sgl-db -e POSTGRES_PASSWORD=postgres -e POSTGRES_USER=postgres -e POSTGRES_DB=loja -p 5432:5432 -d postgres:alpine

@@ -97,7 +97,7 @@ model Products {
 model Purchases {
     id               Int       @id @default(autoincrement())
     supplier         Suppliers @relation(fields: [supplier_id], references: [id])
-    supplier_id      Int       @unique
+    supplier_id      Int
     total            Float
     date             DateTime
     status           String //Pendente, Atrasada, Entregue, Cancelada

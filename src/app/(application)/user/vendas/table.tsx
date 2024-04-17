@@ -15,14 +15,23 @@ import {
   TableHeader,
   TableRow,
 } from "@nextui-org/react";
-import type { Sales } from "@prisma/client";
+import type { Employees, Sales } from "@prisma/client";
 import type { Selection, SortDescriptor } from "@nextui-org/react";
-import { ChangeEvent, Key, useCallback, useMemo, useState } from "react";
+import {
+  type ChangeEvent,
+  type Key,
+  useCallback,
+  useMemo,
+  useState,
+} from "react";
 import { BiDotsVertical, BiPlus, BiSearch } from "react-icons/bi";
 import { useRouter } from "next/navigation";
+import { api } from "~/trpc/react";
+import toast from "react-hot-toast";
 
 type props = {
   sells: Sales[];
+  employees: Employees[];
 };
 
 const column = [
@@ -34,29 +43,49 @@ const column = [
   { name: "AÇÕES", uid: "actions" },
 ];
 
-export default function SellsTable({ sells }: props) {
+export default function SellsTable({ sells, employees }: props) {
+  const salesDelete = api.sales.delete.useMutation();
+
   const renderCell = useCallback((sells: Sales, columnKey: Key) => {
     const cellValue = sells[columnKey as keyof Sales];
 
     switch (columnKey) {
       case "id":
-        return <p className="text-bold text-small capitalize">{cellValue}</p>;
+        return (
+          <p className="text-bold text-small capitalize">
+            {cellValue.toString()}
+          </p>
+        );
       case "client":
-        return <p className="text-bold text-small capitalize">{cellValue}</p>;
+        return (
+          <p className="text-bold text-small capitalize">
+            {cellValue.toString()}
+          </p>
+        );
       case "total":
-        return <p className="text-bold text-small capitalize">{cellValue}</p>;
+        return (
+          <p className="text-bold text-small capitalize">
+            R${cellValue.toString()}
+          </p>
+        );
       case "date":
         return (
           <p className="text-bold text-small capitalize">
-            {cellValue.toLocaleString("pt-BR", {
-              day: "numeric",
-              month: "long",
-              year: "numeric",
-            })}
+            {cellValue instanceof Date &&
+              cellValue.toLocaleDateString("pt-BR", {
+                year: "numeric",
+                month: "numeric",
+                day: "numeric",
+              })}
           </p>
         );
       case "employee_id":
-        return <p className="text-bold text-small capitalize">{cellValue}</p>;
+        const employee = employees.find(
+          (employees) => employees.id === cellValue,
+        );
+        return (
+          <p className="text-bold text-small capitalize">{employee?.name}</p>
+        );
 
       case "actions":
         return (
@@ -76,6 +105,7 @@ export default function SellsTable({ sells }: props) {
           </div>
         );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const [filterValue, setFilterValue] = useState("");
@@ -92,6 +122,7 @@ export default function SellsTable({ sells }: props) {
     }
 
     return filteredSuppliers;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sells, filterValue]);
 
   //paginação
@@ -179,6 +210,7 @@ export default function SellsTable({ sells }: props) {
         </div>
       </div>
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [items.length, page, pages, selectedKeys]);
 
   //sorted
@@ -200,6 +232,24 @@ export default function SellsTable({ sells }: props) {
 
   const router = useRouter();
 
+  async function handleDelete() {
+    try {
+      const ids = Array.from(selectedKeys);
+      await Promise.all(
+        ids.map(
+          async (id) =>
+            await salesDelete.mutateAsync({ id: parseInt(id as string) }),
+        ),
+      );
+      toast.success("Deletado com sucesso!!");
+      setSelectedKeys(new Set([]));
+      router.refresh();
+    } catch (err) {
+      // console.log(err);
+      toast.error("Erro ao deletar!");
+    }
+  }
+
   const topContent = useMemo(() => {
     return (
       <div className="flex flex-col gap-4">
@@ -214,9 +264,12 @@ export default function SellsTable({ sells }: props) {
             onValueChange={onSearchChange}
           />
           <div className="flex gap-3">
+            <Button variant="flat" onClick={handleDelete}>
+              Apagar
+            </Button>
             <Button
               color="primary"
-              onClick={() => router.push("/vendas/?modal=true")}
+              onClick={() => router.push("/user/vendas/?id=0")}
               endContent={<BiPlus size={12} />}
             >
               Novo
@@ -241,7 +294,9 @@ export default function SellsTable({ sells }: props) {
         </div>
       </div>
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
+    selectedKeys,
     filterValue,
     onSearchChange,
     onRowsPerPageChange,
