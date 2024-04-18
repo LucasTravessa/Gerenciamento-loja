@@ -83,7 +83,7 @@ export default function EmployeesForm() {
         className="w-4/5"
         label="Selecione o Status"
         {...register("status")}
-        selectedKeys={[watch("status")]}
+        selectedKeys={watch("status") ? [watch("status")] : undefined}
         color={`${errors.status ? "danger" : "default"}`}
       >
         <SelectItem key="Ativo">Ativo</SelectItem>

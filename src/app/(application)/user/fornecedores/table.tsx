@@ -15,6 +15,7 @@ import {
   TableColumn,
   TableHeader,
   TableRow,
+  Tooltip,
 } from "@nextui-org/react";
 import type { ChipProps, Selection, SortDescriptor } from "@nextui-org/react";
 import type { Suppliers } from "@prisma/client";
@@ -28,6 +29,7 @@ import {
   BiPlus,
   BiSearch,
 } from "react-icons/bi";
+import { FaPen } from "react-icons/fa";
 import { api } from "~/trpc/react";
 
 type props = {
@@ -77,19 +79,16 @@ export default function SupplierTable({ supplier }: props) {
         );
       case "actions":
         return (
-          <div className="relative flex items-center justify-center gap-2">
-            <Dropdown>
-              <DropdownTrigger>
-                <Button isIconOnly size="sm" variant="light">
-                  <BiDotsVertical size={15} />
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu>
-                <DropdownItem>Visualizar</DropdownItem>
-                <DropdownItem>Editar</DropdownItem>
-                <DropdownItem>Deletar</DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
+          <div className="relative flex items-center gap-2">
+            <Tooltip content="Editar item">
+              <span className="cursor-pointer text-lg text-default-400 active:opacity-50">
+                <FaPen
+                  onClick={() =>
+                    router.push(`/user/fornecedores?id=${supplier.id}`)
+                  }
+                />
+              </span>
+            </Tooltip>
           </div>
         );
       default:

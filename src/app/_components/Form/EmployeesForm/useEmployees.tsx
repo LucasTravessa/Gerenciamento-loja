@@ -10,23 +10,13 @@ export const useEmployees = (employeeId: number) => {
   const putEmployee = api.employees.update.useMutation();
   const apiData = api.employees.getOne.useQuery(employeeId).data;
 
-  console.log(apiData);
-
-  const values = {
-    name: String(apiData?.name),
-    email: String(apiData?.email),
-    role: String(apiData?.role),
-    phone_number: String(apiData?.phone_number),
-    address: String(apiData?.address),
-    salary: Number(apiData?.salary),
-    status: String(apiData?.status),
-  };
+  const values = apiData ? schema.parse(apiData) : undefined;
 
   const {
     register,
     handleSubmit,
     watch,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<schemaProps>({
     mode: "onBlur",
     criteriaMode: "all",
@@ -39,7 +29,7 @@ export const useEmployees = (employeeId: number) => {
       address: "",
       salary: 0,
     },
-    values: apiData != null ? values : undefined,
+    values: values,
   });
 
   function handleCreation(data: schemaProps) {
@@ -60,6 +50,5 @@ export const useEmployees = (employeeId: number) => {
     watch,
     handleCreation,
     errors,
-    isSubmitting,
   };
 };
