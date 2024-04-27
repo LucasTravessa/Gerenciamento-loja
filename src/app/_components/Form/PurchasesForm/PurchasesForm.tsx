@@ -30,9 +30,10 @@ export default function PurchasesForm() {
 
   useEffect(() => {
     let total = 0;
-    const amount = watch(`purchace_details.${0}.products_amount`);
-    const price = watch(`purchace_details.${0}.price`);
-    total += amount * price;
+    const purchaceDetails = watch("purchace_details");
+    purchaceDetails.map((pd) => {
+      total += pd.price * pd.products_amount;
+    });
 
     setValue("total", total);
   });

@@ -25,13 +25,6 @@ export const useSales = () => {
   const router = useRouter();
 
   function handleCreation(data: schemaProps) {
-    let total = 0;
-    data.sales_details.map((field) => {
-      total += field.price * field.products_amount;
-    });
-    data.total = total;
-    console.log(data);
-
     createSale.mutate(data);
     router.push("/user/vendas");
     router.refresh();

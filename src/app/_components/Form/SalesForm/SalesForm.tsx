@@ -29,9 +29,10 @@ export default function SalesForm() {
 
   useEffect(() => {
     let total = 0;
-    const amount = watch(`sales_details.${0}.products_amount`);
-    const price = watch(`sales_details.${0}.price`);
-    total += amount * price;
+    const salesDetails = watch("sales_details");
+    salesDetails.map((sd) => {
+      total += sd.price * sd.products_amount;
+    });
 
     setValue("total", total);
   });
