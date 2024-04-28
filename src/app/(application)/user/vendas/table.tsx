@@ -14,6 +14,7 @@ import {
   TableColumn,
   TableHeader,
   TableRow,
+  Tooltip,
 } from "@nextui-org/react";
 import type { Employees, Sales } from "@prisma/client";
 import type { Selection, SortDescriptor } from "@nextui-org/react";
@@ -28,6 +29,7 @@ import { BiDotsVertical, BiPlus, BiSearch } from "react-icons/bi";
 import { useRouter } from "next/navigation";
 import { api } from "~/trpc/react";
 import toast from "react-hot-toast";
+import { FaPen } from "react-icons/fa";
 
 type props = {
   sells: Sales[];
@@ -89,19 +91,14 @@ export default function SellsTable({ sells, employees }: props) {
 
       case "actions":
         return (
-          <div className="relative flex items-center justify-center gap-2">
-            <Dropdown>
-              <DropdownTrigger>
-                <Button isIconOnly size="sm" variant="light">
-                  <BiDotsVertical size={15} />
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu>
-                <DropdownItem>Visualizar</DropdownItem>
-                <DropdownItem>Editar</DropdownItem>
-                <DropdownItem>Deletar</DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
+          <div className="relative flex items-center gap-2">
+            <Tooltip content="Editar item">
+              <span className="cursor-pointer text-lg text-default-400 active:opacity-50">
+                <FaPen
+                  onClick={() => router.push(`/user/vendas?id=${sells.id}`)}
+                />
+              </span>
+            </Tooltip>
           </div>
         );
     }

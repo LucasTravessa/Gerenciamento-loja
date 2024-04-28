@@ -14,7 +14,7 @@ const salesSchema = z.object({
   total: z.number(),
   date: z.date(),
   employee_id: z.number(),
-  sales_details: z.array(salesDetailSchema),
+  sale_details: z.array(salesDetailSchema),
 });
 
 export const salesRouter = createTRPCRouter({
@@ -33,11 +33,11 @@ export const salesRouter = createTRPCRouter({
           total: input.total,
           date: input.date,
           employee_id: input.employee_id,
-          sale_details: input.sales_details,
+          sale_details: input.sale_details,
         },
       });
 
-      input.sales_details.forEach(async (products) => {
+      input.sale_details.forEach(async (products) => {
         const product = await ctx.db.products.findUnique({
           where: { id: products.products_id },
         });
@@ -77,7 +77,7 @@ export const salesRouter = createTRPCRouter({
           total: input.total,
           date: input.date,
           employee_id: input.employee_id,
-          sale_details: input.sales_details,
+          sale_details: input.sale_details,
         },
       });
     }),

@@ -10,11 +10,20 @@ import {
 import { BiSolidPlusCircle } from "react-icons/bi";
 import { api } from "~/trpc/react";
 import { useSales } from "./useSales";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { schemaProps } from "./schema";
+import { Control, useWatch } from "react-hook-form";
+
+let renderCount = 0;
 
 export default function SalesForm() {
+  const searchParams = useSearchParams();
+  const saleId = searchParams.get("id");
+
   const employees = api.employees.getAll.useQuery();
   const products = api.products.getAll.useQuery();
+
   const {
     register,
     watch,
@@ -25,17 +34,41 @@ export default function SalesForm() {
     append,
     remove,
     setValue,
-  } = useSales();
+    control,
+  } = useSales(Number(saleId));
 
-  useEffect(() => {
+  function getTotal(payload: schemaProps["sale_details"]) {
     let total = 0;
-    const salesDetails = watch("sales_details");
-    salesDetails.map((sd) => {
-      total += sd.price * sd.products_amount;
-    });
 
-    setValue("total", total);
-  });
+    for (const item of payload) {
+      const price = Number.isNaN(item.price) ? 0 : Number(item.price);
+      const amount = Number.isNaN(item.products_amount)
+        ? 0
+        : Number(item.products_amount);
+      total = total + price * amount;
+    }
+
+    return total;
+  }
+
+  function TotalAmount() {
+    const cartValues = useWatch({
+      control,
+      name: "sale_details",
+    });
+    const total = getTotal(cartValues);
+    return String(total);
+  }
+
+  function formatDate(date: Date) {
+    const offset = date.getTimezoneOffset();
+    date = new Date(date.getTime() - offset * 60 * 1000);
+    return date.toISOString().split("T")[0];
+  }
+
+  renderCount++;
+
+  console.log(renderCount);
 
   return (
     <form
@@ -44,6 +77,9 @@ export default function SalesForm() {
     >
       <Select
         label="Selecione o empregado"
+        selectedKeys={
+          watch("employee_id") ? [String(watch("employee_id"))] : undefined
+        }
         {...register("employee_id")}
         color={`${errors.employee_id ? "danger" : "default"}`}
       >
@@ -63,6 +99,7 @@ export default function SalesForm() {
         <Input
           label="Cliente"
           type="text"
+          value={watch("client")}
           {...register("client")}
           color={`${errors.client ? "danger" : "default"}`}
           errorMessage={errors.client?.message}
@@ -72,17 +109,20 @@ export default function SalesForm() {
           label="Total"
           inputMode="decimal"
           type="number"
-          {...register("total")}
+          value={TotalAmount()}
           startContent={
             <div className="pointer-events-none flex items-center">
               <span className="text-small text-default-400">R$</span>
             </div>
           }
-          color={`${errors.total ? "danger" : "default"}`}
-          errorMessage={errors.total?.message}
         />
         <Input
           type="date"
+          value={
+            watch("date") instanceof Date
+              ? formatDate(watch("date"))
+              : String(watch("date"))
+          }
           {...register("date")}
           color={`${errors.date ? "danger" : "default"}`}
           errorMessage={errors.date?.message}
@@ -101,7 +141,7 @@ export default function SalesForm() {
 
       <div className="flex w-full flex-col items-center gap-1">
         {fields.map((field, index) => {
-          const { name, ref } = register(`sales_details.${index}.products_id`);
+          const { name, ref } = register(`sale_details.${index}.products_id`);
 
           return (
             <div key={field.id} className="flex w-full items-center gap-4">
@@ -111,8 +151,13 @@ export default function SalesForm() {
                 name={name}
                 ref={ref}
                 allowsCustomValue={false}
+                selectedKey={
+                  watch(`sale_details.${index}.products_id`)
+                    ? String(watch(`sale_details.${index}.products_id`))
+                    : undefined
+                }
                 onSelectionChange={(key) =>
-                  setValue(`sales_details.${index}.products_id`, Number(key))
+                  setValue(`sale_details.${index}.products_id`, Number(key))
                 }
               >
                 {(p) => (
@@ -122,7 +167,8 @@ export default function SalesForm() {
               <Input
                 label="Quantidade"
                 inputMode="decimal"
-                {...register(`sales_details.${index}.products_amount`)}
+                value={String(watch(`sale_details.${index}.products_amount`))}
+                {...register(`sale_details.${index}.products_amount`)}
               />
               <Input
                 label="Valor"
@@ -133,7 +179,8 @@ export default function SalesForm() {
                   </div>
                 }
                 type="number"
-                {...register(`sales_details.${index}.price`)}
+                value={String(watch(`sale_details.${index}.price`))}
+                {...register(`sale_details.${index}.price`)}
               />
               <BiSolidPlusCircle
                 fill="red"
