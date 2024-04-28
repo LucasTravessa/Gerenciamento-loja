@@ -1,9 +1,14 @@
 "use client";
 import { Button, Input } from "@nextui-org/react";
 import { useProduct } from "./useProduct";
+import { useSearchParams } from "next/navigation";
 
 export default function ProductForm() {
-  const { register, handleSubmit, handleCreation, errors } = useProduct();
+  const searchParams = useSearchParams();
+  const productId = searchParams.get("id");
+  const { register, watch, handleSubmit, handleCreation, errors } = useProduct(
+    Number(productId),
+  );
 
   return (
     <form
@@ -14,6 +19,7 @@ export default function ProductForm() {
         className="w-4/5"
         label="Nome"
         type="text"
+        value={watch("name")}
         {...register("name")}
         color={`${errors.name ? "danger" : "default"}`}
         errorMessage={errors.name?.message}
@@ -22,6 +28,7 @@ export default function ProductForm() {
         className="w-4/5"
         label="Preço"
         type="number"
+        value={String(watch("price"))}
         {...register("price")}
         color={`${errors.price ? "danger" : "default"}`}
         errorMessage={errors.price?.message}
@@ -30,6 +37,7 @@ export default function ProductForm() {
         className="w-4/5"
         label="Quantidade"
         type="number"
+        value={String(watch("on_stock"))}
         {...register("on_stock")}
         color={`${errors.on_stock ? "danger" : "default"}`}
         errorMessage={errors.on_stock?.message}

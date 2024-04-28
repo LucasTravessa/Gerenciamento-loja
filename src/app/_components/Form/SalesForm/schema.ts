@@ -11,7 +11,7 @@ export const schema = z.object({
   total: z.coerce.number(),
   date: z.coerce.date(),
   employee_id: z.coerce.number(),
-  sales_details: z.array(salesDetailSchema),
+  sale_details: z.array(salesDetailSchema).min(1),
 });
 
 export type schemaProps = z.infer<typeof schema>;
