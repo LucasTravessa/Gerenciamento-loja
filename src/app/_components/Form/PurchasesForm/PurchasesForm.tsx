@@ -11,9 +11,14 @@ import {
 import { usePurchases } from "./usePurchases";
 import { api } from "~/trpc/react";
 import { BiSolidPlusCircle } from "react-icons/bi";
-import { useEffect } from "react";
+import { schemaProps } from "./schema";
+import { useSearchParams } from "next/navigation";
+import { useWatch } from "react-hook-form";
 
 export default function PurchasesForm() {
+  const searchParams = useSearchParams();
+  const purchaseId = searchParams.get("id");
+
   const suppliers = api.suppliers.getAll.useQuery();
   const products = api.products.getAll.useQuery();
   const {
@@ -25,18 +30,38 @@ export default function PurchasesForm() {
     fields,
     remove,
     watch,
+    control,
     setValue,
-  } = usePurchases();
+  } = usePurchases(Number(purchaseId));
 
-  useEffect(() => {
+  function getTotal(payload: schemaProps["purchace_details"]) {
     let total = 0;
-    const purchaceDetails = watch("purchace_details");
-    purchaceDetails.map((pd) => {
-      total += pd.price * pd.products_amount;
-    });
 
-    setValue("total", total);
-  });
+    for (const item of payload) {
+      const price = Number.isNaN(item.price) ? 0 : Number(item.price);
+      const amount = Number.isNaN(item.products_amount)
+        ? 0
+        : Number(item.products_amount);
+      total = total + price * amount;
+    }
+
+    return total;
+  }
+
+  function TotalAmount() {
+    const cartValues = useWatch({
+      control,
+      name: "purchace_details",
+    });
+    const total = getTotal(cartValues);
+    return String(total);
+  }
+
+  function formatDate(date: Date) {
+    const offset = date.getTimezoneOffset();
+    date = new Date(date.getTime() - offset * 60 * 1000);
+    return date.toISOString().split("T")[0];
+  }
 
   return (
     <form
@@ -45,6 +70,9 @@ export default function PurchasesForm() {
     >
       <Select
         label="Selecione o fornecedor"
+        selectedKeys={
+          watch("supplier_id") ? [String(watch("supplier_id"))] : undefined
+        }
         {...register("supplier_id")}
         color={`${errors.supplier_id ? "danger" : "default"}`}
       >
@@ -58,6 +86,11 @@ export default function PurchasesForm() {
       </Select>
       <Input
         type="date"
+        value={
+          watch("date") instanceof Date
+            ? formatDate(watch("date"))
+            : String(watch("date"))
+        }
         {...register("date")}
         color={`${errors.date ? "danger" : "default"}`}
         errorMessage={errors.date?.message}
@@ -66,12 +99,16 @@ export default function PurchasesForm() {
         placeholder="Total"
         disabled
         type="number"
-        {...register("total")}
-        color={`${errors.total ? "danger" : "default"}`}
-        errorMessage={errors.total?.message}
+        value={TotalAmount()}
+        startContent={
+          <div className="pointer-events-none flex items-center">
+            <span className="text-small text-default-400">R$</span>
+          </div>
+        }
       />
       <Select
         label="Selecione o Status"
+        selectedKeys={watch("status") ? [String(watch("status"))] : undefined}
         {...register("status")}
         color={`${errors.status ? "danger" : "default"}`}
         errorMessage={errors.status?.message}
@@ -105,6 +142,11 @@ export default function PurchasesForm() {
                 name={name}
                 ref={ref}
                 allowsCustomValue={false}
+                selectedKey={
+                  watch(`purchace_details.${index}.products_id`)
+                    ? String(watch(`purchace_details.${index}.products_id`))
+                    : undefined
+                }
                 onSelectionChange={(key) =>
                   setValue(`purchace_details.${index}.products_id`, Number(key))
                 }
@@ -116,16 +158,21 @@ export default function PurchasesForm() {
               <Input
                 label="Quantidade"
                 inputMode="decimal"
+                value={String(
+                  watch(`purchace_details.${index}.products_amount`),
+                )}
                 {...register(`purchace_details.${index}.products_amount`)}
               />
               <Input
                 label="Valor"
+                placeholder="0.00"
                 startContent={
                   <div className="pointer-events-none flex items-center">
                     <span className="text-small text-default-400">R$</span>
                   </div>
                 }
                 type="number"
+                value={String(watch(`purchace_details.${index}.price`))}
                 {...register(`purchace_details.${index}.price`)}
               />
               <BiSolidPlusCircle
