@@ -10,10 +10,10 @@ import {
 } from "@nextui-org/react";
 import { usePurchases } from "./usePurchases";
 import { api } from "~/trpc/react";
-import { BiSolidPlusCircle } from "react-icons/bi";
 import { schemaProps } from "./schema";
 import { useSearchParams } from "next/navigation";
 import { useWatch } from "react-hook-form";
+import { FaTrash } from "react-icons/fa";
 
 export default function PurchasesForm() {
   const searchParams = useSearchParams();
@@ -175,9 +175,9 @@ export default function PurchasesForm() {
                 value={String(watch(`purchace_details.${index}.price`))}
                 {...register(`purchace_details.${index}.price`)}
               />
-              <BiSolidPlusCircle
+              <FaTrash
                 fill="red"
-                size="80px"
+                size="55px"
                 className="hover: cursor-pointer"
                 onClick={() => {
                   remove(index);

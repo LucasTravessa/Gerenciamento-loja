@@ -7,13 +7,12 @@ import {
   Autocomplete,
   AutocompleteItem,
 } from "@nextui-org/react";
-import { BiSolidPlusCircle } from "react-icons/bi";
 import { api } from "~/trpc/react";
 import { useSales } from "./useSales";
-import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { schemaProps } from "./schema";
-import { Control, useWatch } from "react-hook-form";
+import { useWatch } from "react-hook-form";
+import { FaTrash } from "react-icons/fa";
 
 let renderCount = 0;
 
@@ -182,9 +181,9 @@ export default function SalesForm() {
                 value={String(watch(`sale_details.${index}.price`))}
                 {...register(`sale_details.${index}.price`)}
               />
-              <BiSolidPlusCircle
+              <FaTrash
                 fill="red"
-                size="80px"
+                size="55px"
                 className="hover: cursor-pointer"
                 onClick={() => {
                   remove(index);
