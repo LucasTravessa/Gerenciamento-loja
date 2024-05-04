@@ -18,7 +18,7 @@ export default async function LayoutHome({
       {children}
       <footer className="mt-auto flex w-full items-center justify-center border-t">
         <p className="flex items-center justify-center">
-          Powered by lucas e gilson
+          Powered by Lucas e Pedro
         </p>
       </footer>
     </div>
