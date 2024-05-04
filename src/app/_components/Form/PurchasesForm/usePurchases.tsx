@@ -51,15 +51,15 @@ export const usePurchases = (purchaseId: number) => {
     return total;
   }
 
-  function handleCreation(data: schemaProps) {
+  async function handleCreation(data: schemaProps) {
     data.total = getTotal(data.purchace_details);
     if (apiData == null) {
-      addPurchases.mutate(data);
+      await addPurchases.mutateAsync(data);
       router.push("/user/compras");
       router.refresh();
       return;
     }
-    putPurchases.mutate({ ...data, id: purchaseId });
+    await putPurchases.mutateAsync({ ...data, id: purchaseId });
     router.push("/user/compras");
     router.refresh();
   }
