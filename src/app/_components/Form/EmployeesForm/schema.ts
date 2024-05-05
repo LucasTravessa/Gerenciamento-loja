@@ -14,6 +14,7 @@ export const schema = z.object({
   salary: z.coerce.number().min(1, "Digite um salario válido"),
   address: z.string().min(6, "Digite um endreço válido"),
   status: z.string(),
+  img: z.string().optional(),
 });
 
 export type schemaProps = z.infer<typeof schema>;

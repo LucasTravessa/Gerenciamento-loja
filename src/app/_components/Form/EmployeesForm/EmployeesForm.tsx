@@ -4,19 +4,27 @@ import { Button, Input } from "@nextui-org/react";
 import { useEmployees } from "./useEmployees";
 import { Select, SelectItem } from "@nextui-org/react";
 import { useSearchParams } from "next/navigation";
+import UploadComponent from "../../Upload";
 
 export default function EmployeesForm() {
   const searchParams = useSearchParams();
   const employeeId = searchParams.get("id");
 
-  const { register, errors, handleSubmit, watch, handleCreation } =
+  const { register, errors, handleSubmit, watch, handleCreation, setValue } =
     useEmployees(Number(employeeId));
+
+  function setPath(e: string) {
+    setValue("img", e);
+  }
 
   return (
     <form
       className="flex flex-col items-center gap-4"
       onSubmit={handleSubmit(handleCreation)}
     >
+      <div className="flex w-4/5">
+        <UploadComponent path={watch("img")} setPath={setPath} />
+      </div>
       <div className="flex w-4/5 gap-2">
         <Input
           label="Nome"

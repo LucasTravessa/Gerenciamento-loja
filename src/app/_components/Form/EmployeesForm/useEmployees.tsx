@@ -16,6 +16,7 @@ export const useEmployees = (employeeId: number) => {
     register,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors },
   } = useForm<schemaProps>({
     mode: "onBlur",
@@ -50,5 +51,6 @@ export const useEmployees = (employeeId: number) => {
     watch,
     handleCreation,
     errors,
+    setValue,
   };
 };
