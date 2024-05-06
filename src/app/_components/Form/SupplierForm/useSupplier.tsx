@@ -27,14 +27,14 @@ export const useSupplier = (supplierId: number) => {
     values: values,
   });
 
-  function handleCreation(data: schemaProps) {
+  async function handleCreation(data: schemaProps) {
     if (apiData == null) {
-      addSupplier.mutate(data);
+      await addSupplier.mutateAsync(data);
       router.push("/user/fornecedores");
       router.refresh();
       return;
     }
-    putSupplier.mutate({ ...data, id: supplierId });
+    await putSupplier.mutateAsync({ ...data, id: supplierId });
     router.push("/user/fornecedores");
     router.refresh();
   }

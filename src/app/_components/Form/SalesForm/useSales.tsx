@@ -48,15 +48,15 @@ export const useSales = (saleId: number) => {
     return total;
   }
 
-  function handleCreation(data: schemaProps) {
+  async function handleCreation(data: schemaProps) {
     data.total = getTotal(data.sale_details);
     if (apiData == null) {
-      addSale.mutate(data);
+      await addSale.mutateAsync(data);
       router.push("/user/vendas");
       router.refresh();
       return;
     }
-    putSale.mutate({ ...data, id: saleId });
+    await putSale.mutateAsync({ ...data, id: saleId });
     router.push("/user/vendas");
     router.refresh();
   }

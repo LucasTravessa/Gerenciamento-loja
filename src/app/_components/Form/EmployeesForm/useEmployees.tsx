@@ -16,6 +16,7 @@ export const useEmployees = (employeeId: number) => {
     register,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors },
   } = useForm<schemaProps>({
     mode: "onBlur",
@@ -32,14 +33,14 @@ export const useEmployees = (employeeId: number) => {
     values: values,
   });
 
-  function handleCreation(data: schemaProps) {
+  async function handleCreation(data: schemaProps) {
     if (apiData == null) {
-      addEmployee.mutate(data);
+      await addEmployee.mutateAsync(data);
       router.push("/user/funcionarios");
       router.refresh();
       return;
     }
-    putEmployee.mutate({ ...data, id: employeeId });
+    await putEmployee.mutateAsync({ ...data, id: employeeId });
     router.push("/user/funcionarios");
     router.refresh();
   }
@@ -50,5 +51,6 @@ export const useEmployees = (employeeId: number) => {
     watch,
     handleCreation,
     errors,
+    setValue,
   };
 };

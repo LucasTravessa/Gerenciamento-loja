@@ -24,14 +24,14 @@ export const useProduct = (productId: number) => {
     values: values,
   });
 
-  function handleCreation(data: schemaProps) {
+  async function handleCreation(data: schemaProps) {
     if (apiData == null) {
-      addProduct.mutate(data);
+      await addProduct.mutateAsync(data);
       router.push("/user/estoque");
       router.refresh();
       return;
     }
-    putProduct.mutate({ ...data, id: productId });
+    await putProduct.mutateAsync({ ...data, id: productId });
     router.push("/user/estoque");
     router.refresh();
   }

@@ -3,7 +3,7 @@ import SellsTable from "./table";
 import { api } from "~/trpc/server";
 import SalesForm from "~/app/_components/Form/SalesForm/SalesForm";
 
-export default async function Vendas() {
+export default async function Sells() {
   const sells = await api.sales.getAll.query();
   const employees = await api.employees.getAll.query();
 
