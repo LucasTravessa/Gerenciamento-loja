@@ -3,14 +3,13 @@ import { BarGraph } from "../_components/Graphs/BarGraph";
 import { Description } from "../_components/Description/description";
 
 export default async function Home() {
-
   const session = await getServerAuthSession();
-  if(!session){
-    return(
+  if (!session) {
+    return (
       <main className="flex flex-col items-center justify-between text-white">
-        <Description/>
+        <Description />
       </main>
-    )
+    );
   }
   return (
     <main className="flex flex-col items-center justify-between text-white">
