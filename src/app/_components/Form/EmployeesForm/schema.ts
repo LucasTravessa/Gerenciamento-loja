@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const schema = z.object({
   id: z.number().optional(),
-  name: z.string().min(4, "O nome precisa ter pelo menos 4 caracteres"),
+  name: z.string().min(2, "O nome precisa ter pelo menos 2 caracteres"),
   email: z.string().email("Este email não é válido"),
   role: z.string().min(4, "O cargo precisa ter pelo menos 4 caracteres"),
   phone_number: z
