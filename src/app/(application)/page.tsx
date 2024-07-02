@@ -6,13 +6,13 @@ export default async function Home() {
   const session = await getServerAuthSession();
   if (!session) {
     return (
-      <main className="flex flex-col items-center justify-between text-white">
+      <main className="flex flex-col items-center justify-between">
         <Description />
       </main>
     );
   }
   return (
-    <main className="flex flex-col items-center justify-between text-white">
+    <main className="flex flex-col items-center justify-between">
       <BarGraph />
     </main>
   );
