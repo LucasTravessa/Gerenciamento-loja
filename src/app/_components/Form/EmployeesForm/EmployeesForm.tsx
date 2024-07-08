@@ -5,25 +5,48 @@ import { useEmployees } from "./useEmployees";
 import { Select, SelectItem } from "@nextui-org/react";
 import { useSearchParams } from "next/navigation";
 import UploadComponent from "../../Upload";
+import { useState } from "react";
+import { useUploadThing } from "~/utils/uploadthing";
+import type { schemaProps } from "./schema";
 
 export default function EmployeesForm() {
   const searchParams = useSearchParams();
   const employeeId = searchParams.get("id");
+  const [files, setFiles] = useState<File[]>([]);
 
-  const { register, errors, handleSubmit, watch, handleCreation, setValue } =
+  const { register, errors, handleSubmit, watch, handleCreation } =
     useEmployees(Number(employeeId));
 
-  function setPath(e: string) {
-    setValue("img", e);
+  const { startUpload } = useUploadThing("profilePicture", {
+    onUploadError: () => {
+      throw new Error("Error uploading file");
+    },
+  });
+
+  async function handleCreate(data: schemaProps) {
+    if (files.length > 0) {
+      await startUpload(files)
+        .then(async (res) => {
+          const payload = { ...data, img: res[0]?.url ?? "" };
+          await handleCreation(payload);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   }
 
   return (
     <form
       className="flex flex-col items-center gap-4"
-      onSubmit={handleSubmit(handleCreation)}
+      onSubmit={handleSubmit(handleCreate)}
     >
       <div className="flex w-4/5">
-        <UploadComponent path={watch("img")} setPath={setPath} />
+        <UploadComponent
+          path={watch("img")}
+          files={files}
+          setFiles={setFiles}
+        />
       </div>
       <div className="flex w-4/5 gap-2">
         <Input
@@ -98,12 +121,6 @@ export default function EmployeesForm() {
         <SelectItem key="Inativo">Inativo</SelectItem>
         <SelectItem key="Férias">Férias</SelectItem>
       </Select>
-
-      {/*#TODO input de enviar imagem */}
-      {/* <Input 
-                    type="file" 
-                    accept="png, jpg"
-                /> */}
 
       <Button color="primary" radius="full" type="submit">
         Enviar
