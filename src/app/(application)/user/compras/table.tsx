@@ -27,12 +27,7 @@ import {
   useMemo,
   useState,
 } from "react";
-import {
-  BiChevronDown,
-  BiDotsVertical,
-  BiPlus,
-  BiSearch,
-} from "react-icons/bi";
+import { BiChevronDown, BiPlus, BiSearch } from "react-icons/bi";
 import { useRouter } from "next/navigation";
 import { api } from "~/trpc/react";
 import toast from "react-hot-toast";
@@ -105,7 +100,10 @@ export default function PurchasesTable({ purchases, suppliers }: props) {
         case "total":
           return (
             <p className="text-bold text-small capitalize">
-              R${cellValue.toString()}
+              {cellValue.toLocaleString("pt-BR", {
+                style: "currency",
+                currency: "BRL",
+              })}
             </p>
           );
         case "date":
@@ -146,7 +144,8 @@ export default function PurchasesTable({ purchases, suppliers }: props) {
           );
       }
     },
-    [suppliers],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
   );
 
   //Filtros
