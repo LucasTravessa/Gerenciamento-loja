@@ -45,8 +45,8 @@ export default function LoginForm() {
           }
           type={show ? "password" : "text"}
         />
-        <Button radius="full" size="md" color="primary" type="submit">
-          Login
+        <Button radius="full" size="md" type="submit" className="font-lg">
+          Entrar
         </Button>
       </form>
     </>

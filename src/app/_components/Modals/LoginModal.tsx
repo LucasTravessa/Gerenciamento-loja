@@ -26,7 +26,7 @@ export default function LoginModal() {
       <ModalContent>
         <ModalHeader></ModalHeader>
         <ModalBody className="flex flex-col items-center justify-center">
-          <h1 className="text-2xl font-bold">Login</h1>
+          <h1 className="text-2xl font-bold">Entrar</h1>
           <LoginForm />
           <h1>Ou</h1>
           <GoogleButton />

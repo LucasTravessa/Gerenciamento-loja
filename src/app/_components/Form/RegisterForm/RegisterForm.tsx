@@ -68,7 +68,7 @@ export default function RegisterForm() {
         }
         type={show ? "password" : "text"}
       />
-      <Button radius="full" size="md" color="primary" type="submit">
+      <Button radius="full" size="md" type="submit">
         Registrar
       </Button>
     </form>

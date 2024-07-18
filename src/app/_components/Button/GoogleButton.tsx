@@ -10,8 +10,8 @@ export default function GoogleButton() {
   };
 
   return (
-    <Button radius="full" color="primary" size="md" onClick={handleClick}>
-      <BsGoogle /> Login with Google
+    <Button radius="full" size="md" onClick={handleClick}>
+      <BsGoogle /> Entrar com Google
     </Button>
   );
 }

@@ -122,7 +122,7 @@ export default function EmployeesForm() {
         <SelectItem key="Férias">Férias</SelectItem>
       </Select>
 
-      <Button color="primary" radius="full" type="submit">
+      <Button radius="full" type="submit">
         Enviar
       </Button>
     </form>
