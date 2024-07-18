@@ -10,7 +10,7 @@ import {
 } from "@nextui-org/react";
 import { usePurchases } from "./usePurchases";
 import { api } from "~/trpc/react";
-import { schemaProps } from "./schema";
+import { type schemaProps } from "./schema";
 import { useSearchParams } from "next/navigation";
 import { useWatch } from "react-hook-form";
 import { FaTrash } from "react-icons/fa";

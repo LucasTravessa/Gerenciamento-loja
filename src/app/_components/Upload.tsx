@@ -1,47 +1,59 @@
 "use client";
 
-import { generateUploadButton } from "@uploadthing/react";
-import { OurFileRouter } from "../api/uploadthing/core";
 import Image from "next/image";
+import { useCallback } from "react";
 import { RxAvatar } from "react-icons/rx";
 
-const UploadButton = generateUploadButton<OurFileRouter>();
-// src="https://utfs.io/f/659166c0-a7b8-45c2-bcc7-5756373ff8a5-2i8.jpg"
+import { useDropzone } from "@uploadthing/react";
+import { generateClientDropzoneAccept } from "uploadthing/client";
+
+type FileWithPreview = File & { preview: string };
 
 export default function UploadComponent({
   path,
-  setPath,
+  setFiles,
+  files,
 }: {
   path?: string;
-  setPath: (e: string) => void;
+  setFiles: (e: File[]) => void;
+  files: File[];
 }) {
+  const onDrop = useCallback((acceptedFiles: File[]) => {
+    setFiles(
+      acceptedFiles.map((file) =>
+        Object.assign(file, {
+          preview: URL.createObjectURL(file),
+        }),
+      ),
+    );
+  }, []);
+
+  const { getRootProps, getInputProps } = useDropzone({
+    maxFiles: 1,
+    onDrop,
+    accept: generateClientDropzoneAccept(["image"]),
+  });
+
+  const filePreview = (files[0] as FileWithPreview)?.preview;
   return (
     <div className="h-150 flex w-full flex-col items-center justify-center">
-      {path !== undefined ? (
-        <Image
-          alt="profile"
-          width={150}
-          height={150}
-          className="rounded-full"
-          src={path}
-        />
-      ) : (
-        <RxAvatar size={120} />
-      )}
-      <UploadButton
-        endpoint="imageUploader"
-        appearance={{ container: { marginTop: 15 } }}
-        onClientUploadComplete={(res) => {
-          // Do something with the response
-          setPath(res[0]?.url as string);
-          console.log("Files: ", res);
-          alert("Upload Completed");
-        }}
-        onUploadError={(error: Error) => {
-          // Do something with the error.
-          alert(`ERROR! ${error.message}`);
-        }}
-      />
+      <div {...getRootProps()} className="cursor-pointer">
+        <input {...getInputProps()} />
+        {!!path || !!filePreview ? (
+          <Image
+            alt="profile"
+            width={150}
+            height={150}
+            className="rounded-full"
+            src={filePreview ?? path}
+            onLoad={() => {
+              filePreview && URL.revokeObjectURL(filePreview);
+            }}
+          />
+        ) : (
+          <RxAvatar size={120} />
+        )}
+      </div>
     </div>
   );
 }

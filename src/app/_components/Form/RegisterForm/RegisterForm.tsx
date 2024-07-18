@@ -15,7 +15,7 @@ export default function RegisterForm() {
       onSubmit={handleSubmit(handleRegister)}
     >
       <Input
-        label="Username"
+        label="Nome"
         type="text"
         {...register("username")}
         color={`${errors.username ? "danger" : "default"}`}
@@ -29,7 +29,7 @@ export default function RegisterForm() {
         errorMessage={errors.email?.message}
       />
       <Input
-        label="Password"
+        label="Senha"
         {...register("password")}
         color={`${errors.password ? "danger" : "default"}`}
         errorMessage={errors.password?.message}
@@ -49,7 +49,7 @@ export default function RegisterForm() {
         type={show ? "password" : "text"}
       />
       <Input
-        label="Confirm Password"
+        label="Confirmar senha"
         {...register("confirmPassword")}
         color={`${errors.confirmPassword ? "danger" : "default"}`}
         errorMessage={errors.confirmPassword?.message}
@@ -69,7 +69,7 @@ export default function RegisterForm() {
         type={show ? "password" : "text"}
       />
       <Button radius="full" size="md" color="primary" type="submit">
-        Register
+        Registrar
       </Button>
     </form>
   );

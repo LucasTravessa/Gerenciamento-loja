@@ -1,5 +1,6 @@
 "use client";
 
+import type { ChipProps, Selection, SortDescriptor } from "@nextui-org/react";
 import {
   Button,
   Chip,
@@ -17,18 +18,12 @@ import {
   TableRow,
   Tooltip,
 } from "@nextui-org/react";
-import type { ChipProps, Selection, SortDescriptor } from "@nextui-org/react";
 import type { Suppliers } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import type { ChangeEvent, Key } from "react";
 import { useCallback, useMemo, useState } from "react";
 import toast from "react-hot-toast";
-import {
-  BiChevronDown,
-  BiDotsVertical,
-  BiPlus,
-  BiSearch,
-} from "react-icons/bi";
+import { BiChevronDown, BiPlus, BiSearch } from "react-icons/bi";
 import { FaPen } from "react-icons/fa";
 import { api } from "~/trpc/react";
 

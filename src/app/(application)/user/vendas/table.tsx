@@ -2,10 +2,6 @@
 
 import {
   Button,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
   Input,
   Pagination,
   Table,
@@ -25,7 +21,7 @@ import {
   useMemo,
   useState,
 } from "react";
-import { BiDotsVertical, BiPlus, BiSearch } from "react-icons/bi";
+import { BiPlus, BiSearch } from "react-icons/bi";
 import { useRouter } from "next/navigation";
 import { api } from "~/trpc/react";
 import toast from "react-hot-toast";
@@ -67,7 +63,10 @@ export default function SellsTable({ sells, employees }: props) {
       case "total":
         return (
           <p className="text-bold text-small capitalize">
-            R${cellValue.toString()}
+            {cellValue.toLocaleString("pt-BR", {
+              style: "currency",
+              currency: "BRL",
+            })}
           </p>
         );
       case "date":

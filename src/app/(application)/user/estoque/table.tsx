@@ -2,10 +2,6 @@
 
 import {
   Button,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
   Input,
   Pagination,
   Table,
@@ -51,6 +47,15 @@ export default function ProductsTable({ products }: props) {
     const cellValue = products[columnKey as keyof Products];
 
     switch (columnKey) {
+      case "price":
+        return (
+          <p>
+            {cellValue.toLocaleString("pt-BR", {
+              style: "currency",
+              currency: "BRL",
+            })}
+          </p>
+        );
       case "actions":
         return (
           <div className="relative flex items-center gap-2">
@@ -66,6 +71,7 @@ export default function ProductsTable({ products }: props) {
       default:
         return cellValue;
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   //filtro

@@ -25,7 +25,7 @@ export default function LoginForm() {
           isClearable
         />
         <Input
-          label="Password"
+          label="Senha"
           size="sm"
           {...register("password")}
           errorMessage={errors.password?.message}

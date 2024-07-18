@@ -27,7 +27,7 @@ export const salesRouter = createTRPCRouter({
   create: publicProcedure
     .input(salesSchema.omit({ id: true }))
     .mutation(async ({ ctx, input }) => {
-      const purchase = await ctx.db.sales.create({
+      await ctx.db.sales.create({
         data: {
           client: input.client,
           total: input.total,
@@ -43,7 +43,7 @@ export const salesRouter = createTRPCRouter({
         });
 
         if (product) {
-          const result = await ctx.db.products.update({
+          await ctx.db.products.update({
             where: { id: products.products_id },
             data: {
               price: products.price,

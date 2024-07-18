@@ -10,9 +10,9 @@ export function Description() {
           meses
         </p>
       </div>
-      <div className=" flex w-full flex-col items-center justify-center gap-4">
+      <div className=" mt-4 flex w-full flex-col items-center justify-center gap-4">
         <h2 className="text-4xl font-bold">Desenvolvedores</h2>
-        <div className="flex w-full">
+        <div className="mt-2 flex w-full">
           <div className="flex w-1/2 flex-col items-center">
             <h2 className="text-2xl">Pedro Henrique</h2>
             <p className="w-[90%] text-justify">

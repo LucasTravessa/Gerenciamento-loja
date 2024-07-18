@@ -26,7 +26,7 @@
     "@trpc/react-query": "^10.45.2",
     "@trpc/server": "^10.45.2",
     "@types/js-cookie": "^3.0.6",
-    "@uploadthing/react": "^6.5.1",
+    "@uploadthing/react": "^6.7.2",
     "argon2": "^0.31.2",
     "chart.js": "^4.4.2",
     "fetch-ponyfill": "^7.1.0",
@@ -43,7 +43,7 @@
     "react-hot-toast": "^2.4.1",
     "react-icons": "^4.12.0",
     "superjson": "^1.13.3",
-    "uploadthing": "^6.10.1",
+    "uploadthing": "^6.13.2",
     "zod": "^3.23.4",
     "zustand": "^4.5.2"
   },
