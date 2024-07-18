@@ -1,6 +1,6 @@
 export function Description() {
   return (
-    <div className="mt-4 flex w-full flex-col items-center justify-center gap-4">
+    <div className="flex w-full flex-col items-center justify-center gap-4">
       <h1 className="text-4xl font-bold">Gerencimento Loja</h1>
       <div className="w-[80%]">
         <p className="text-lg">

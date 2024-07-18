@@ -20,7 +20,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="pt-br">
       <body className={`${inter.className}`}>
         <TRPCReactProvider headers={headers()}>
           <Toaster position="top-right" />

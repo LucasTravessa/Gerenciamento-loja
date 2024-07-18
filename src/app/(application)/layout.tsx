@@ -22,7 +22,7 @@ export default async function LayoutHome({
       <LoginModal />
       <SignUpModal />
       {children}
-      <footer className="mt-auto flex w-full items-center justify-center border-t">
+      <footer className="mt-auto flex w-full items-center justify-center border">
         <p className="flex items-center justify-center">
           Powered by Lucas e Pedro
         </p>

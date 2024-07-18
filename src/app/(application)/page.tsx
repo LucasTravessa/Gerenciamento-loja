@@ -6,7 +6,7 @@ export default async function Home() {
   const session = await getServerAuthSession();
   if (!session) {
     return (
-      <main className="flex flex-col items-center justify-between">
+      <main className="m-auto flex flex-col items-center justify-between">
         <Description />
       </main>
     );

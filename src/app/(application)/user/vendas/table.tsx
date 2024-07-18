@@ -274,7 +274,7 @@ export default function SellsTable({ sells, employees }: props) {
         </div>
         <div className="flex items-center justify-between">
           <span className="text-small text-default-400">
-            Total {sells.length} vendas
+            Total de {sells.length} vendas
           </span>
           <label className="flex items-center text-small text-default-400">
             Linhas por página:

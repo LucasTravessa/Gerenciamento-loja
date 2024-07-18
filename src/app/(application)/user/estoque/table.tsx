@@ -245,7 +245,7 @@ export default function ProductsTable({ products }: props) {
         </div>
         <div className="flex items-center justify-between">
           <span className="text-small text-default-400">
-            Total {products.length} users
+            Total de {products.length} produtos
           </span>
           <label className="flex items-center text-small text-default-400">
             Linhas por página:

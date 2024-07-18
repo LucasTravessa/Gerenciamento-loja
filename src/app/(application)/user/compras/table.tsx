@@ -347,7 +347,7 @@ export default function PurchasesTable({ purchases, suppliers }: props) {
         </div>
         <div className="flex items-center justify-between">
           <span className="text-small text-default-400">
-            Total {purchases.length} users
+            Total de {purchases.length} compras
           </span>
           <label className="flex items-center text-small text-default-400">
             Linhas por página:

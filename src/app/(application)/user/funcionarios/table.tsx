@@ -270,7 +270,7 @@ export default function EmployeesTable({ employees }: Props) {
         </div>
         <div className="flex items-center justify-between">
           <span className="text-small text-default-400">
-            Total {employees.length} users
+            Total de {employees.length} funcionarios
           </span>
           <label className="flex items-center text-small text-default-400">
             Linhas por página:

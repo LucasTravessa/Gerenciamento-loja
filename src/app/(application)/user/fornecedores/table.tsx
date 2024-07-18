@@ -255,7 +255,7 @@ export default function SupplierTable({ supplier }: props) {
         </div>
         <div className="flex items-center justify-between">
           <span className="text-small text-default-400">
-            Total {supplier.length} users
+            Total de {supplier.length} fornecedores
           </span>
           <label className="flex items-center text-small text-default-400">
             Linhas por página:

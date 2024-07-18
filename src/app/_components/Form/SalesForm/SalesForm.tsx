@@ -13,6 +13,8 @@ import { useSearchParams } from "next/navigation";
 import { type schemaProps } from "./schema";
 import { useWatch } from "react-hook-form";
 import { FaTrash } from "react-icons/fa";
+import { useEffect } from "react";
+import { moneyMask } from "../inputMasks";
 
 let renderCount = 0;
 
@@ -35,6 +37,19 @@ export default function SalesForm() {
     setValue,
     control,
   } = useSales(Number(saleId));
+
+  const saleDetails = watch("sale_details");
+  const totalInput = watch("total");
+
+  useEffect(() => {
+    if (saleDetails) {
+      saleDetails.forEach((_, index) => {
+        const price = watch(`sale_details.${index}.price`);
+        setValue(`sale_details.${index}.price`, moneyMask(price));
+      });
+    }
+    setValue("total", moneyMask(totalInput));
+  }, [saleDetails, setValue, watch, totalInput]);
 
   function getTotal(payload: schemaProps["sale_details"]) {
     let total = 0;
