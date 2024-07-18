@@ -27,7 +27,7 @@ export default function EmployeesForm() {
     if (files.length > 0) {
       await startUpload(files)
         .then(async (res) => {
-          const payload = { ...data, img: res[0]?.url ?? "" };
+          const payload = { ...data, img: res?.[0]?.url ?? "" };
           await handleCreation(payload);
         })
         .catch((err) => {
