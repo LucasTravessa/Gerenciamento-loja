@@ -43,7 +43,7 @@ export const purchasesRouter = createTRPCRouter({
           });
 
           if (product) {
-            const result = await ctx.db.products.update({
+            await ctx.db.products.update({
               where: { id: products.products_id },
               data: {
                 price: products.price,
@@ -94,7 +94,7 @@ export const purchasesRouter = createTRPCRouter({
         });
         if (input.purchace_details) {
           input.purchace_details.forEach(async (products) => {
-            const product = await ctx.db.products.update({
+            await ctx.db.products.update({
               where: { id: products.products_id },
               data: {
                 price: products.price,

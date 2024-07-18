@@ -81,7 +81,7 @@ export const productsRouter = createTRPCRouter({
           };
         }
       }
-      const result = await ctx.db.products.update({
+      await ctx.db.products.update({
         where: { id: input.id },
         data: {
           name: input.name,
