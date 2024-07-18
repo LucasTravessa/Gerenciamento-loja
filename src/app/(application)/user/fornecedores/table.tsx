@@ -245,7 +245,7 @@ export default function SupplierTable({ supplier }: props) {
               </DropdownMenu>
             </Dropdown>
             <Button
-              color="primary"
+              variant="flat"
               onClick={() => router.push("/user/fornecedores?id=0")}
               endContent={<BiPlus size={12} />}
             >
@@ -294,7 +294,7 @@ export default function SupplierTable({ supplier }: props) {
           isCompact
           showControls
           showShadow
-          color="primary"
+          color="secondary"
           page={page}
           total={pages}
           onChange={setPage}

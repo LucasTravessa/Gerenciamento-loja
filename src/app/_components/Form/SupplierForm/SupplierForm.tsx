@@ -76,7 +76,7 @@ export default function SupplierForm() {
         </Select>
       </div>
 
-      <Button color="primary" radius="full" type="submit">
+      <Button radius="full" type="submit">
         Enviar
       </Button>
     </form>

@@ -147,7 +147,7 @@ export default function SalesForm() {
         onClick={() => {
           append({ products_id: 0, products_amount: 0, price: 0 });
         }}
-        color="primary"
+        variant="flat"
         radius="full"
       >
         Adicionar
@@ -208,7 +208,7 @@ export default function SalesForm() {
           );
         })}
       </div>
-      <Button color="primary" radius="full" type="submit">
+      <Button radius="full" type="submit">
         Enviar
       </Button>
     </form>

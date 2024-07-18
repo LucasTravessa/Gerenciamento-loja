@@ -230,7 +230,7 @@ export default function PurchasesTable({ purchases, suppliers }: props) {
           isCompact
           showControls
           showShadow
-          color="primary"
+          color="secondary"
           page={page}
           total={pages}
           onChange={setPage}
@@ -337,7 +337,7 @@ export default function PurchasesTable({ purchases, suppliers }: props) {
               </DropdownMenu>
             </Dropdown>
             <Button
-              color="primary"
+              variant="flat"
               onClick={() => router.push("/user/compras?id=0")}
               endContent={<BiPlus size={12} />}
             >

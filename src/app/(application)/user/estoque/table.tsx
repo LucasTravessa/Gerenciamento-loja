@@ -152,7 +152,7 @@ export default function ProductsTable({ products }: props) {
           isCompact
           showControls
           showShadow
-          color="primary"
+          color="secondary"
           page={page}
           total={pages}
           onChange={setPage}
@@ -235,7 +235,7 @@ export default function ProductsTable({ products }: props) {
               Apagar
             </Button>
             <Button
-              color="primary"
+              variant="flat"
               onClick={() => router.push("/user/estoque?id=0")}
               endContent={<BiPlus size={12} />}
             >

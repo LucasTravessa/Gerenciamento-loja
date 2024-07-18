@@ -42,7 +42,7 @@ export default function ProductForm() {
         color={`${errors.on_stock ? "danger" : "default"}`}
         errorMessage={errors.on_stock?.message}
       />
-      <Button color="primary" radius="full" type="submit">
+      <Button radius="full" type="submit">
         Enviar
       </Button>
     </form>

@@ -101,8 +101,8 @@ export default function Header({ session }: Props) {
             <DropdownMenu aria-label="Profile Actions" variant="flat">
               <DropdownItem key="signout" onAction={() => signOut()}>
                 <div className="flex items-center justify-center gap-3">
-                  <FaSignOutAlt className="text-xl text-red-500" />{" "}
-                  <p className="font-bold">Signout</p>
+                  <FaSignOutAlt className="text-xl" />{" "}
+                  <p className="font-bold">Sair</p>
                 </div>
               </DropdownItem>
             </DropdownMenu>

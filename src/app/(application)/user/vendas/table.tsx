@@ -181,7 +181,7 @@ export default function SellsTable({ sells, employees }: props) {
           isCompact
           showControls
           showShadow
-          color="primary"
+          color="secondary"
           page={page}
           total={pages}
           onChange={setPage}
@@ -264,7 +264,7 @@ export default function SellsTable({ sells, employees }: props) {
               Apagar
             </Button>
             <Button
-              color="primary"
+              variant="flat"
               onClick={() => router.push("/user/vendas/?id=0")}
               endContent={<BiPlus size={12} />}
             >
