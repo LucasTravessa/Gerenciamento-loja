@@ -1,11 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 import { RxAvatar } from "react-icons/rx";
 
 import { useDropzone } from "@uploadthing/react";
 import { generateClientDropzoneAccept } from "uploadthing/client";
+
+type FileWithPreview = File & { preview: string };
 
 export default function UploadComponent({
   path,
@@ -32,19 +34,20 @@ export default function UploadComponent({
     accept: generateClientDropzoneAccept(["image"]),
   });
 
+  const filePreview = (files[0] as FileWithPreview)?.preview;
   return (
     <div className="h-150 flex w-full flex-col items-center justify-center">
       <div {...getRootProps()} className="cursor-pointer">
         <input {...getInputProps()} />
-        {!!path || !!files[0]?.preview ? (
+        {!!path || !!filePreview ? (
           <Image
             alt="profile"
             width={150}
             height={150}
             className="rounded-full"
-            src={files[0]?.preview ?? path}
+            src={filePreview ?? path}
             onLoad={() => {
-              files[0]?.preview && URL.revokeObjectURL(files[0].preview);
+              filePreview && URL.revokeObjectURL(filePreview);
             }}
           />
         ) : (
