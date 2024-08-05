@@ -4,6 +4,7 @@ const config = {
   parserOptions: {
     project: true,
   },
+  // @ts-expect-error - This is a valid ESLint rule configuration.
   plugins: ["@typescript-eslint"],
   extends: [
     "next/core-web-vitals",
