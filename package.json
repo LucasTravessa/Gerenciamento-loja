@@ -11,7 +11,8 @@
     "test:watch": "jest --watch",
     "dev": "next dev",
     "postinstall": "prisma generate",
-    "lint": "next lint",
+    "check-types": "tsc --noemit",
+    "lint": "next lint && pnpm check-types",
     "start": "next start"
   },
   "dependencies": {
