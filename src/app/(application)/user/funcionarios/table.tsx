@@ -119,8 +119,10 @@ export default function EmployeesTable({ employees }: Props) {
     let filteredEmployees = [...employees];
 
     if (hasSearchFilter) {
-      filteredEmployees = filteredEmployees.filter((user) =>
-        user.name.toLowerCase().includes(filterValue.toLowerCase()),
+      filteredEmployees = filteredEmployees.filter((data) =>
+        Object.values(data).some((value) =>
+          String(value).toLowerCase().includes(filterValue.toLowerCase()),
+        ),
       );
     }
     if (

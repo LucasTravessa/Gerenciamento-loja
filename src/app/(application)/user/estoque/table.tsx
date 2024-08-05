@@ -83,8 +83,10 @@ export default function ProductsTable({ products }: props) {
     let filteredProducts = [...products];
 
     if (hasSearchFilter) {
-      filteredProducts = filteredProducts.filter((user) =>
-        user.name.toLowerCase().includes(filterValue.toLowerCase()),
+      filteredProducts = filteredProducts.filter((data) =>
+        Object.values(data).some((value) =>
+          String(value).toLowerCase().includes(filterValue.toLowerCase()),
+        ),
       );
     }
 

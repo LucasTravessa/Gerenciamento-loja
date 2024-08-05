@@ -112,8 +112,10 @@ export default function SellsTable({ sells, employees }: props) {
     let filteredSuppliers = [...sells];
 
     if (hasSearchFilter) {
-      filteredSuppliers = filteredSuppliers.filter((user) =>
-        user.client.toLowerCase().includes(filterValue.toLowerCase()),
+      filteredSuppliers = filteredSuppliers.filter((data) =>
+        Object.values(data).some((value) =>
+          String(value).toLowerCase().includes(filterValue.toLowerCase()),
+        ),
       );
     }
 

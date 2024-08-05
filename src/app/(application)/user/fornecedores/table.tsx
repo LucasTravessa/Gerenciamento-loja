@@ -101,8 +101,10 @@ export default function SupplierTable({ supplier }: props) {
     let filteredSuppliers = [...supplier];
 
     if (hasSearchFilter) {
-      filteredSuppliers = filteredSuppliers.filter((user) =>
-        user.fantasy_name.toLowerCase().includes(filterValue.toLowerCase()),
+      filteredSuppliers = filteredSuppliers.filter((data) =>
+        Object.values(data).some((value) =>
+          String(value).toLowerCase().includes(filterValue.toLowerCase()),
+        ),
       );
     }
     if (

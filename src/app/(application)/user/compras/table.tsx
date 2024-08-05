@@ -165,6 +165,13 @@ export default function PurchasesTable({ purchases, suppliers }: props) {
         Array.from(statusFilter).includes(user.status),
       );
     }
+    if (hasSearchFilter) {
+      filteredPurchases = filteredPurchases.filter((data) =>
+        Object.values(data).some((value) =>
+          String(value).toLowerCase().includes(filterValue.toLowerCase()),
+        ),
+      );
+    }
 
     return filteredPurchases;
     // eslint-disable-next-line react-hooks/exhaustive-deps
